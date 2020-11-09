@@ -343,3 +343,90 @@ t_DOT       = r'\.'
 t_QUOTES    = r'\"'
 t_APOSTROPHE = r'\''
 
+def t_LESSEQUAL(t):
+    r'<='
+    return t
+
+def t_GREATEREQUAL(t):
+    r'>='
+    return t
+
+def t_DEQUAL(t):
+    r'!='
+    return t
+
+def t_ISEQUAL(t):
+    r'=='
+    return t
+
+def t_MINUSMINUS(t):
+    r'--'
+    return t
+
+def t_PLUSPLUS(t):
+    r'\+\+'
+    return t
+
+def t_TIMESTIMES(t):
+    r'\*\*'
+    return t
+
+def t_DOT_DOT(t):
+    r'::'
+    return t
+
+
+# RE OTHERS
+
+
+def t_COMMENTS(t):
+    r'\/\*([^*]|\*[^\/])*(\*)+\/'
+    t.lexer.lineno += t.value.count('\n')
+
+def t_COMMENTS_C99(t):
+    r'(\/\/|\#)(.)*?\n'
+    t.lexer.lineno += 1
+
+def t_IDVAR(t):
+    r'\$\w+(\d\w)*'
+    return t
+
+def t_NUM(t):
+    r'\d+(\.\d+)?'
+    t.value = float(t.value)
+    return t
+
+def t_ID(t):
+    r'\w+(\w\d)*'
+    return t
+
+def t_STRING(t):
+    r'(("[^"]*")|(\'[^\']*\'))'
+    return t
+
+
+lexer = lex.lex()
+
+if __name__ == '__main__':
+    if (len(sys.argv) > 1):
+        script = sys.argv[1]
+
+        scriptfile = open(script, 'r')
+        scriptdata = scriptfile.read()
+        #print (scriptdata)
+        lexer.input(scriptdata)
+
+        print( chr(27)+"[0;36m"+"INICIA ANALISIS LEXICO"+chr(27)+"[0m")
+        i = 1
+        while True:
+            tok = lexer.token()
+            if not tok:
+                break
+            print ("\t"+str(i)+" - "+"Line: "+str(tok.lineno)+"\t"+str(tok.type)+"\t-->  "+str(tok.value))
+            i += 1
+
+        print(chr(27)+"[0;36m"+"TERMINA ANALISIS LEXICO"+chr(27)+"[0m")
+
+    else:
+        print( chr(27)+"[0;31m"+"Pase el archivo de script PHP como parametro:")
+        print( chr(27)+"[0;36m"+"\t$ python php_lexer.py"+chr(27)+"[1;31m"+" <filename>.php"+chr(27)+"[0m")
