@@ -406,14 +406,12 @@ def t_STRING(t):
 
 
 lexer = lex.lex()
-
 if __name__ == '__main__':
     if (len(sys.argv) > 1):
         script = sys.argv[1]
 
         scriptfile = open(script, 'r')
         scriptdata = scriptfile.read()
-        #print (scriptdata)
         lexer.input(scriptdata)
 
         print( chr(27)+"[0;36m"+"INICIA ANALISIS LEXICO"+chr(27)+"[0m")
@@ -429,4 +427,4 @@ if __name__ == '__main__':
 
     else:
         print( chr(27)+"[0;31m"+"Pase el archivo de script PHP como parametro:")
-        print( chr(27)+"[0;36m"+"\t$ python php_lexer.py"+chr(27)+"[1;31m"+" <filename>.php"+chr(27)+"[0m")
+        print( chr(27)+"[0;36m"+"\t$ python php_lexer.py"+chr(27)+"[1;31m"+" <filename>.txt"+chr(27)+"[0m")
