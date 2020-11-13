@@ -25,7 +25,7 @@ tokens = (
     'RBRACKET', 'LBLOCK', 'RBLOCK', 'COLON', 'AMPERSANT', 'HASHTAG', 'DOT', 'QUOTES',
     'APOSTROPHE', 'DOT_DOT',
     # others
-    'COMMENTS', 'COMMENTS_C99', 'ID', 'IDVAR', 'NUM', 'STRING', 'VOID',
+    'COMMENTS', 'COMMENTS_C99', 'ID', 'IDVAR', 'NUM', 'STRING', 'VOID','ARROW',        
 )
 
 
@@ -490,6 +490,9 @@ def t_STRING(t):
     r'(("[^"]*")|(\'[^\']*\'))'
     return t
 
+def t_ARROW(t):
+    r'\->\b'
+    return t
 
 lexer = lex.lex()
 if __name__ == '__main__':
