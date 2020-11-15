@@ -1,0 +1,33 @@
+<?php
+class Auto {
+    function Auto() {
+        $this->modelo = "Tesla";
+    }
+}
+
+// create an object
+$Auto1 = new Auto();
+
+// show object properties
+echo $Auto1->modelo;
+
+
+
+if (Auto1->modelo=="Tesla") {
+    echo "es un tesla";
+}else{
+    echo "no es un tesla";
+}
+
+for($i = 0; $i < 20; $i ++)
+{
+    echo "Hola ".$index.".\n";
+}
+
+Array
+(
+    [0] => 1
+    [1] => 2
+    [2] => 3
+)
+?>
