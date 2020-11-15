@@ -1,37 +1,106 @@
-
-
 import sys
 import ply.lex as lex
 
-tokens = (
+reserved = {
+    "__halt_compiler":"__HALT_COMPILER",
+    "abstract":"ABSTRACT",
+    "array":"ARRAY",
+    "as":"AS",
+    "break":"BREAK",
+    "callable":"CALLABLE",
+    "case":"CASE",
+    "catch":"CATCH",
+    "class":"CLASS",
+    "clone":"CLONE",
+    "const":"CONST", 
+    "continue":"CONTINUE", 
+    "declare":"DECLARE", 
+    "default":"DEFAULT", 
+    "die":"DIE", 
+    "do":"DO",
+    "echo":"ECHO", 
+    "else":"ELSE", 
+    "elseif":"ELSEIF", 
+    "empty":"EMPTY", 
+    "enddeclare":"ENDDECLARE", 
+    "endfor":"ENDFOR", 
+    "endforeach":"ENDFOREACH", 
+    "endif":"ENDIF",
+    "endswitch":"ENDSWITCH", 
+    "endwhile":"ENDWHILE", 
+    "eval":"EVAL", 
+    "exit":"EXIT", 
+    "extend":"EXTENDS", 
+    "closetagal":"CLOSETAGAL", 
+    "for":"FOR", 
+    "foreach":"FOREACH",
+    "function":"FUNCTION", 
+    "global":"GLOBAL", 
+    "goto":"GOTO", 
+    "if":"IF", 
+    "implements":"IMPLEMENTS", 
+    "include":"INCLUDE", 
+    "include_once":"INCLUDE_ONCE",
+    "instanceof":"INSTANCEOF", 
+    "insteadof":"INSTEADOF", 
+    "interface":"INTERFACE", 
+    "isset":"ISSET", 
+    "list":"LIST", 
+    "namespace":"NAMESPACE", 
+    "new":"NEW",     
+    "print":"PRINT", 
+    "private":"PRIVATE", 
+    "protected":"PROTECTED", 
+    "public":"PUBLIC", 
+    "require":"REQUIRE", 
+    "require_once":"REQUIRE_ONCE", 
+    "return":"RETURN",
+    "static":"STATIC", 
+    "switch":"SWITCH", 
+    "throw":"THROW", 
+    "trait":"TRAIT", 
+    "try":"TRY", 
+    "unset":"UNSET", 
+    "use":"USE", 
+    "var":"VAR", 
+    "while":"WHILE", 
+    "xor":"XOR",
+    "true":"TRUE",
+    "false":"FALSE"
+    
+    
+}
+
+
+tokens = [
     # Open and Close Tag
     'OPENTAG', 'CLOSETAG',
-    # Reserved words list
-
-    '__HALT_COMPILER', 'ABSTRACT', 'AND', 'ARRAY', 'AS', 'BREAK', 'CALLABLE', 'CASE',
-    'CATCH', 'CLASS', 'CLONE', 'CONST', 'CONTINUE', 'DECLARE', 'DEFAULT', 'DIE', 'DO',
-    'ECHO', 'ELSE', 'ELSEIF', 'EMPTY', 'ENDDECLARE', 'ENDFOR', 'ENDFOREACH', 'ENDIF',
-    'ENDSWITCH', 'ENDWHILE', 'EVAL', 'EXIT', 'EXTENDS', 'CLOSETAGAL', 'FOR', 'FOREACH',
-    'FUNCTION', 'GLOBAL', 'GOTO', 'IF', 'IMPLEMENTS', 'INCLUDE', 'INCLUDE_ONCE',
-    'INSTANCEOF', 'INSTEADOF', 'INTERFACE', 'ISSET', 'LIST', 'NAMESPACE', 'NEW', 'OR',
-    'PRINT', 'PRIVATE', 'PROTECTED', 'PUBLIC', 'REQUIRE', 'REQUIRE_ONCE', 'RETURN',
-    'STATIC', 'SWITCH', 'THROW', 'TRAIT', 'TRY', 'UNSET', 'USE', 'VAR', 'WHILE', 'XOR',
-    # boolean
-    'TRUE', 'FALSE',
     # symbols
     'PLUS', 'PLUSPLUS', 'PLUSEQUAL', 'MINUS', 'MINUSMINUS', 'MINUSEQUAL', 'TIMES',
     'TIMESTIMES', 'DIVIDE', 'LESS', 'LESSEQUAL', 'GREATER', 'GREATEREQUAL', 'EQUAL',
     'DEQUAL', 'DISTINT', 'ISEQUAL', 'SEMI', 'COMMA', 'LPAREN', 'RPAREN', 'LBRACKET',
     'RBRACKET', 'LBLOCK', 'RBLOCK', 'COLON', 'AMPERSANT', 'HASHTAG', 'DOT', 'QUOTES',
     'APOSTROPHE', 'DOT_DOT',
+    #reservadas con definiciones multiples
+    
+    "AND","OR",
+    
     # others
     'COMMENTS', 'COMMENTS_C99', 'ID', 'IDVAR', 'NUM', 'STRING', 'VOID','ARROW',        
-)
+]+ list(reserved.values())
 
 
 t_ignore = " \t"
+#reservadas con definiciones multiples
+def t_AND(t):
+    r'and|AND|\&\&'
+    return t
+ 
+def t_OR(t):
+    r'or|OR|\|\|'
+    return t
 
-
+   # others
 def t_VOID(t):
     r'VOID|void'
     return t
@@ -57,340 +126,6 @@ def t_CLOSETAG(t):
     r'\?>'
     return t
 
-
-def t___HALT_COMPILER(t):
-    r'__halt_compiler'
-    return t
-
-
-def t_ABSTRACT(t):
-    r'abstract'
-    return t
-
-
-def t_AND(t):
-    r'and|AND|\&\&'
-    return t
-
-
-def t_ARRAY(t):
-    r'array'
-    return t
-
-
-def t_AS(t):
-    r'as'
-    return t
-
-
-def t_BREAK(t):
-    r'break'
-    return t
-
-
-def t_CALLABLE(t):
-    r'callable'
-    return t
-
-
-def t_CASE(t):
-    r'case'
-    return t
-
-
-def t_CATCH(t):
-    r'catch'
-    return t
-
-
-def t_CLASS(t):
-    r'class'
-    return t
-
-
-def t_CLONE(t):
-    r'clone'
-    return t
-
-
-def t_CONST(t):
-    r'const'
-    return t
-
-
-def t_CONTINUE(t):
-    r'continue'
-    return t
-
-
-def t_DECLARE(t):
-    r'declare'
-    return t
-
-
-def t_DEFAULT(t):
-    r'default'
-    return t
-
-
-def t_DIE(t):
-    r'die'
-    return t
-
-
-def t_DO(t):
-    r'do'
-    return t
-
-
-def t_ECHO(t):
-    r'echo'
-    return t
-
-
-def t_ELSE(t):
-    r'else'
-    return t
-
-
-def t_ELSEIF(t):
-    r'elseif'
-    return t
-
-
-def t_EMPTY(t):
-    r'empty'
-    return t
-
-
-def t_ENDDECLARE(t):
-    r'enddeclare'
-    return t
-
-
-def t_ENDFOR(t):
-    r'endfor'
-    return t
-
-
-def t_ENDFOREACH(t):
-    r'endforeach'
-    return t
-
-
-def t_ENDIF(t):
-    r'endif'
-    return t
-
-
-def t_ENDSWITCH(t):
-    r'endswitch'
-    return t
-
-
-def t_ENDWHILE(t):
-    r'endwhile'
-    return t
-
-
-def t_EVAL(t):
-    r'eval'
-    return t
-
-
-def t_EXIT(t):
-    r'exit'
-    return t
-
-
-def t_EXTENDS(t):
-    r'extends'
-    return t
-
-
-def t_CLOSETAGAL(t):
-    r'CLOSETAGal'
-    return t
-
-
-def t_FOREACH(t):
-    r'foreach'
-    return t
-
-
-def t_FOR(t):
-    r'for'
-    return t
-
-
-def t_FUNCTION(t):
-    r'function'
-    return t
-
-
-def t_GLOBAL(t):
-    r'global'
-    return t
-
-
-def t_GOTO(t):
-    r'goto'
-    return t
-
-
-def t_IF(t):
-    r'if'
-    return t
-
-
-def t_IMPLEMENTS(t):
-    r'implements'
-    return t
-
-
-def t_INCLUDE(t):
-    r'include'
-    return t
-
-
-def t_INCLUDE_ONCE(t):
-    r'include_once'
-    return t
-
-
-def t_INSTANCEOF(t):
-    r'instanceof'
-    return t
-
-
-def t_INSTEADOF(t):
-    r'insteadof'
-    return t
-
-
-def t_INTERFACE(t):
-    r'interface'
-    return t
-
-
-def t_ISSET(t):
-    r'isset'
-    return t
-
-
-def t_LIST(t):
-    r'list'
-    return t
-
-
-def t_NAMESPACE(t):
-    r'namespace'
-    return t
-
-
-def t_NEW(t):
-    r'new'
-    return t
-
-
-def t_OR(t):
-    r'or|\|\||OR'
-    return t
-
-
-def t_PRINT(t):
-    r'print'
-    return t
-
-
-def t_PRIVATE(t):
-    r'private'
-    return t
-
-
-def t_PROTECTED(t):
-    r'protected'
-    return t
-
-
-def t_PUBLIC(t):
-    r'public'
-    return t
-
-
-def t_REQUIRE(t):
-    r'require'
-    return t
-
-
-def t_REQUIRE_ONCE(t):
-    r'require_once'
-    return t
-
-
-def t_RETURN(t):
-    r'return'
-    return t
-
-
-def t_STATIC(t):
-    r'static'
-    return t
-
-
-def t_SWITCH(t):
-    r'switch'
-    return t
-
-
-def t_THROW(t):
-    r'throw'
-    return t
-
-
-def t_TRAIT(t):
-    r'trait'
-    return t
-
-
-def t_TRY(t):
-    r'try'
-    return t
-
-
-def t_UNSET(t):
-    r'unset'
-    return t
-
-
-def t_USE(t):
-    r'use'
-    return t
-
-
-def t_VAR(t):
-    r'var'
-    return t
-
-
-def t_WHILE(t):
-    r'while'
-    return t
-
-
-def t_XOR(t):
-    r'xor'
-    return t
-
-
-def t_TRUE(t):
-    r'true'
-    return t
-
-
-def t_FALSE(t):
-    r'false'
-    return t
 
 
 t_PLUS = r'\+'
@@ -471,7 +206,7 @@ def t_COMMENTS_C99(t):
 
 
 def t_IDVAR(t):
-    r'\$\w+(\d\w)*'
+    r'\$[a-zA-Z0-9_][a-zA-Z0-9_]*'
     return t
 
 
@@ -482,7 +217,8 @@ def t_NUM(t):
 
 
 def t_ID(t):
-    r'\w+(\w\d)*'
+    r"[a-zA-Z0-9_][a-zA-Z0-9_]*"
+    t.type = reserved.get(t.value, 'ID')
     return t
 
 
