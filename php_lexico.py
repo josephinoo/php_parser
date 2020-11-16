@@ -176,6 +176,8 @@ t_XOR_EQUAL = r'\^='
 t_CONCAT_EQUAL = r'\.='
 
 
+t_ISEQUAL = r'=='
+
 def t_LESSEQUAL(t):
     r'<='
     return t
@@ -191,9 +193,6 @@ def t_DEQUAL(t):
     return t
 
 
-def t_ISEQUAL(t):
-    r'=='
-    return t
 
 def t_IS_IDENTICAL(t):
     r'==='
