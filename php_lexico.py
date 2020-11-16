@@ -187,7 +187,7 @@ def t_GREATEREQUAL(t):
 
 
 def t_DEQUAL(t):
-    r'!='
+    r'(!=(?!=))|(<>)'
     return t
 
 
