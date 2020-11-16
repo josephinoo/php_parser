@@ -3,6 +3,7 @@ require('somefile.php');
 $variable;
 $t;
 $suma;
+&
 $booleano = true;
 $array = array(1    => "a","1"  => "b", 1.5  => "c",true => "d",);
 echo "esto es un print, se muestra en pantalla";

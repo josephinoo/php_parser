@@ -66,7 +66,9 @@ reserved = {
     "while":"WHILE", 
     "xor":"XOR",
     "true":"TRUE",
-    "false":"FALSE"
+    "false":"FALSE",
+    "finally":"FINALLY",
+
     
     
 }
@@ -81,6 +83,15 @@ tokens = [
     'DEQUAL', 'DISTINT', 'ISEQUAL', 'SEMI', 'COMMA', 'LPAREN', 'RPAREN', 'LBRACKET',
     'RBRACKET', 'LBLOCK', 'RBLOCK', 'COLON', 'AMPERSANT', 'HASHTAG', 'DOT', 'QUOTES',
     'APOSTROPHE', 'DOT_DOT',
+
+             'IS_IDENTICAL', 'IS_NOT_IDENTICAL',
+   
+    #operartors 
+     'MUL_EQUAL', 'DIV_EQUAL', 'MOD_EQUAL', 'PLUS_EQUAL',
+    'MINUS_EQUAL', 'SL_EQUAL', 'SR_EQUAL', 'AND_EQUAL', 'OR_EQUAL',
+    'XOR_EQUAL', 'CONCAT_EQUAL',
+    
+            
     #reservadas con definiciones multiples
     
     "AND","OR",
@@ -152,6 +163,19 @@ t_QUOTES = r'\"'
 t_APOSTROPHE = r'\''
 
 
+t_MUL_EQUAL = r'\*='
+t_DIV_EQUAL = r'/='
+t_MOD_EQUAL = r'%='
+t_PLUS_EQUAL = r'\+='
+t_MINUS_EQUAL = r'-='
+t_SL_EQUAL = r'<<='
+t_SR_EQUAL = r'>>='
+t_AND_EQUAL  = r'&='
+t_OR_EQUAL = r'\|='
+t_XOR_EQUAL = r'\^='
+t_CONCAT_EQUAL = r'\.='
+
+
 def t_LESSEQUAL(t):
     r'<='
     return t
@@ -169,6 +193,14 @@ def t_DEQUAL(t):
 
 def t_ISEQUAL(t):
     r'=='
+    return t
+
+def t_IS_IDENTICAL(t):
+    r'==='
+    return t
+
+def t_IS_NOT_IDENTICAL(t):
+    r'!=='
     return t
 
 

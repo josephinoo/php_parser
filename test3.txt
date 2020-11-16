@@ -1,0 +1,17 @@
+<?php
+//esto es un mul equal
+$a *= 3;
+
+function{
+$a /= 3
+$a %= 4
+$a += 10
+$a -= 3
+$a <<= 3
+$a >>= 3
+$a &= 3
+$a |= 3
+$a |= 3
+$a ^= 3
+$a .= 3
+}
