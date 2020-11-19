@@ -1,11 +1,11 @@
+
 <?php
 require('somefile.php');
 $variable;
 $t;
 $suma;
-&
 $booleano = true;
-$array = array(1    => "a","1"  => "b", 1.5  => "c",true => "d",);
+
 echo "esto es un print, se muestra en pantalla";
 echo $verb;
 
@@ -34,7 +34,6 @@ public function recursividad($a){
     if($a>0 and $b<1 || $s<$d OR $a==2){
     }
   }
-}
 
   public class prueba{
     protected function abs(){
@@ -65,46 +64,6 @@ public function recursividad($a){
   }
 
 }
-class Users
-{
-  $first_name = "karim";
-  $last_name = "alaa";
-  $birth_date = 1995;
-  $age = 2016 - 1995;
-  function get_user_data($first_name,$last_name,$age)
-  {
-    $full_name = $first_name + $last_name;
-    print 'name  '.$full_name.'age  '.$age;
-    return $full_name;
-  }
-}
-
-class Mail
-{
-  $message = "hi";
-
-  function print_subject()
-  {
-   print 'subject is hello';
-  }
-
-  function mail($message)
-  {
-   mail($message);
-   print 'message sent successful';
-   return true;
-  }
-}
-
-$users = new Users();
-$first_name = "Karim";
-$last_name = "Alaa";
-$age = 20;
-
-$my_name = $first_name->get_user_data($first_name,$last_name,$age);
-$mail = new Mail();
-$mail_sent = $mail
-print $my_name;
 
 prueba $a=new prueba(VOID);
 
