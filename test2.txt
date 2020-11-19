@@ -1,12 +1,8 @@
 <?php
-class Auto {
-    function Auto() {
-        $this->modelo = "Tesla";
-    }
-}
 
-// create an object
-$Auto1 = new Auto();
+
+
+prueba $a =new Auto();
 
 // show object properties
 echo $Auto1->modelo;
