@@ -1,5 +1,6 @@
 import sys
 import ply.lex as lex
+import ply.yacc as yacc
 
 reserved = {
     "__halt_compiler":"__HALT_COMPILER",
@@ -97,7 +98,7 @@ tokens = [
     "AND","OR",
     
     # others
-    'COMMENTS', 'COMMENTS_C99', 'ID', 'IDVAR', 'NUM', 'STRING', 'VOID','ARROW',        
+    'COMMENTS', 'COMMENTS_C99', 'ID', 'IDVAR', 'NUM', 'STRING', 'VOID','ARROW', 'CADENA'
 ]+ list(reserved.values())
 
 
@@ -138,7 +139,7 @@ def t_CLOSETAG(t):
     return t
 
 
-
+t_CADENA = r'\"[a-zA-Z0-9\s]*\"'
 t_PLUS = r'\+'
 t_MINUS = r'-'
 t_TIMES = r'\*'
@@ -262,6 +263,7 @@ def t_ARROW(t):
     return t
 
 lexer = lex.lex()
+
 if __name__ == '__main__':
 
     if (len(sys.argv) > 1):
