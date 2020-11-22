@@ -8,6 +8,8 @@ Unused terminals:
     ARRAY
     ARROW
     AS
+    CADENA
+    CADENAIS_IDENTICAL
     CALLABLE
     CATCH
     CLONE
@@ -43,7 +45,6 @@ Unused terminals:
     INSTEADOF
     INTERFACE
     ISSET
-    IS_IDENTICAL
     IS_NOT_IDENTICAL
     LIST
     MINUSEQUAL
@@ -203,6 +204,8 @@ ARRAY                :
 ARROW                : 
 AS                   : 
 BREAK                : 70 71
+CADENA               : 
+CADENAIS_IDENTICAL   : 
 CALLABLE             : 
 CASE                 : 70
 CATCH                : 
@@ -262,7 +265,6 @@ INSTEADOF            :
 INTERFACE            : 
 ISEQUAL              : 92
 ISSET                : 
-IS_IDENTICAL         : 
 IS_NOT_IDENTICAL     : 
 LBLOCK               : 21 22 52 74
 LBRACKET             : 51 83

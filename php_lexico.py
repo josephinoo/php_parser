@@ -83,7 +83,7 @@ tokens = [
     'TIMESTIMES', 'DIVIDE', 'LESS', 'LESSEQUAL', 'GREATER', 'GREATEREQUAL', 'EQUAL',
     'DEQUAL', 'DISTINT', 'ISEQUAL', 'SEMI', 'COMMA', 'LPAREN', 'RPAREN', 'LBRACKET',
     'RBRACKET', 'LBLOCK', 'RBLOCK', 'COLON', 'AMPERSANT', 'HASHTAG', 'DOT', 'QUOTES',
-    'APOSTROPHE', 'DOT_DOT',
+    'APOSTROPHE', 'DOT_DOT','CADENA'
 
              'IS_IDENTICAL', 'IS_NOT_IDENTICAL',
    
@@ -139,7 +139,7 @@ def t_CLOSETAG(t):
     return t
 
 
-t_CADENA = r'\"[a-zA-Z0-9\s]*\"'
+t_CADENA = r'\'[a-zA-Z0-9\s]*\''
 t_PLUS = r'\+'
 t_MINUS = r'-'
 t_TIMES = r'\*'

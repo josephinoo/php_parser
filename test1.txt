@@ -14,6 +14,8 @@ if($a = 20){
   $suma = $v2 + $v3;
 }
 
+$hola = 'daniel';
+
 class ClaseSencilla{
   public $var = 0;
   public $var1 = 0;
