@@ -1,6 +1,6 @@
 import sys
 import ply.yacc as yacc
-from php_lexico import tokens
+import php_lexico
 
 VERBOSE = 1
 
@@ -29,8 +29,8 @@ def p_program(p):
 
 
 def p_declaration_list(p):
-    '''declaration_list : declaration_list  declaration
-                                            | declaration
+    '''declaration_list : declaration
+                            | declaration declaration_list
     '''
     pass
 
@@ -346,8 +346,10 @@ def p_error(p):
     else:
         raise Exception('syntax', 'error')
 
+tokens=php_lexico.tokens
 
-#parser = yacc.yacc()
+lexer = php_lexico.get_lexer()
+parser = yacc.yacc()
 
 if __name__ == '__main__':
     if (len(sys.argv) > 1):
@@ -357,7 +359,7 @@ if __name__ == '__main__':
         scriptdata = scriptfile.read()
 
         print(chr(27)+"[0;36m"+"INICIA ANALISIS SINTACTICO"+chr(27)+"[0m")
-        #parser.parse(scriptdata, tracking=False)
+        parser.parse(scriptdata)
         print("Hola bebe, no tienes errores sintacticos")
         print(chr(27)+"[0;36m"+"TERMINA ANALISIS SINTACTICO"+chr(27)+"[0m")
 
