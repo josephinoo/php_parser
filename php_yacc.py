@@ -352,14 +352,15 @@ lexer = php_lexico.get_lexer()
 parser = yacc.yacc()
 
 if __name__ == '__main__':
-    if (len(sys.argv) > 1):
-        script = sys.argv[1]
+    if (len(sys.argv) > 0):
+        script = "test1.txt"
 
         scriptfile = open(script, 'r')
         scriptdata = scriptfile.read()
 
         print(chr(27)+"[0;36m"+"INICIA ANALISIS SINTACTICO"+chr(27)+"[0m")
-        parser.parse(scriptdata)
+        result  = parser.parse(scriptdata)
+        print(result)
         print("Hola bebe, no tienes errores sintacticos")
         print(chr(27)+"[0;36m"+"TERMINA ANALISIS SINTACTICO"+chr(27)+"[0m")
 

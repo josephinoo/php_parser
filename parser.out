@@ -74,8 +74,8 @@ Grammar
 
 Rule 0     S' -> program
 Rule 1     program -> OPENTAG declaration_list CLOSETAG
-Rule 2     declaration_list -> declaration_list declaration
-Rule 3     declaration_list -> declaration
+Rule 2     declaration_list -> declaration
+Rule 3     declaration_list -> declaration declaration_list
 Rule 4     declaration -> var_declaration
 Rule 5     declaration -> fun_declaration
 Rule 6     declaration -> area fun_declaration
@@ -332,7 +332,7 @@ class_declaration    : 8 62
 compount_stmt        : 45 58
 constructor          : 115
 declaration          : 2 3
-declaration_list     : 1 2
+declaration_list     : 1 3
 echo_stmt            : 9 13 14 16 17 18 52 52 52 63
 empty                : 15 47 54 56 109
 expression           : 64 65 66 72 73 74 76 77 80 80 81 81 83 103 111 112
@@ -379,8 +379,8 @@ state 1
 state 2
 
     (1) program -> OPENTAG . declaration_list CLOSETAG
-    (2) declaration_list -> . declaration_list declaration
-    (3) declaration_list -> . declaration
+    (2) declaration_list -> . declaration
+    (3) declaration_list -> . declaration declaration_list
     (4) declaration -> . var_declaration
     (5) declaration -> . fun_declaration
     (6) declaration -> . area fun_declaration
@@ -504,7 +504,16 @@ state 2
 state 3
 
     (1) program -> OPENTAG declaration_list . CLOSETAG
-    (2) declaration_list -> declaration_list . declaration
+
+    CLOSETAG        shift and go to state 33
+
+
+state 4
+
+    (2) declaration_list -> declaration .
+    (3) declaration_list -> declaration . declaration_list
+    (2) declaration_list -> . declaration
+    (3) declaration_list -> . declaration declaration_list
     (4) declaration -> . var_declaration
     (5) declaration -> . fun_declaration
     (6) declaration -> . area fun_declaration
@@ -554,7 +563,6 @@ state 3
     (115) typeclass -> . ID IDVAR EQUAL NEW constructor SEMI
     (118) empty -> .
 
-  ! shift/reduce conflict for CLOSETAG resolved as shift
   ! shift/reduce conflict for IDVAR resolved as shift
   ! shift/reduce conflict for TIMESTIMES resolved as shift
   ! shift/reduce conflict for AMPERSANT resolved as shift
@@ -573,7 +581,8 @@ state 3
   ! shift/reduce conflict for WHILE resolved as shift
   ! shift/reduce conflict for DO resolved as shift
   ! shift/reduce conflict for ID resolved as shift
-    CLOSETAG        shift and go to state 33
+  ! reduce/reduce conflict for CLOSETAG resolved using rule 2 (declaration_list -> declaration .)
+    CLOSETAG        reduce using rule 2 (declaration_list -> declaration .)
     IDVAR           shift and go to state 14
     TIMESTIMES      shift and go to state 15
     AMPERSANT       shift and go to state 16
@@ -594,7 +603,6 @@ state 3
     ID              shift and go to state 18
     ECHO            reduce using rule 118 (empty -> .)
 
-  ! CLOSETAG        [ reduce using rule 118 (empty -> .) ]
   ! IDVAR           [ reduce using rule 118 (empty -> .) ]
   ! TIMESTIMES      [ reduce using rule 118 (empty -> .) ]
   ! AMPERSANT       [ reduce using rule 118 (empty -> .) ]
@@ -613,8 +621,10 @@ state 3
   ! WHILE           [ reduce using rule 118 (empty -> .) ]
   ! DO              [ reduce using rule 118 (empty -> .) ]
   ! ID              [ reduce using rule 118 (empty -> .) ]
+  ! CLOSETAG        [ reduce using rule 118 (empty -> .) ]
 
-    declaration                    shift and go to state 34
+    declaration                    shift and go to state 4
+    declaration_list               shift and go to state 34
     var_declaration                shift and go to state 5
     fun_declaration                shift and go to state 6
     area                           shift and go to state 7
@@ -626,37 +636,10 @@ state 3
     typeclass                      shift and go to state 13
     empty                          shift and go to state 25
 
-state 4
-
-    (3) declaration_list -> declaration .
-
-    CLOSETAG        reduce using rule 3 (declaration_list -> declaration .)
-    IDVAR           reduce using rule 3 (declaration_list -> declaration .)
-    TIMESTIMES      reduce using rule 3 (declaration_list -> declaration .)
-    AMPERSANT       reduce using rule 3 (declaration_list -> declaration .)
-    FUNCTION        reduce using rule 3 (declaration_list -> declaration .)
-    PRIVATE         reduce using rule 3 (declaration_list -> declaration .)
-    PUBLIC          reduce using rule 3 (declaration_list -> declaration .)
-    PROTECTED       reduce using rule 3 (declaration_list -> declaration .)
-    REQUIRE         reduce using rule 3 (declaration_list -> declaration .)
-    INCLUDE         reduce using rule 3 (declaration_list -> declaration .)
-    CLASS           reduce using rule 3 (declaration_list -> declaration .)
-    IF              reduce using rule 3 (declaration_list -> declaration .)
-    SWITCH          reduce using rule 3 (declaration_list -> declaration .)
-    CASE            reduce using rule 3 (declaration_list -> declaration .)
-    DEFAULT         reduce using rule 3 (declaration_list -> declaration .)
-    FOR             reduce using rule 3 (declaration_list -> declaration .)
-    WHILE           reduce using rule 3 (declaration_list -> declaration .)
-    DO              reduce using rule 3 (declaration_list -> declaration .)
-    ID              reduce using rule 3 (declaration_list -> declaration .)
-    ECHO            reduce using rule 3 (declaration_list -> declaration .)
-
-
 state 5
 
     (4) declaration -> var_declaration .
 
-    CLOSETAG        reduce using rule 4 (declaration -> var_declaration .)
     IDVAR           reduce using rule 4 (declaration -> var_declaration .)
     TIMESTIMES      reduce using rule 4 (declaration -> var_declaration .)
     AMPERSANT       reduce using rule 4 (declaration -> var_declaration .)
@@ -676,13 +659,13 @@ state 5
     DO              reduce using rule 4 (declaration -> var_declaration .)
     ID              reduce using rule 4 (declaration -> var_declaration .)
     ECHO            reduce using rule 4 (declaration -> var_declaration .)
+    CLOSETAG        reduce using rule 4 (declaration -> var_declaration .)
 
 
 state 6
 
     (5) declaration -> fun_declaration .
 
-    CLOSETAG        reduce using rule 5 (declaration -> fun_declaration .)
     IDVAR           reduce using rule 5 (declaration -> fun_declaration .)
     TIMESTIMES      reduce using rule 5 (declaration -> fun_declaration .)
     AMPERSANT       reduce using rule 5 (declaration -> fun_declaration .)
@@ -702,6 +685,7 @@ state 6
     DO              reduce using rule 5 (declaration -> fun_declaration .)
     ID              reduce using rule 5 (declaration -> fun_declaration .)
     ECHO            reduce using rule 5 (declaration -> fun_declaration .)
+    CLOSETAG        reduce using rule 5 (declaration -> fun_declaration .)
 
 
 state 7
@@ -720,7 +704,6 @@ state 8
 
     (7) declaration -> header_declaration .
 
-    CLOSETAG        reduce using rule 7 (declaration -> header_declaration .)
     IDVAR           reduce using rule 7 (declaration -> header_declaration .)
     TIMESTIMES      reduce using rule 7 (declaration -> header_declaration .)
     AMPERSANT       reduce using rule 7 (declaration -> header_declaration .)
@@ -740,13 +723,13 @@ state 8
     DO              reduce using rule 7 (declaration -> header_declaration .)
     ID              reduce using rule 7 (declaration -> header_declaration .)
     ECHO            reduce using rule 7 (declaration -> header_declaration .)
+    CLOSETAG        reduce using rule 7 (declaration -> header_declaration .)
 
 
 state 9
 
     (8) declaration -> class_declaration .
 
-    CLOSETAG        reduce using rule 8 (declaration -> class_declaration .)
     IDVAR           reduce using rule 8 (declaration -> class_declaration .)
     TIMESTIMES      reduce using rule 8 (declaration -> class_declaration .)
     AMPERSANT       reduce using rule 8 (declaration -> class_declaration .)
@@ -766,6 +749,7 @@ state 9
     DO              reduce using rule 8 (declaration -> class_declaration .)
     ID              reduce using rule 8 (declaration -> class_declaration .)
     ECHO            reduce using rule 8 (declaration -> class_declaration .)
+    CLOSETAG        reduce using rule 8 (declaration -> class_declaration .)
 
 
 state 10
@@ -778,7 +762,6 @@ state 10
     (18) echo_stmt -> echo_stmt . ECHO fun_declaration SEMI
 
   ! shift/reduce conflict for ECHO resolved as shift
-    CLOSETAG        reduce using rule 9 (declaration -> echo_stmt .)
     IDVAR           reduce using rule 9 (declaration -> echo_stmt .)
     TIMESTIMES      reduce using rule 9 (declaration -> echo_stmt .)
     AMPERSANT       reduce using rule 9 (declaration -> echo_stmt .)
@@ -797,6 +780,7 @@ state 10
     WHILE           reduce using rule 9 (declaration -> echo_stmt .)
     DO              reduce using rule 9 (declaration -> echo_stmt .)
     ID              reduce using rule 9 (declaration -> echo_stmt .)
+    CLOSETAG        reduce using rule 9 (declaration -> echo_stmt .)
     ECHO            shift and go to state 37
 
   ! ECHO            [ reduce using rule 9 (declaration -> echo_stmt .) ]
@@ -806,7 +790,6 @@ state 11
 
     (10) declaration -> selection_stmt .
 
-    CLOSETAG        reduce using rule 10 (declaration -> selection_stmt .)
     IDVAR           reduce using rule 10 (declaration -> selection_stmt .)
     TIMESTIMES      reduce using rule 10 (declaration -> selection_stmt .)
     AMPERSANT       reduce using rule 10 (declaration -> selection_stmt .)
@@ -826,13 +809,13 @@ state 11
     DO              reduce using rule 10 (declaration -> selection_stmt .)
     ID              reduce using rule 10 (declaration -> selection_stmt .)
     ECHO            reduce using rule 10 (declaration -> selection_stmt .)
+    CLOSETAG        reduce using rule 10 (declaration -> selection_stmt .)
 
 
 state 12
 
     (11) declaration -> iteration_stmt .
 
-    CLOSETAG        reduce using rule 11 (declaration -> iteration_stmt .)
     IDVAR           reduce using rule 11 (declaration -> iteration_stmt .)
     TIMESTIMES      reduce using rule 11 (declaration -> iteration_stmt .)
     AMPERSANT       reduce using rule 11 (declaration -> iteration_stmt .)
@@ -852,13 +835,13 @@ state 12
     DO              reduce using rule 11 (declaration -> iteration_stmt .)
     ID              reduce using rule 11 (declaration -> iteration_stmt .)
     ECHO            reduce using rule 11 (declaration -> iteration_stmt .)
+    CLOSETAG        reduce using rule 11 (declaration -> iteration_stmt .)
 
 
 state 13
 
     (12) declaration -> typeclass .
 
-    CLOSETAG        reduce using rule 12 (declaration -> typeclass .)
     IDVAR           reduce using rule 12 (declaration -> typeclass .)
     TIMESTIMES      reduce using rule 12 (declaration -> typeclass .)
     AMPERSANT       reduce using rule 12 (declaration -> typeclass .)
@@ -878,6 +861,7 @@ state 13
     DO              reduce using rule 12 (declaration -> typeclass .)
     ID              reduce using rule 12 (declaration -> typeclass .)
     ECHO            reduce using rule 12 (declaration -> typeclass .)
+    CLOSETAG        reduce using rule 12 (declaration -> typeclass .)
 
 
 state 14
@@ -987,7 +971,6 @@ state 25
     (15) echo_stmt -> empty .
 
     ECHO            reduce using rule 15 (echo_stmt -> empty .)
-    CLOSETAG        reduce using rule 15 (echo_stmt -> empty .)
     IDVAR           reduce using rule 15 (echo_stmt -> empty .)
     TIMESTIMES      reduce using rule 15 (echo_stmt -> empty .)
     AMPERSANT       reduce using rule 15 (echo_stmt -> empty .)
@@ -1006,6 +989,7 @@ state 25
     WHILE           reduce using rule 15 (echo_stmt -> empty .)
     DO              reduce using rule 15 (echo_stmt -> empty .)
     ID              reduce using rule 15 (echo_stmt -> empty .)
+    CLOSETAG        reduce using rule 15 (echo_stmt -> empty .)
     BREAK           reduce using rule 15 (echo_stmt -> empty .)
     SEMI            reduce using rule 15 (echo_stmt -> empty .)
     LBLOCK          reduce using rule 15 (echo_stmt -> empty .)
@@ -1078,35 +1062,15 @@ state 33
 
 state 34
 
-    (2) declaration_list -> declaration_list declaration .
+    (3) declaration_list -> declaration declaration_list .
 
-    CLOSETAG        reduce using rule 2 (declaration_list -> declaration_list declaration .)
-    IDVAR           reduce using rule 2 (declaration_list -> declaration_list declaration .)
-    TIMESTIMES      reduce using rule 2 (declaration_list -> declaration_list declaration .)
-    AMPERSANT       reduce using rule 2 (declaration_list -> declaration_list declaration .)
-    FUNCTION        reduce using rule 2 (declaration_list -> declaration_list declaration .)
-    PRIVATE         reduce using rule 2 (declaration_list -> declaration_list declaration .)
-    PUBLIC          reduce using rule 2 (declaration_list -> declaration_list declaration .)
-    PROTECTED       reduce using rule 2 (declaration_list -> declaration_list declaration .)
-    REQUIRE         reduce using rule 2 (declaration_list -> declaration_list declaration .)
-    INCLUDE         reduce using rule 2 (declaration_list -> declaration_list declaration .)
-    CLASS           reduce using rule 2 (declaration_list -> declaration_list declaration .)
-    IF              reduce using rule 2 (declaration_list -> declaration_list declaration .)
-    SWITCH          reduce using rule 2 (declaration_list -> declaration_list declaration .)
-    CASE            reduce using rule 2 (declaration_list -> declaration_list declaration .)
-    DEFAULT         reduce using rule 2 (declaration_list -> declaration_list declaration .)
-    FOR             reduce using rule 2 (declaration_list -> declaration_list declaration .)
-    WHILE           reduce using rule 2 (declaration_list -> declaration_list declaration .)
-    DO              reduce using rule 2 (declaration_list -> declaration_list declaration .)
-    ID              reduce using rule 2 (declaration_list -> declaration_list declaration .)
-    ECHO            reduce using rule 2 (declaration_list -> declaration_list declaration .)
+    CLOSETAG        reduce using rule 3 (declaration_list -> declaration declaration_list .)
 
 
 state 35
 
     (6) declaration -> area fun_declaration .
 
-    CLOSETAG        reduce using rule 6 (declaration -> area fun_declaration .)
     IDVAR           reduce using rule 6 (declaration -> area fun_declaration .)
     TIMESTIMES      reduce using rule 6 (declaration -> area fun_declaration .)
     AMPERSANT       reduce using rule 6 (declaration -> area fun_declaration .)
@@ -1126,6 +1090,7 @@ state 35
     DO              reduce using rule 6 (declaration -> area fun_declaration .)
     ID              reduce using rule 6 (declaration -> area fun_declaration .)
     ECHO            reduce using rule 6 (declaration -> area fun_declaration .)
+    CLOSETAG        reduce using rule 6 (declaration -> area fun_declaration .)
 
 
 state 36
@@ -1176,7 +1141,6 @@ state 38
     (42) var_declaration -> . AMPERSANT IDVAR SEMI
     (43) var_declaration -> . IDVAR EQUAL simple_expression SEMI
 
-    CLOSETAG        reduce using rule 31 (var_declaration -> IDVAR SEMI .)
     IDVAR           reduce using rule 31 (var_declaration -> IDVAR SEMI .)
     TIMESTIMES      reduce using rule 31 (var_declaration -> IDVAR SEMI .)
     AMPERSANT       reduce using rule 31 (var_declaration -> IDVAR SEMI .)
@@ -1196,6 +1160,7 @@ state 38
     DO              reduce using rule 31 (var_declaration -> IDVAR SEMI .)
     ID              reduce using rule 31 (var_declaration -> IDVAR SEMI .)
     ECHO            reduce using rule 31 (var_declaration -> IDVAR SEMI .)
+    CLOSETAG        reduce using rule 31 (var_declaration -> IDVAR SEMI .)
     SEMI            reduce using rule 31 (var_declaration -> IDVAR SEMI .)
     RBLOCK          reduce using rule 31 (var_declaration -> IDVAR SEMI .)
     LBLOCK          reduce using rule 31 (var_declaration -> IDVAR SEMI .)
@@ -1715,7 +1680,6 @@ state 62
 
     (30) var_declaration -> IDVAR SEMI var_declaration .
 
-    CLOSETAG        reduce using rule 30 (var_declaration -> IDVAR SEMI var_declaration .)
     IDVAR           reduce using rule 30 (var_declaration -> IDVAR SEMI var_declaration .)
     TIMESTIMES      reduce using rule 30 (var_declaration -> IDVAR SEMI var_declaration .)
     AMPERSANT       reduce using rule 30 (var_declaration -> IDVAR SEMI var_declaration .)
@@ -1735,6 +1699,7 @@ state 62
     DO              reduce using rule 30 (var_declaration -> IDVAR SEMI var_declaration .)
     ID              reduce using rule 30 (var_declaration -> IDVAR SEMI var_declaration .)
     ECHO            reduce using rule 30 (var_declaration -> IDVAR SEMI var_declaration .)
+    CLOSETAG        reduce using rule 30 (var_declaration -> IDVAR SEMI var_declaration .)
     SEMI            reduce using rule 30 (var_declaration -> IDVAR SEMI var_declaration .)
     RBLOCK          reduce using rule 30 (var_declaration -> IDVAR SEMI var_declaration .)
     LBLOCK          reduce using rule 30 (var_declaration -> IDVAR SEMI var_declaration .)
@@ -2005,7 +1970,6 @@ state 72
     (42) var_declaration -> . AMPERSANT IDVAR SEMI
     (43) var_declaration -> . IDVAR EQUAL simple_expression SEMI
 
-    CLOSETAG        reduce using rule 32 (var_declaration -> TIMESTIMES IDVAR SEMI .)
     IDVAR           reduce using rule 32 (var_declaration -> TIMESTIMES IDVAR SEMI .)
     TIMESTIMES      reduce using rule 32 (var_declaration -> TIMESTIMES IDVAR SEMI .)
     AMPERSANT       reduce using rule 32 (var_declaration -> TIMESTIMES IDVAR SEMI .)
@@ -2025,6 +1989,7 @@ state 72
     DO              reduce using rule 32 (var_declaration -> TIMESTIMES IDVAR SEMI .)
     ID              reduce using rule 32 (var_declaration -> TIMESTIMES IDVAR SEMI .)
     ECHO            reduce using rule 32 (var_declaration -> TIMESTIMES IDVAR SEMI .)
+    CLOSETAG        reduce using rule 32 (var_declaration -> TIMESTIMES IDVAR SEMI .)
     SEMI            reduce using rule 32 (var_declaration -> TIMESTIMES IDVAR SEMI .)
     RBLOCK          reduce using rule 32 (var_declaration -> TIMESTIMES IDVAR SEMI .)
     LBLOCK          reduce using rule 32 (var_declaration -> TIMESTIMES IDVAR SEMI .)
@@ -2059,7 +2024,6 @@ state 73
     (42) var_declaration -> . AMPERSANT IDVAR SEMI
     (43) var_declaration -> . IDVAR EQUAL simple_expression SEMI
 
-    CLOSETAG        reduce using rule 42 (var_declaration -> AMPERSANT IDVAR SEMI .)
     IDVAR           reduce using rule 42 (var_declaration -> AMPERSANT IDVAR SEMI .)
     TIMESTIMES      reduce using rule 42 (var_declaration -> AMPERSANT IDVAR SEMI .)
     AMPERSANT       reduce using rule 42 (var_declaration -> AMPERSANT IDVAR SEMI .)
@@ -2079,6 +2043,7 @@ state 73
     DO              reduce using rule 42 (var_declaration -> AMPERSANT IDVAR SEMI .)
     ID              reduce using rule 42 (var_declaration -> AMPERSANT IDVAR SEMI .)
     ECHO            reduce using rule 42 (var_declaration -> AMPERSANT IDVAR SEMI .)
+    CLOSETAG        reduce using rule 42 (var_declaration -> AMPERSANT IDVAR SEMI .)
     SEMI            reduce using rule 42 (var_declaration -> AMPERSANT IDVAR SEMI .)
     RBLOCK          reduce using rule 42 (var_declaration -> AMPERSANT IDVAR SEMI .)
     LBLOCK          reduce using rule 42 (var_declaration -> AMPERSANT IDVAR SEMI .)
@@ -2419,7 +2384,6 @@ state 90
     SEMI            reduce using rule 57 (statement -> expression_stmt .)
     ELSE            reduce using rule 57 (statement -> expression_stmt .)
     ELSEIF          reduce using rule 57 (statement -> expression_stmt .)
-    CLOSETAG        reduce using rule 57 (statement -> expression_stmt .)
     IDVAR           reduce using rule 57 (statement -> expression_stmt .)
     TIMESTIMES      reduce using rule 57 (statement -> expression_stmt .)
     AMPERSANT       reduce using rule 57 (statement -> expression_stmt .)
@@ -2439,6 +2403,7 @@ state 90
     DO              reduce using rule 57 (statement -> expression_stmt .)
     ID              reduce using rule 57 (statement -> expression_stmt .)
     ECHO            reduce using rule 57 (statement -> expression_stmt .)
+    CLOSETAG        reduce using rule 57 (statement -> expression_stmt .)
     RBLOCK          reduce using rule 57 (statement -> expression_stmt .)
     LBLOCK          reduce using rule 57 (statement -> expression_stmt .)
     RETURN          reduce using rule 57 (statement -> expression_stmt .)
@@ -2456,7 +2421,6 @@ state 91
     SEMI            reduce using rule 58 (statement -> compount_stmt .)
     ELSE            reduce using rule 58 (statement -> compount_stmt .)
     ELSEIF          reduce using rule 58 (statement -> compount_stmt .)
-    CLOSETAG        reduce using rule 58 (statement -> compount_stmt .)
     IDVAR           reduce using rule 58 (statement -> compount_stmt .)
     TIMESTIMES      reduce using rule 58 (statement -> compount_stmt .)
     AMPERSANT       reduce using rule 58 (statement -> compount_stmt .)
@@ -2476,6 +2440,7 @@ state 91
     DO              reduce using rule 58 (statement -> compount_stmt .)
     ID              reduce using rule 58 (statement -> compount_stmt .)
     ECHO            reduce using rule 58 (statement -> compount_stmt .)
+    CLOSETAG        reduce using rule 58 (statement -> compount_stmt .)
     RBLOCK          reduce using rule 58 (statement -> compount_stmt .)
     LBLOCK          reduce using rule 58 (statement -> compount_stmt .)
     RETURN          reduce using rule 58 (statement -> compount_stmt .)
@@ -2493,7 +2458,6 @@ state 92
     SEMI            reduce using rule 59 (statement -> selection_stmt .)
     ELSE            reduce using rule 59 (statement -> selection_stmt .)
     ELSEIF          reduce using rule 59 (statement -> selection_stmt .)
-    CLOSETAG        reduce using rule 59 (statement -> selection_stmt .)
     IDVAR           reduce using rule 59 (statement -> selection_stmt .)
     TIMESTIMES      reduce using rule 59 (statement -> selection_stmt .)
     AMPERSANT       reduce using rule 59 (statement -> selection_stmt .)
@@ -2513,6 +2477,7 @@ state 92
     DO              reduce using rule 59 (statement -> selection_stmt .)
     ID              reduce using rule 59 (statement -> selection_stmt .)
     ECHO            reduce using rule 59 (statement -> selection_stmt .)
+    CLOSETAG        reduce using rule 59 (statement -> selection_stmt .)
     RBLOCK          reduce using rule 59 (statement -> selection_stmt .)
     LBLOCK          reduce using rule 59 (statement -> selection_stmt .)
     RETURN          reduce using rule 59 (statement -> selection_stmt .)
@@ -2530,7 +2495,6 @@ state 93
     SEMI            reduce using rule 60 (statement -> iteration_stmt .)
     ELSE            reduce using rule 60 (statement -> iteration_stmt .)
     ELSEIF          reduce using rule 60 (statement -> iteration_stmt .)
-    CLOSETAG        reduce using rule 60 (statement -> iteration_stmt .)
     IDVAR           reduce using rule 60 (statement -> iteration_stmt .)
     TIMESTIMES      reduce using rule 60 (statement -> iteration_stmt .)
     AMPERSANT       reduce using rule 60 (statement -> iteration_stmt .)
@@ -2550,6 +2514,7 @@ state 93
     DO              reduce using rule 60 (statement -> iteration_stmt .)
     ID              reduce using rule 60 (statement -> iteration_stmt .)
     ECHO            reduce using rule 60 (statement -> iteration_stmt .)
+    CLOSETAG        reduce using rule 60 (statement -> iteration_stmt .)
     RBLOCK          reduce using rule 60 (statement -> iteration_stmt .)
     LBLOCK          reduce using rule 60 (statement -> iteration_stmt .)
     RETURN          reduce using rule 60 (statement -> iteration_stmt .)
@@ -2567,7 +2532,6 @@ state 94
     SEMI            reduce using rule 61 (statement -> return_stmt .)
     ELSE            reduce using rule 61 (statement -> return_stmt .)
     ELSEIF          reduce using rule 61 (statement -> return_stmt .)
-    CLOSETAG        reduce using rule 61 (statement -> return_stmt .)
     IDVAR           reduce using rule 61 (statement -> return_stmt .)
     TIMESTIMES      reduce using rule 61 (statement -> return_stmt .)
     AMPERSANT       reduce using rule 61 (statement -> return_stmt .)
@@ -2587,6 +2551,7 @@ state 94
     DO              reduce using rule 61 (statement -> return_stmt .)
     ID              reduce using rule 61 (statement -> return_stmt .)
     ECHO            reduce using rule 61 (statement -> return_stmt .)
+    CLOSETAG        reduce using rule 61 (statement -> return_stmt .)
     RBLOCK          reduce using rule 61 (statement -> return_stmt .)
     LBLOCK          reduce using rule 61 (statement -> return_stmt .)
     RETURN          reduce using rule 61 (statement -> return_stmt .)
@@ -2604,7 +2569,6 @@ state 95
     SEMI            reduce using rule 62 (statement -> class_declaration .)
     ELSE            reduce using rule 62 (statement -> class_declaration .)
     ELSEIF          reduce using rule 62 (statement -> class_declaration .)
-    CLOSETAG        reduce using rule 62 (statement -> class_declaration .)
     IDVAR           reduce using rule 62 (statement -> class_declaration .)
     TIMESTIMES      reduce using rule 62 (statement -> class_declaration .)
     AMPERSANT       reduce using rule 62 (statement -> class_declaration .)
@@ -2624,6 +2588,7 @@ state 95
     DO              reduce using rule 62 (statement -> class_declaration .)
     ID              reduce using rule 62 (statement -> class_declaration .)
     ECHO            reduce using rule 62 (statement -> class_declaration .)
+    CLOSETAG        reduce using rule 62 (statement -> class_declaration .)
     RBLOCK          reduce using rule 62 (statement -> class_declaration .)
     LBLOCK          reduce using rule 62 (statement -> class_declaration .)
     RETURN          reduce using rule 62 (statement -> class_declaration .)
@@ -2647,7 +2612,6 @@ state 96
     SEMI            reduce using rule 63 (statement -> echo_stmt .)
     ELSE            reduce using rule 63 (statement -> echo_stmt .)
     ELSEIF          reduce using rule 63 (statement -> echo_stmt .)
-    CLOSETAG        reduce using rule 63 (statement -> echo_stmt .)
     IDVAR           reduce using rule 63 (statement -> echo_stmt .)
     TIMESTIMES      reduce using rule 63 (statement -> echo_stmt .)
     AMPERSANT       reduce using rule 63 (statement -> echo_stmt .)
@@ -2666,6 +2630,7 @@ state 96
     WHILE           reduce using rule 63 (statement -> echo_stmt .)
     DO              reduce using rule 63 (statement -> echo_stmt .)
     ID              reduce using rule 63 (statement -> echo_stmt .)
+    CLOSETAG        reduce using rule 63 (statement -> echo_stmt .)
     RBLOCK          reduce using rule 63 (statement -> echo_stmt .)
     LBLOCK          reduce using rule 63 (statement -> echo_stmt .)
     RETURN          reduce using rule 63 (statement -> echo_stmt .)
@@ -2823,7 +2788,6 @@ state 105
     (13) echo_stmt -> echo_stmt ECHO STRING SEMI .
 
     ECHO            reduce using rule 13 (echo_stmt -> echo_stmt ECHO STRING SEMI .)
-    CLOSETAG        reduce using rule 13 (echo_stmt -> echo_stmt ECHO STRING SEMI .)
     IDVAR           reduce using rule 13 (echo_stmt -> echo_stmt ECHO STRING SEMI .)
     TIMESTIMES      reduce using rule 13 (echo_stmt -> echo_stmt ECHO STRING SEMI .)
     AMPERSANT       reduce using rule 13 (echo_stmt -> echo_stmt ECHO STRING SEMI .)
@@ -2842,6 +2806,7 @@ state 105
     WHILE           reduce using rule 13 (echo_stmt -> echo_stmt ECHO STRING SEMI .)
     DO              reduce using rule 13 (echo_stmt -> echo_stmt ECHO STRING SEMI .)
     ID              reduce using rule 13 (echo_stmt -> echo_stmt ECHO STRING SEMI .)
+    CLOSETAG        reduce using rule 13 (echo_stmt -> echo_stmt ECHO STRING SEMI .)
     BREAK           reduce using rule 13 (echo_stmt -> echo_stmt ECHO STRING SEMI .)
     SEMI            reduce using rule 13 (echo_stmt -> echo_stmt ECHO STRING SEMI .)
     LBLOCK          reduce using rule 13 (echo_stmt -> echo_stmt ECHO STRING SEMI .)
@@ -2860,7 +2825,6 @@ state 106
     (14) echo_stmt -> echo_stmt ECHO IDVAR SEMI .
 
     ECHO            reduce using rule 14 (echo_stmt -> echo_stmt ECHO IDVAR SEMI .)
-    CLOSETAG        reduce using rule 14 (echo_stmt -> echo_stmt ECHO IDVAR SEMI .)
     IDVAR           reduce using rule 14 (echo_stmt -> echo_stmt ECHO IDVAR SEMI .)
     TIMESTIMES      reduce using rule 14 (echo_stmt -> echo_stmt ECHO IDVAR SEMI .)
     AMPERSANT       reduce using rule 14 (echo_stmt -> echo_stmt ECHO IDVAR SEMI .)
@@ -2879,6 +2843,7 @@ state 106
     WHILE           reduce using rule 14 (echo_stmt -> echo_stmt ECHO IDVAR SEMI .)
     DO              reduce using rule 14 (echo_stmt -> echo_stmt ECHO IDVAR SEMI .)
     ID              reduce using rule 14 (echo_stmt -> echo_stmt ECHO IDVAR SEMI .)
+    CLOSETAG        reduce using rule 14 (echo_stmt -> echo_stmt ECHO IDVAR SEMI .)
     BREAK           reduce using rule 14 (echo_stmt -> echo_stmt ECHO IDVAR SEMI .)
     SEMI            reduce using rule 14 (echo_stmt -> echo_stmt ECHO IDVAR SEMI .)
     LBLOCK          reduce using rule 14 (echo_stmt -> echo_stmt ECHO IDVAR SEMI .)
@@ -2897,7 +2862,6 @@ state 107
     (16) echo_stmt -> echo_stmt ECHO NUM SEMI .
 
     ECHO            reduce using rule 16 (echo_stmt -> echo_stmt ECHO NUM SEMI .)
-    CLOSETAG        reduce using rule 16 (echo_stmt -> echo_stmt ECHO NUM SEMI .)
     IDVAR           reduce using rule 16 (echo_stmt -> echo_stmt ECHO NUM SEMI .)
     TIMESTIMES      reduce using rule 16 (echo_stmt -> echo_stmt ECHO NUM SEMI .)
     AMPERSANT       reduce using rule 16 (echo_stmt -> echo_stmt ECHO NUM SEMI .)
@@ -2916,6 +2880,7 @@ state 107
     WHILE           reduce using rule 16 (echo_stmt -> echo_stmt ECHO NUM SEMI .)
     DO              reduce using rule 16 (echo_stmt -> echo_stmt ECHO NUM SEMI .)
     ID              reduce using rule 16 (echo_stmt -> echo_stmt ECHO NUM SEMI .)
+    CLOSETAG        reduce using rule 16 (echo_stmt -> echo_stmt ECHO NUM SEMI .)
     BREAK           reduce using rule 16 (echo_stmt -> echo_stmt ECHO NUM SEMI .)
     SEMI            reduce using rule 16 (echo_stmt -> echo_stmt ECHO NUM SEMI .)
     LBLOCK          reduce using rule 16 (echo_stmt -> echo_stmt ECHO NUM SEMI .)
@@ -2934,7 +2899,6 @@ state 108
     (17) echo_stmt -> echo_stmt ECHO boolean SEMI .
 
     ECHO            reduce using rule 17 (echo_stmt -> echo_stmt ECHO boolean SEMI .)
-    CLOSETAG        reduce using rule 17 (echo_stmt -> echo_stmt ECHO boolean SEMI .)
     IDVAR           reduce using rule 17 (echo_stmt -> echo_stmt ECHO boolean SEMI .)
     TIMESTIMES      reduce using rule 17 (echo_stmt -> echo_stmt ECHO boolean SEMI .)
     AMPERSANT       reduce using rule 17 (echo_stmt -> echo_stmt ECHO boolean SEMI .)
@@ -2953,6 +2917,7 @@ state 108
     WHILE           reduce using rule 17 (echo_stmt -> echo_stmt ECHO boolean SEMI .)
     DO              reduce using rule 17 (echo_stmt -> echo_stmt ECHO boolean SEMI .)
     ID              reduce using rule 17 (echo_stmt -> echo_stmt ECHO boolean SEMI .)
+    CLOSETAG        reduce using rule 17 (echo_stmt -> echo_stmt ECHO boolean SEMI .)
     BREAK           reduce using rule 17 (echo_stmt -> echo_stmt ECHO boolean SEMI .)
     SEMI            reduce using rule 17 (echo_stmt -> echo_stmt ECHO boolean SEMI .)
     LBLOCK          reduce using rule 17 (echo_stmt -> echo_stmt ECHO boolean SEMI .)
@@ -2971,7 +2936,6 @@ state 109
     (18) echo_stmt -> echo_stmt ECHO fun_declaration SEMI .
 
     ECHO            reduce using rule 18 (echo_stmt -> echo_stmt ECHO fun_declaration SEMI .)
-    CLOSETAG        reduce using rule 18 (echo_stmt -> echo_stmt ECHO fun_declaration SEMI .)
     IDVAR           reduce using rule 18 (echo_stmt -> echo_stmt ECHO fun_declaration SEMI .)
     TIMESTIMES      reduce using rule 18 (echo_stmt -> echo_stmt ECHO fun_declaration SEMI .)
     AMPERSANT       reduce using rule 18 (echo_stmt -> echo_stmt ECHO fun_declaration SEMI .)
@@ -2990,6 +2954,7 @@ state 109
     WHILE           reduce using rule 18 (echo_stmt -> echo_stmt ECHO fun_declaration SEMI .)
     DO              reduce using rule 18 (echo_stmt -> echo_stmt ECHO fun_declaration SEMI .)
     ID              reduce using rule 18 (echo_stmt -> echo_stmt ECHO fun_declaration SEMI .)
+    CLOSETAG        reduce using rule 18 (echo_stmt -> echo_stmt ECHO fun_declaration SEMI .)
     BREAK           reduce using rule 18 (echo_stmt -> echo_stmt ECHO fun_declaration SEMI .)
     SEMI            reduce using rule 18 (echo_stmt -> echo_stmt ECHO fun_declaration SEMI .)
     LBLOCK          reduce using rule 18 (echo_stmt -> echo_stmt ECHO fun_declaration SEMI .)
@@ -3022,7 +2987,6 @@ state 110
     (42) var_declaration -> . AMPERSANT IDVAR SEMI
     (43) var_declaration -> . IDVAR EQUAL simple_expression SEMI
 
-    CLOSETAG        reduce using rule 39 (var_declaration -> IDVAR EQUAL IDVAR SEMI .)
     IDVAR           reduce using rule 39 (var_declaration -> IDVAR EQUAL IDVAR SEMI .)
     TIMESTIMES      reduce using rule 39 (var_declaration -> IDVAR EQUAL IDVAR SEMI .)
     AMPERSANT       reduce using rule 39 (var_declaration -> IDVAR EQUAL IDVAR SEMI .)
@@ -3042,6 +3006,7 @@ state 110
     DO              reduce using rule 39 (var_declaration -> IDVAR EQUAL IDVAR SEMI .)
     ID              reduce using rule 39 (var_declaration -> IDVAR EQUAL IDVAR SEMI .)
     ECHO            reduce using rule 39 (var_declaration -> IDVAR EQUAL IDVAR SEMI .)
+    CLOSETAG        reduce using rule 39 (var_declaration -> IDVAR EQUAL IDVAR SEMI .)
     SEMI            reduce using rule 39 (var_declaration -> IDVAR EQUAL IDVAR SEMI .)
     RBLOCK          reduce using rule 39 (var_declaration -> IDVAR EQUAL IDVAR SEMI .)
     LBLOCK          reduce using rule 39 (var_declaration -> IDVAR EQUAL IDVAR SEMI .)
@@ -3167,7 +3132,6 @@ state 113
     (42) var_declaration -> . AMPERSANT IDVAR SEMI
     (43) var_declaration -> . IDVAR EQUAL simple_expression SEMI
 
-    CLOSETAG        reduce using rule 35 (var_declaration -> IDVAR EQUAL NUM SEMI .)
     IDVAR           reduce using rule 35 (var_declaration -> IDVAR EQUAL NUM SEMI .)
     TIMESTIMES      reduce using rule 35 (var_declaration -> IDVAR EQUAL NUM SEMI .)
     AMPERSANT       reduce using rule 35 (var_declaration -> IDVAR EQUAL NUM SEMI .)
@@ -3187,6 +3151,7 @@ state 113
     DO              reduce using rule 35 (var_declaration -> IDVAR EQUAL NUM SEMI .)
     ID              reduce using rule 35 (var_declaration -> IDVAR EQUAL NUM SEMI .)
     ECHO            reduce using rule 35 (var_declaration -> IDVAR EQUAL NUM SEMI .)
+    CLOSETAG        reduce using rule 35 (var_declaration -> IDVAR EQUAL NUM SEMI .)
     SEMI            reduce using rule 35 (var_declaration -> IDVAR EQUAL NUM SEMI .)
     RBLOCK          reduce using rule 35 (var_declaration -> IDVAR EQUAL NUM SEMI .)
     LBLOCK          reduce using rule 35 (var_declaration -> IDVAR EQUAL NUM SEMI .)
@@ -3221,7 +3186,6 @@ state 114
     (42) var_declaration -> . AMPERSANT IDVAR SEMI
     (43) var_declaration -> . IDVAR EQUAL simple_expression SEMI
 
-    CLOSETAG        reduce using rule 37 (var_declaration -> IDVAR EQUAL boolean SEMI .)
     IDVAR           reduce using rule 37 (var_declaration -> IDVAR EQUAL boolean SEMI .)
     TIMESTIMES      reduce using rule 37 (var_declaration -> IDVAR EQUAL boolean SEMI .)
     AMPERSANT       reduce using rule 37 (var_declaration -> IDVAR EQUAL boolean SEMI .)
@@ -3241,6 +3205,7 @@ state 114
     DO              reduce using rule 37 (var_declaration -> IDVAR EQUAL boolean SEMI .)
     ID              reduce using rule 37 (var_declaration -> IDVAR EQUAL boolean SEMI .)
     ECHO            reduce using rule 37 (var_declaration -> IDVAR EQUAL boolean SEMI .)
+    CLOSETAG        reduce using rule 37 (var_declaration -> IDVAR EQUAL boolean SEMI .)
     SEMI            reduce using rule 37 (var_declaration -> IDVAR EQUAL boolean SEMI .)
     RBLOCK          reduce using rule 37 (var_declaration -> IDVAR EQUAL boolean SEMI .)
     LBLOCK          reduce using rule 37 (var_declaration -> IDVAR EQUAL boolean SEMI .)
@@ -3260,7 +3225,6 @@ state 115
 
     (43) var_declaration -> IDVAR EQUAL simple_expression SEMI .
 
-    CLOSETAG        reduce using rule 43 (var_declaration -> IDVAR EQUAL simple_expression SEMI .)
     IDVAR           reduce using rule 43 (var_declaration -> IDVAR EQUAL simple_expression SEMI .)
     TIMESTIMES      reduce using rule 43 (var_declaration -> IDVAR EQUAL simple_expression SEMI .)
     AMPERSANT       reduce using rule 43 (var_declaration -> IDVAR EQUAL simple_expression SEMI .)
@@ -3280,6 +3244,7 @@ state 115
     DO              reduce using rule 43 (var_declaration -> IDVAR EQUAL simple_expression SEMI .)
     ID              reduce using rule 43 (var_declaration -> IDVAR EQUAL simple_expression SEMI .)
     ECHO            reduce using rule 43 (var_declaration -> IDVAR EQUAL simple_expression SEMI .)
+    CLOSETAG        reduce using rule 43 (var_declaration -> IDVAR EQUAL simple_expression SEMI .)
     SEMI            reduce using rule 43 (var_declaration -> IDVAR EQUAL simple_expression SEMI .)
     RBLOCK          reduce using rule 43 (var_declaration -> IDVAR EQUAL simple_expression SEMI .)
     LBLOCK          reduce using rule 43 (var_declaration -> IDVAR EQUAL simple_expression SEMI .)
@@ -3548,7 +3513,6 @@ state 133
 
     (33) var_declaration -> TIMESTIMES IDVAR SEMI var_declaration .
 
-    CLOSETAG        reduce using rule 33 (var_declaration -> TIMESTIMES IDVAR SEMI var_declaration .)
     IDVAR           reduce using rule 33 (var_declaration -> TIMESTIMES IDVAR SEMI var_declaration .)
     TIMESTIMES      reduce using rule 33 (var_declaration -> TIMESTIMES IDVAR SEMI var_declaration .)
     AMPERSANT       reduce using rule 33 (var_declaration -> TIMESTIMES IDVAR SEMI var_declaration .)
@@ -3568,6 +3532,7 @@ state 133
     DO              reduce using rule 33 (var_declaration -> TIMESTIMES IDVAR SEMI var_declaration .)
     ID              reduce using rule 33 (var_declaration -> TIMESTIMES IDVAR SEMI var_declaration .)
     ECHO            reduce using rule 33 (var_declaration -> TIMESTIMES IDVAR SEMI var_declaration .)
+    CLOSETAG        reduce using rule 33 (var_declaration -> TIMESTIMES IDVAR SEMI var_declaration .)
     SEMI            reduce using rule 33 (var_declaration -> TIMESTIMES IDVAR SEMI var_declaration .)
     RBLOCK          reduce using rule 33 (var_declaration -> TIMESTIMES IDVAR SEMI var_declaration .)
     LBLOCK          reduce using rule 33 (var_declaration -> TIMESTIMES IDVAR SEMI var_declaration .)
@@ -3582,7 +3547,6 @@ state 134
 
     (40) var_declaration -> AMPERSANT IDVAR SEMI var_declaration .
 
-    CLOSETAG        reduce using rule 40 (var_declaration -> AMPERSANT IDVAR SEMI var_declaration .)
     IDVAR           reduce using rule 40 (var_declaration -> AMPERSANT IDVAR SEMI var_declaration .)
     TIMESTIMES      reduce using rule 40 (var_declaration -> AMPERSANT IDVAR SEMI var_declaration .)
     AMPERSANT       reduce using rule 40 (var_declaration -> AMPERSANT IDVAR SEMI var_declaration .)
@@ -3602,6 +3566,7 @@ state 134
     DO              reduce using rule 40 (var_declaration -> AMPERSANT IDVAR SEMI var_declaration .)
     ID              reduce using rule 40 (var_declaration -> AMPERSANT IDVAR SEMI var_declaration .)
     ECHO            reduce using rule 40 (var_declaration -> AMPERSANT IDVAR SEMI var_declaration .)
+    CLOSETAG        reduce using rule 40 (var_declaration -> AMPERSANT IDVAR SEMI var_declaration .)
     SEMI            reduce using rule 40 (var_declaration -> AMPERSANT IDVAR SEMI var_declaration .)
     RBLOCK          reduce using rule 40 (var_declaration -> AMPERSANT IDVAR SEMI var_declaration .)
     LBLOCK          reduce using rule 40 (var_declaration -> AMPERSANT IDVAR SEMI var_declaration .)
@@ -3822,13 +3787,13 @@ state 146
     ECHO            reduce using rule 118 (empty -> .)
     ELSE            reduce using rule 118 (empty -> .)
     ELSEIF          reduce using rule 118 (empty -> .)
-    CLOSETAG        reduce using rule 118 (empty -> .)
     TIMESTIMES      reduce using rule 118 (empty -> .)
     AMPERSANT       reduce using rule 118 (empty -> .)
     FUNCTION        reduce using rule 118 (empty -> .)
     REQUIRE         reduce using rule 118 (empty -> .)
     INCLUDE         reduce using rule 118 (empty -> .)
     ID              reduce using rule 118 (empty -> .)
+    CLOSETAG        reduce using rule 118 (empty -> .)
     BREAK           reduce using rule 118 (empty -> .)
     SEMI            reduce using rule 118 (empty -> .)
     RBLOCK          reduce using rule 118 (empty -> .)
@@ -4088,13 +4053,13 @@ state 150
     ECHO            reduce using rule 118 (empty -> .)
     ELSE            reduce using rule 118 (empty -> .)
     ELSEIF          reduce using rule 118 (empty -> .)
-    CLOSETAG        reduce using rule 118 (empty -> .)
     TIMESTIMES      reduce using rule 118 (empty -> .)
     AMPERSANT       reduce using rule 118 (empty -> .)
     FUNCTION        reduce using rule 118 (empty -> .)
     REQUIRE         reduce using rule 118 (empty -> .)
     INCLUDE         reduce using rule 118 (empty -> .)
     ID              reduce using rule 118 (empty -> .)
+    CLOSETAG        reduce using rule 118 (empty -> .)
     BREAK           reduce using rule 118 (empty -> .)
     SEMI            reduce using rule 118 (empty -> .)
     RBLOCK          reduce using rule 118 (empty -> .)
@@ -4163,7 +4128,6 @@ state 153
     SEMI            reduce using rule 64 (expression_stmt -> expression SEMI .)
     ELSE            reduce using rule 64 (expression_stmt -> expression SEMI .)
     ELSEIF          reduce using rule 64 (expression_stmt -> expression SEMI .)
-    CLOSETAG        reduce using rule 64 (expression_stmt -> expression SEMI .)
     IDVAR           reduce using rule 64 (expression_stmt -> expression SEMI .)
     TIMESTIMES      reduce using rule 64 (expression_stmt -> expression SEMI .)
     AMPERSANT       reduce using rule 64 (expression_stmt -> expression SEMI .)
@@ -4183,6 +4147,7 @@ state 153
     DO              reduce using rule 64 (expression_stmt -> expression SEMI .)
     ID              reduce using rule 64 (expression_stmt -> expression SEMI .)
     ECHO            reduce using rule 64 (expression_stmt -> expression SEMI .)
+    CLOSETAG        reduce using rule 64 (expression_stmt -> expression SEMI .)
     RBLOCK          reduce using rule 64 (expression_stmt -> expression SEMI .)
     LBLOCK          reduce using rule 64 (expression_stmt -> expression SEMI .)
     RETURN          reduce using rule 64 (expression_stmt -> expression SEMI .)
@@ -4241,7 +4206,6 @@ state 155
     SEMI            reduce using rule 75 (return_stmt -> RETURN SEMI .)
     ELSE            reduce using rule 75 (return_stmt -> RETURN SEMI .)
     ELSEIF          reduce using rule 75 (return_stmt -> RETURN SEMI .)
-    CLOSETAG        reduce using rule 75 (return_stmt -> RETURN SEMI .)
     IDVAR           reduce using rule 75 (return_stmt -> RETURN SEMI .)
     TIMESTIMES      reduce using rule 75 (return_stmt -> RETURN SEMI .)
     AMPERSANT       reduce using rule 75 (return_stmt -> RETURN SEMI .)
@@ -4261,6 +4225,7 @@ state 155
     DO              reduce using rule 75 (return_stmt -> RETURN SEMI .)
     ID              reduce using rule 75 (return_stmt -> RETURN SEMI .)
     ECHO            reduce using rule 75 (return_stmt -> RETURN SEMI .)
+    CLOSETAG        reduce using rule 75 (return_stmt -> RETURN SEMI .)
     RBLOCK          reduce using rule 75 (return_stmt -> RETURN SEMI .)
     LBLOCK          reduce using rule 75 (return_stmt -> RETURN SEMI .)
     RETURN          reduce using rule 75 (return_stmt -> RETURN SEMI .)
@@ -4412,13 +4377,13 @@ state 158
     ECHO            reduce using rule 118 (empty -> .)
     ELSE            reduce using rule 118 (empty -> .)
     ELSEIF          reduce using rule 118 (empty -> .)
-    CLOSETAG        reduce using rule 118 (empty -> .)
     TIMESTIMES      reduce using rule 118 (empty -> .)
     AMPERSANT       reduce using rule 118 (empty -> .)
     FUNCTION        reduce using rule 118 (empty -> .)
     REQUIRE         reduce using rule 118 (empty -> .)
     INCLUDE         reduce using rule 118 (empty -> .)
     ID              reduce using rule 118 (empty -> .)
+    CLOSETAG        reduce using rule 118 (empty -> .)
     BREAK           reduce using rule 118 (empty -> .)
     SEMI            reduce using rule 118 (empty -> .)
     RBLOCK          reduce using rule 118 (empty -> .)
@@ -4492,7 +4457,6 @@ state 161
 
     (38) var_declaration -> IDVAR EQUAL IDVAR SEMI var_declaration .
 
-    CLOSETAG        reduce using rule 38 (var_declaration -> IDVAR EQUAL IDVAR SEMI var_declaration .)
     IDVAR           reduce using rule 38 (var_declaration -> IDVAR EQUAL IDVAR SEMI var_declaration .)
     TIMESTIMES      reduce using rule 38 (var_declaration -> IDVAR EQUAL IDVAR SEMI var_declaration .)
     AMPERSANT       reduce using rule 38 (var_declaration -> IDVAR EQUAL IDVAR SEMI var_declaration .)
@@ -4512,6 +4476,7 @@ state 161
     DO              reduce using rule 38 (var_declaration -> IDVAR EQUAL IDVAR SEMI var_declaration .)
     ID              reduce using rule 38 (var_declaration -> IDVAR EQUAL IDVAR SEMI var_declaration .)
     ECHO            reduce using rule 38 (var_declaration -> IDVAR EQUAL IDVAR SEMI var_declaration .)
+    CLOSETAG        reduce using rule 38 (var_declaration -> IDVAR EQUAL IDVAR SEMI var_declaration .)
     SEMI            reduce using rule 38 (var_declaration -> IDVAR EQUAL IDVAR SEMI var_declaration .)
     RBLOCK          reduce using rule 38 (var_declaration -> IDVAR EQUAL IDVAR SEMI var_declaration .)
     LBLOCK          reduce using rule 38 (var_declaration -> IDVAR EQUAL IDVAR SEMI var_declaration .)
@@ -4579,7 +4544,6 @@ state 168
 
     (34) var_declaration -> IDVAR EQUAL NUM SEMI var_declaration .
 
-    CLOSETAG        reduce using rule 34 (var_declaration -> IDVAR EQUAL NUM SEMI var_declaration .)
     IDVAR           reduce using rule 34 (var_declaration -> IDVAR EQUAL NUM SEMI var_declaration .)
     TIMESTIMES      reduce using rule 34 (var_declaration -> IDVAR EQUAL NUM SEMI var_declaration .)
     AMPERSANT       reduce using rule 34 (var_declaration -> IDVAR EQUAL NUM SEMI var_declaration .)
@@ -4599,6 +4563,7 @@ state 168
     DO              reduce using rule 34 (var_declaration -> IDVAR EQUAL NUM SEMI var_declaration .)
     ID              reduce using rule 34 (var_declaration -> IDVAR EQUAL NUM SEMI var_declaration .)
     ECHO            reduce using rule 34 (var_declaration -> IDVAR EQUAL NUM SEMI var_declaration .)
+    CLOSETAG        reduce using rule 34 (var_declaration -> IDVAR EQUAL NUM SEMI var_declaration .)
     SEMI            reduce using rule 34 (var_declaration -> IDVAR EQUAL NUM SEMI var_declaration .)
     RBLOCK          reduce using rule 34 (var_declaration -> IDVAR EQUAL NUM SEMI var_declaration .)
     LBLOCK          reduce using rule 34 (var_declaration -> IDVAR EQUAL NUM SEMI var_declaration .)
@@ -4613,7 +4578,6 @@ state 169
 
     (36) var_declaration -> IDVAR EQUAL boolean SEMI var_declaration .
 
-    CLOSETAG        reduce using rule 36 (var_declaration -> IDVAR EQUAL boolean SEMI var_declaration .)
     IDVAR           reduce using rule 36 (var_declaration -> IDVAR EQUAL boolean SEMI var_declaration .)
     TIMESTIMES      reduce using rule 36 (var_declaration -> IDVAR EQUAL boolean SEMI var_declaration .)
     AMPERSANT       reduce using rule 36 (var_declaration -> IDVAR EQUAL boolean SEMI var_declaration .)
@@ -4633,6 +4597,7 @@ state 169
     DO              reduce using rule 36 (var_declaration -> IDVAR EQUAL boolean SEMI var_declaration .)
     ID              reduce using rule 36 (var_declaration -> IDVAR EQUAL boolean SEMI var_declaration .)
     ECHO            reduce using rule 36 (var_declaration -> IDVAR EQUAL boolean SEMI var_declaration .)
+    CLOSETAG        reduce using rule 36 (var_declaration -> IDVAR EQUAL boolean SEMI var_declaration .)
     SEMI            reduce using rule 36 (var_declaration -> IDVAR EQUAL boolean SEMI var_declaration .)
     RBLOCK          reduce using rule 36 (var_declaration -> IDVAR EQUAL boolean SEMI var_declaration .)
     LBLOCK          reduce using rule 36 (var_declaration -> IDVAR EQUAL boolean SEMI var_declaration .)
@@ -4789,7 +4754,6 @@ state 176
     (45) fun_declaration -> FUNCTION ID LPAREN params RPAREN . compount_stmt
     (52) compount_stmt -> . LBLOCK echo_stmt local_declarations echo_stmt statement_list echo_stmt RBLOCK
 
-    CLOSETAG        reduce using rule 44 (fun_declaration -> FUNCTION ID LPAREN params RPAREN .)
     IDVAR           reduce using rule 44 (fun_declaration -> FUNCTION ID LPAREN params RPAREN .)
     TIMESTIMES      reduce using rule 44 (fun_declaration -> FUNCTION ID LPAREN params RPAREN .)
     AMPERSANT       reduce using rule 44 (fun_declaration -> FUNCTION ID LPAREN params RPAREN .)
@@ -4809,6 +4773,7 @@ state 176
     DO              reduce using rule 44 (fun_declaration -> FUNCTION ID LPAREN params RPAREN .)
     ID              reduce using rule 44 (fun_declaration -> FUNCTION ID LPAREN params RPAREN .)
     ECHO            reduce using rule 44 (fun_declaration -> FUNCTION ID LPAREN params RPAREN .)
+    CLOSETAG        reduce using rule 44 (fun_declaration -> FUNCTION ID LPAREN params RPAREN .)
     SEMI            reduce using rule 44 (fun_declaration -> FUNCTION ID LPAREN params RPAREN .)
     RBLOCK          reduce using rule 44 (fun_declaration -> FUNCTION ID LPAREN params RPAREN .)
     LBLOCK          shift and go to state 98
@@ -4854,7 +4819,6 @@ state 181
 
     (19) header_declaration -> REQUIRE LPAREN STRING RPAREN SEMI .
 
-    CLOSETAG        reduce using rule 19 (header_declaration -> REQUIRE LPAREN STRING RPAREN SEMI .)
     IDVAR           reduce using rule 19 (header_declaration -> REQUIRE LPAREN STRING RPAREN SEMI .)
     TIMESTIMES      reduce using rule 19 (header_declaration -> REQUIRE LPAREN STRING RPAREN SEMI .)
     AMPERSANT       reduce using rule 19 (header_declaration -> REQUIRE LPAREN STRING RPAREN SEMI .)
@@ -4874,13 +4838,13 @@ state 181
     DO              reduce using rule 19 (header_declaration -> REQUIRE LPAREN STRING RPAREN SEMI .)
     ID              reduce using rule 19 (header_declaration -> REQUIRE LPAREN STRING RPAREN SEMI .)
     ECHO            reduce using rule 19 (header_declaration -> REQUIRE LPAREN STRING RPAREN SEMI .)
+    CLOSETAG        reduce using rule 19 (header_declaration -> REQUIRE LPAREN STRING RPAREN SEMI .)
 
 
 state 182
 
     (20) header_declaration -> INCLUDE LPAREN STRING RPAREN SEMI .
 
-    CLOSETAG        reduce using rule 20 (header_declaration -> INCLUDE LPAREN STRING RPAREN SEMI .)
     IDVAR           reduce using rule 20 (header_declaration -> INCLUDE LPAREN STRING RPAREN SEMI .)
     TIMESTIMES      reduce using rule 20 (header_declaration -> INCLUDE LPAREN STRING RPAREN SEMI .)
     AMPERSANT       reduce using rule 20 (header_declaration -> INCLUDE LPAREN STRING RPAREN SEMI .)
@@ -4900,13 +4864,13 @@ state 182
     DO              reduce using rule 20 (header_declaration -> INCLUDE LPAREN STRING RPAREN SEMI .)
     ID              reduce using rule 20 (header_declaration -> INCLUDE LPAREN STRING RPAREN SEMI .)
     ECHO            reduce using rule 20 (header_declaration -> INCLUDE LPAREN STRING RPAREN SEMI .)
+    CLOSETAG        reduce using rule 20 (header_declaration -> INCLUDE LPAREN STRING RPAREN SEMI .)
 
 
 state 183
 
     (22) class_declaration -> CLASS ID LBLOCK attribute RBLOCK .
 
-    CLOSETAG        reduce using rule 22 (class_declaration -> CLASS ID LBLOCK attribute RBLOCK .)
     IDVAR           reduce using rule 22 (class_declaration -> CLASS ID LBLOCK attribute RBLOCK .)
     TIMESTIMES      reduce using rule 22 (class_declaration -> CLASS ID LBLOCK attribute RBLOCK .)
     AMPERSANT       reduce using rule 22 (class_declaration -> CLASS ID LBLOCK attribute RBLOCK .)
@@ -4926,6 +4890,7 @@ state 183
     DO              reduce using rule 22 (class_declaration -> CLASS ID LBLOCK attribute RBLOCK .)
     ID              reduce using rule 22 (class_declaration -> CLASS ID LBLOCK attribute RBLOCK .)
     ECHO            reduce using rule 22 (class_declaration -> CLASS ID LBLOCK attribute RBLOCK .)
+    CLOSETAG        reduce using rule 22 (class_declaration -> CLASS ID LBLOCK attribute RBLOCK .)
     BREAK           reduce using rule 22 (class_declaration -> CLASS ID LBLOCK attribute RBLOCK .)
     SEMI            reduce using rule 22 (class_declaration -> CLASS ID LBLOCK attribute RBLOCK .)
     ELSE            reduce using rule 22 (class_declaration -> CLASS ID LBLOCK attribute RBLOCK .)
@@ -4997,7 +4962,6 @@ state 187
 
   ! shift/reduce conflict for ELSE resolved as shift
   ! shift/reduce conflict for ELSEIF resolved as shift
-    CLOSETAG        reduce using rule 65 (selection_stmt -> IF LPAREN expression RPAREN statement .)
     IDVAR           reduce using rule 65 (selection_stmt -> IF LPAREN expression RPAREN statement .)
     TIMESTIMES      reduce using rule 65 (selection_stmt -> IF LPAREN expression RPAREN statement .)
     AMPERSANT       reduce using rule 65 (selection_stmt -> IF LPAREN expression RPAREN statement .)
@@ -5017,6 +4981,7 @@ state 187
     DO              reduce using rule 65 (selection_stmt -> IF LPAREN expression RPAREN statement .)
     ID              reduce using rule 65 (selection_stmt -> IF LPAREN expression RPAREN statement .)
     ECHO            reduce using rule 65 (selection_stmt -> IF LPAREN expression RPAREN statement .)
+    CLOSETAG        reduce using rule 65 (selection_stmt -> IF LPAREN expression RPAREN statement .)
     BREAK           reduce using rule 65 (selection_stmt -> IF LPAREN expression RPAREN statement .)
     SEMI            reduce using rule 65 (selection_stmt -> IF LPAREN expression RPAREN statement .)
     RBLOCK          reduce using rule 65 (selection_stmt -> IF LPAREN expression RPAREN statement .)
@@ -5096,7 +5061,6 @@ state 192
 
     (69) selection_stmt -> SWITCH LPAREN var RPAREN statement .
 
-    CLOSETAG        reduce using rule 69 (selection_stmt -> SWITCH LPAREN var RPAREN statement .)
     IDVAR           reduce using rule 69 (selection_stmt -> SWITCH LPAREN var RPAREN statement .)
     TIMESTIMES      reduce using rule 69 (selection_stmt -> SWITCH LPAREN var RPAREN statement .)
     AMPERSANT       reduce using rule 69 (selection_stmt -> SWITCH LPAREN var RPAREN statement .)
@@ -5116,6 +5080,7 @@ state 192
     DO              reduce using rule 69 (selection_stmt -> SWITCH LPAREN var RPAREN statement .)
     ID              reduce using rule 69 (selection_stmt -> SWITCH LPAREN var RPAREN statement .)
     ECHO            reduce using rule 69 (selection_stmt -> SWITCH LPAREN var RPAREN statement .)
+    CLOSETAG        reduce using rule 69 (selection_stmt -> SWITCH LPAREN var RPAREN statement .)
     BREAK           reduce using rule 69 (selection_stmt -> SWITCH LPAREN var RPAREN statement .)
     SEMI            reduce using rule 69 (selection_stmt -> SWITCH LPAREN var RPAREN statement .)
     ELSE            reduce using rule 69 (selection_stmt -> SWITCH LPAREN var RPAREN statement .)
@@ -5140,7 +5105,6 @@ state 194
 
     (71) selection_stmt -> DEFAULT COLON statement BREAK SEMI .
 
-    CLOSETAG        reduce using rule 71 (selection_stmt -> DEFAULT COLON statement BREAK SEMI .)
     IDVAR           reduce using rule 71 (selection_stmt -> DEFAULT COLON statement BREAK SEMI .)
     TIMESTIMES      reduce using rule 71 (selection_stmt -> DEFAULT COLON statement BREAK SEMI .)
     AMPERSANT       reduce using rule 71 (selection_stmt -> DEFAULT COLON statement BREAK SEMI .)
@@ -5160,6 +5124,7 @@ state 194
     DO              reduce using rule 71 (selection_stmt -> DEFAULT COLON statement BREAK SEMI .)
     ID              reduce using rule 71 (selection_stmt -> DEFAULT COLON statement BREAK SEMI .)
     ECHO            reduce using rule 71 (selection_stmt -> DEFAULT COLON statement BREAK SEMI .)
+    CLOSETAG        reduce using rule 71 (selection_stmt -> DEFAULT COLON statement BREAK SEMI .)
     BREAK           reduce using rule 71 (selection_stmt -> DEFAULT COLON statement BREAK SEMI .)
     SEMI            reduce using rule 71 (selection_stmt -> DEFAULT COLON statement BREAK SEMI .)
     ELSE            reduce using rule 71 (selection_stmt -> DEFAULT COLON statement BREAK SEMI .)
@@ -5265,7 +5230,6 @@ state 197
     SEMI            reduce using rule 76 (return_stmt -> RETURN expression SEMI .)
     ELSE            reduce using rule 76 (return_stmt -> RETURN expression SEMI .)
     ELSEIF          reduce using rule 76 (return_stmt -> RETURN expression SEMI .)
-    CLOSETAG        reduce using rule 76 (return_stmt -> RETURN expression SEMI .)
     IDVAR           reduce using rule 76 (return_stmt -> RETURN expression SEMI .)
     TIMESTIMES      reduce using rule 76 (return_stmt -> RETURN expression SEMI .)
     AMPERSANT       reduce using rule 76 (return_stmt -> RETURN expression SEMI .)
@@ -5285,6 +5249,7 @@ state 197
     DO              reduce using rule 76 (return_stmt -> RETURN expression SEMI .)
     ID              reduce using rule 76 (return_stmt -> RETURN expression SEMI .)
     ECHO            reduce using rule 76 (return_stmt -> RETURN expression SEMI .)
+    CLOSETAG        reduce using rule 76 (return_stmt -> RETURN expression SEMI .)
     RBLOCK          reduce using rule 76 (return_stmt -> RETURN expression SEMI .)
     LBLOCK          reduce using rule 76 (return_stmt -> RETURN expression SEMI .)
     RETURN          reduce using rule 76 (return_stmt -> RETURN expression SEMI .)
@@ -5309,7 +5274,6 @@ state 199
 
     (73) iteration_stmt -> WHILE LPAREN expression RPAREN statement .
 
-    CLOSETAG        reduce using rule 73 (iteration_stmt -> WHILE LPAREN expression RPAREN statement .)
     IDVAR           reduce using rule 73 (iteration_stmt -> WHILE LPAREN expression RPAREN statement .)
     TIMESTIMES      reduce using rule 73 (iteration_stmt -> WHILE LPAREN expression RPAREN statement .)
     AMPERSANT       reduce using rule 73 (iteration_stmt -> WHILE LPAREN expression RPAREN statement .)
@@ -5329,6 +5293,7 @@ state 199
     DO              reduce using rule 73 (iteration_stmt -> WHILE LPAREN expression RPAREN statement .)
     ID              reduce using rule 73 (iteration_stmt -> WHILE LPAREN expression RPAREN statement .)
     ECHO            reduce using rule 73 (iteration_stmt -> WHILE LPAREN expression RPAREN statement .)
+    CLOSETAG        reduce using rule 73 (iteration_stmt -> WHILE LPAREN expression RPAREN statement .)
     BREAK           reduce using rule 73 (iteration_stmt -> WHILE LPAREN expression RPAREN statement .)
     SEMI            reduce using rule 73 (iteration_stmt -> WHILE LPAREN expression RPAREN statement .)
     ELSE            reduce using rule 73 (iteration_stmt -> WHILE LPAREN expression RPAREN statement .)
@@ -5353,7 +5318,6 @@ state 201
 
     (21) class_declaration -> area CLASS ID LBLOCK attribute RBLOCK .
 
-    CLOSETAG        reduce using rule 21 (class_declaration -> area CLASS ID LBLOCK attribute RBLOCK .)
     IDVAR           reduce using rule 21 (class_declaration -> area CLASS ID LBLOCK attribute RBLOCK .)
     TIMESTIMES      reduce using rule 21 (class_declaration -> area CLASS ID LBLOCK attribute RBLOCK .)
     AMPERSANT       reduce using rule 21 (class_declaration -> area CLASS ID LBLOCK attribute RBLOCK .)
@@ -5373,6 +5337,7 @@ state 201
     DO              reduce using rule 21 (class_declaration -> area CLASS ID LBLOCK attribute RBLOCK .)
     ID              reduce using rule 21 (class_declaration -> area CLASS ID LBLOCK attribute RBLOCK .)
     ECHO            reduce using rule 21 (class_declaration -> area CLASS ID LBLOCK attribute RBLOCK .)
+    CLOSETAG        reduce using rule 21 (class_declaration -> area CLASS ID LBLOCK attribute RBLOCK .)
     BREAK           reduce using rule 21 (class_declaration -> area CLASS ID LBLOCK attribute RBLOCK .)
     SEMI            reduce using rule 21 (class_declaration -> area CLASS ID LBLOCK attribute RBLOCK .)
     ELSE            reduce using rule 21 (class_declaration -> area CLASS ID LBLOCK attribute RBLOCK .)
@@ -5481,7 +5446,6 @@ state 205
 
     (41) var_declaration -> AMPERSANT IDVAR EQUAL IDVAR SEMI selection_stmt .
 
-    CLOSETAG        reduce using rule 41 (var_declaration -> AMPERSANT IDVAR EQUAL IDVAR SEMI selection_stmt .)
     IDVAR           reduce using rule 41 (var_declaration -> AMPERSANT IDVAR EQUAL IDVAR SEMI selection_stmt .)
     TIMESTIMES      reduce using rule 41 (var_declaration -> AMPERSANT IDVAR EQUAL IDVAR SEMI selection_stmt .)
     AMPERSANT       reduce using rule 41 (var_declaration -> AMPERSANT IDVAR EQUAL IDVAR SEMI selection_stmt .)
@@ -5501,6 +5465,7 @@ state 205
     DO              reduce using rule 41 (var_declaration -> AMPERSANT IDVAR EQUAL IDVAR SEMI selection_stmt .)
     ID              reduce using rule 41 (var_declaration -> AMPERSANT IDVAR EQUAL IDVAR SEMI selection_stmt .)
     ECHO            reduce using rule 41 (var_declaration -> AMPERSANT IDVAR EQUAL IDVAR SEMI selection_stmt .)
+    CLOSETAG        reduce using rule 41 (var_declaration -> AMPERSANT IDVAR EQUAL IDVAR SEMI selection_stmt .)
     SEMI            reduce using rule 41 (var_declaration -> AMPERSANT IDVAR EQUAL IDVAR SEMI selection_stmt .)
     RBLOCK          reduce using rule 41 (var_declaration -> AMPERSANT IDVAR EQUAL IDVAR SEMI selection_stmt .)
     LBLOCK          reduce using rule 41 (var_declaration -> AMPERSANT IDVAR EQUAL IDVAR SEMI selection_stmt .)
@@ -5515,7 +5480,6 @@ state 206
 
     (45) fun_declaration -> FUNCTION ID LPAREN params RPAREN compount_stmt .
 
-    CLOSETAG        reduce using rule 45 (fun_declaration -> FUNCTION ID LPAREN params RPAREN compount_stmt .)
     IDVAR           reduce using rule 45 (fun_declaration -> FUNCTION ID LPAREN params RPAREN compount_stmt .)
     TIMESTIMES      reduce using rule 45 (fun_declaration -> FUNCTION ID LPAREN params RPAREN compount_stmt .)
     AMPERSANT       reduce using rule 45 (fun_declaration -> FUNCTION ID LPAREN params RPAREN compount_stmt .)
@@ -5535,6 +5499,7 @@ state 206
     DO              reduce using rule 45 (fun_declaration -> FUNCTION ID LPAREN params RPAREN compount_stmt .)
     ID              reduce using rule 45 (fun_declaration -> FUNCTION ID LPAREN params RPAREN compount_stmt .)
     ECHO            reduce using rule 45 (fun_declaration -> FUNCTION ID LPAREN params RPAREN compount_stmt .)
+    CLOSETAG        reduce using rule 45 (fun_declaration -> FUNCTION ID LPAREN params RPAREN compount_stmt .)
     SEMI            reduce using rule 45 (fun_declaration -> FUNCTION ID LPAREN params RPAREN compount_stmt .)
     RBLOCK          reduce using rule 45 (fun_declaration -> FUNCTION ID LPAREN params RPAREN compount_stmt .)
 
@@ -5617,7 +5582,6 @@ state 210
 
     (115) typeclass -> ID IDVAR EQUAL NEW constructor SEMI .
 
-    CLOSETAG        reduce using rule 115 (typeclass -> ID IDVAR EQUAL NEW constructor SEMI .)
     IDVAR           reduce using rule 115 (typeclass -> ID IDVAR EQUAL NEW constructor SEMI .)
     TIMESTIMES      reduce using rule 115 (typeclass -> ID IDVAR EQUAL NEW constructor SEMI .)
     AMPERSANT       reduce using rule 115 (typeclass -> ID IDVAR EQUAL NEW constructor SEMI .)
@@ -5637,6 +5601,7 @@ state 210
     DO              reduce using rule 115 (typeclass -> ID IDVAR EQUAL NEW constructor SEMI .)
     ID              reduce using rule 115 (typeclass -> ID IDVAR EQUAL NEW constructor SEMI .)
     ECHO            reduce using rule 115 (typeclass -> ID IDVAR EQUAL NEW constructor SEMI .)
+    CLOSETAG        reduce using rule 115 (typeclass -> ID IDVAR EQUAL NEW constructor SEMI .)
 
 
 state 211
@@ -5663,7 +5628,6 @@ state 213
 
     (66) selection_stmt -> IF LPAREN expression RPAREN statement selection .
 
-    CLOSETAG        reduce using rule 66 (selection_stmt -> IF LPAREN expression RPAREN statement selection .)
     IDVAR           reduce using rule 66 (selection_stmt -> IF LPAREN expression RPAREN statement selection .)
     TIMESTIMES      reduce using rule 66 (selection_stmt -> IF LPAREN expression RPAREN statement selection .)
     AMPERSANT       reduce using rule 66 (selection_stmt -> IF LPAREN expression RPAREN statement selection .)
@@ -5683,6 +5647,7 @@ state 213
     DO              reduce using rule 66 (selection_stmt -> IF LPAREN expression RPAREN statement selection .)
     ID              reduce using rule 66 (selection_stmt -> IF LPAREN expression RPAREN statement selection .)
     ECHO            reduce using rule 66 (selection_stmt -> IF LPAREN expression RPAREN statement selection .)
+    CLOSETAG        reduce using rule 66 (selection_stmt -> IF LPAREN expression RPAREN statement selection .)
     BREAK           reduce using rule 66 (selection_stmt -> IF LPAREN expression RPAREN statement selection .)
     SEMI            reduce using rule 66 (selection_stmt -> IF LPAREN expression RPAREN statement selection .)
     ELSE            reduce using rule 66 (selection_stmt -> IF LPAREN expression RPAREN statement selection .)
@@ -5787,13 +5752,13 @@ state 214
     ECHO            reduce using rule 118 (empty -> .)
     ELSE            reduce using rule 118 (empty -> .)
     ELSEIF          reduce using rule 118 (empty -> .)
-    CLOSETAG        reduce using rule 118 (empty -> .)
     TIMESTIMES      reduce using rule 118 (empty -> .)
     AMPERSANT       reduce using rule 118 (empty -> .)
     FUNCTION        reduce using rule 118 (empty -> .)
     REQUIRE         reduce using rule 118 (empty -> .)
     INCLUDE         reduce using rule 118 (empty -> .)
     ID              reduce using rule 118 (empty -> .)
+    CLOSETAG        reduce using rule 118 (empty -> .)
     BREAK           reduce using rule 118 (empty -> .)
     SEMI            reduce using rule 118 (empty -> .)
     RBLOCK          reduce using rule 118 (empty -> .)
@@ -5953,7 +5918,6 @@ state 217
 
     (70) selection_stmt -> CASE NUM COLON statement BREAK SEMI .
 
-    CLOSETAG        reduce using rule 70 (selection_stmt -> CASE NUM COLON statement BREAK SEMI .)
     IDVAR           reduce using rule 70 (selection_stmt -> CASE NUM COLON statement BREAK SEMI .)
     TIMESTIMES      reduce using rule 70 (selection_stmt -> CASE NUM COLON statement BREAK SEMI .)
     AMPERSANT       reduce using rule 70 (selection_stmt -> CASE NUM COLON statement BREAK SEMI .)
@@ -5973,6 +5937,7 @@ state 217
     DO              reduce using rule 70 (selection_stmt -> CASE NUM COLON statement BREAK SEMI .)
     ID              reduce using rule 70 (selection_stmt -> CASE NUM COLON statement BREAK SEMI .)
     ECHO            reduce using rule 70 (selection_stmt -> CASE NUM COLON statement BREAK SEMI .)
+    CLOSETAG        reduce using rule 70 (selection_stmt -> CASE NUM COLON statement BREAK SEMI .)
     BREAK           reduce using rule 70 (selection_stmt -> CASE NUM COLON statement BREAK SEMI .)
     SEMI            reduce using rule 70 (selection_stmt -> CASE NUM COLON statement BREAK SEMI .)
     ELSE            reduce using rule 70 (selection_stmt -> CASE NUM COLON statement BREAK SEMI .)
@@ -6123,7 +6088,6 @@ state 225
 
     ELSE            reduce using rule 67 (selection -> ELSE statement .)
     ELSEIF          reduce using rule 67 (selection -> ELSE statement .)
-    CLOSETAG        reduce using rule 67 (selection -> ELSE statement .)
     IDVAR           reduce using rule 67 (selection -> ELSE statement .)
     TIMESTIMES      reduce using rule 67 (selection -> ELSE statement .)
     AMPERSANT       reduce using rule 67 (selection -> ELSE statement .)
@@ -6143,6 +6107,7 @@ state 225
     DO              reduce using rule 67 (selection -> ELSE statement .)
     ID              reduce using rule 67 (selection -> ELSE statement .)
     ECHO            reduce using rule 67 (selection -> ELSE statement .)
+    CLOSETAG        reduce using rule 67 (selection -> ELSE statement .)
     BREAK           reduce using rule 67 (selection -> ELSE statement .)
     SEMI            reduce using rule 67 (selection -> ELSE statement .)
     RBLOCK          reduce using rule 67 (selection -> ELSE statement .)
@@ -6391,7 +6356,6 @@ state 232
 
     ELSE            reduce using rule 68 (selection -> ELSEIF statement selection .)
     ELSEIF          reduce using rule 68 (selection -> ELSEIF statement selection .)
-    CLOSETAG        reduce using rule 68 (selection -> ELSEIF statement selection .)
     IDVAR           reduce using rule 68 (selection -> ELSEIF statement selection .)
     TIMESTIMES      reduce using rule 68 (selection -> ELSEIF statement selection .)
     AMPERSANT       reduce using rule 68 (selection -> ELSEIF statement selection .)
@@ -6411,6 +6375,7 @@ state 232
     DO              reduce using rule 68 (selection -> ELSEIF statement selection .)
     ID              reduce using rule 68 (selection -> ELSEIF statement selection .)
     ECHO            reduce using rule 68 (selection -> ELSEIF statement selection .)
+    CLOSETAG        reduce using rule 68 (selection -> ELSEIF statement selection .)
     BREAK           reduce using rule 68 (selection -> ELSEIF statement selection .)
     SEMI            reduce using rule 68 (selection -> ELSEIF statement selection .)
     RBLOCK          reduce using rule 68 (selection -> ELSEIF statement selection .)
@@ -6576,13 +6541,13 @@ state 235
     ECHO            reduce using rule 118 (empty -> .)
     ELSE            reduce using rule 118 (empty -> .)
     ELSEIF          reduce using rule 118 (empty -> .)
-    CLOSETAG        reduce using rule 118 (empty -> .)
     TIMESTIMES      reduce using rule 118 (empty -> .)
     AMPERSANT       reduce using rule 118 (empty -> .)
     FUNCTION        reduce using rule 118 (empty -> .)
     REQUIRE         reduce using rule 118 (empty -> .)
     INCLUDE         reduce using rule 118 (empty -> .)
     ID              reduce using rule 118 (empty -> .)
+    CLOSETAG        reduce using rule 118 (empty -> .)
     BREAK           reduce using rule 118 (empty -> .)
     SEMI            reduce using rule 118 (empty -> .)
     RBLOCK          reduce using rule 118 (empty -> .)
@@ -6648,7 +6613,6 @@ state 237
     SEMI            reduce using rule 52 (compount_stmt -> LBLOCK echo_stmt local_declarations echo_stmt statement_list echo_stmt RBLOCK .)
     ELSE            reduce using rule 52 (compount_stmt -> LBLOCK echo_stmt local_declarations echo_stmt statement_list echo_stmt RBLOCK .)
     ELSEIF          reduce using rule 52 (compount_stmt -> LBLOCK echo_stmt local_declarations echo_stmt statement_list echo_stmt RBLOCK .)
-    CLOSETAG        reduce using rule 52 (compount_stmt -> LBLOCK echo_stmt local_declarations echo_stmt statement_list echo_stmt RBLOCK .)
     IDVAR           reduce using rule 52 (compount_stmt -> LBLOCK echo_stmt local_declarations echo_stmt statement_list echo_stmt RBLOCK .)
     TIMESTIMES      reduce using rule 52 (compount_stmt -> LBLOCK echo_stmt local_declarations echo_stmt statement_list echo_stmt RBLOCK .)
     AMPERSANT       reduce using rule 52 (compount_stmt -> LBLOCK echo_stmt local_declarations echo_stmt statement_list echo_stmt RBLOCK .)
@@ -6668,6 +6632,7 @@ state 237
     DO              reduce using rule 52 (compount_stmt -> LBLOCK echo_stmt local_declarations echo_stmt statement_list echo_stmt RBLOCK .)
     ID              reduce using rule 52 (compount_stmt -> LBLOCK echo_stmt local_declarations echo_stmt statement_list echo_stmt RBLOCK .)
     ECHO            reduce using rule 52 (compount_stmt -> LBLOCK echo_stmt local_declarations echo_stmt statement_list echo_stmt RBLOCK .)
+    CLOSETAG        reduce using rule 52 (compount_stmt -> LBLOCK echo_stmt local_declarations echo_stmt statement_list echo_stmt RBLOCK .)
     RBLOCK          reduce using rule 52 (compount_stmt -> LBLOCK echo_stmt local_declarations echo_stmt statement_list echo_stmt RBLOCK .)
     LBLOCK          reduce using rule 52 (compount_stmt -> LBLOCK echo_stmt local_declarations echo_stmt statement_list echo_stmt RBLOCK .)
     RETURN          reduce using rule 52 (compount_stmt -> LBLOCK echo_stmt local_declarations echo_stmt statement_list echo_stmt RBLOCK .)
@@ -6681,7 +6646,6 @@ state 238
 
     (72) iteration_stmt -> FOR LPAREN var_declaration SEMI expression SEMI additive_expression RPAREN statement .
 
-    CLOSETAG        reduce using rule 72 (iteration_stmt -> FOR LPAREN var_declaration SEMI expression SEMI additive_expression RPAREN statement .)
     IDVAR           reduce using rule 72 (iteration_stmt -> FOR LPAREN var_declaration SEMI expression SEMI additive_expression RPAREN statement .)
     TIMESTIMES      reduce using rule 72 (iteration_stmt -> FOR LPAREN var_declaration SEMI expression SEMI additive_expression RPAREN statement .)
     AMPERSANT       reduce using rule 72 (iteration_stmt -> FOR LPAREN var_declaration SEMI expression SEMI additive_expression RPAREN statement .)
@@ -6701,6 +6665,7 @@ state 238
     DO              reduce using rule 72 (iteration_stmt -> FOR LPAREN var_declaration SEMI expression SEMI additive_expression RPAREN statement .)
     ID              reduce using rule 72 (iteration_stmt -> FOR LPAREN var_declaration SEMI expression SEMI additive_expression RPAREN statement .)
     ECHO            reduce using rule 72 (iteration_stmt -> FOR LPAREN var_declaration SEMI expression SEMI additive_expression RPAREN statement .)
+    CLOSETAG        reduce using rule 72 (iteration_stmt -> FOR LPAREN var_declaration SEMI expression SEMI additive_expression RPAREN statement .)
     BREAK           reduce using rule 72 (iteration_stmt -> FOR LPAREN var_declaration SEMI expression SEMI additive_expression RPAREN statement .)
     SEMI            reduce using rule 72 (iteration_stmt -> FOR LPAREN var_declaration SEMI expression SEMI additive_expression RPAREN statement .)
     ELSE            reduce using rule 72 (iteration_stmt -> FOR LPAREN var_declaration SEMI expression SEMI additive_expression RPAREN statement .)
@@ -6718,7 +6683,6 @@ state 239
 
     (74) iteration_stmt -> DO LBLOCK statement SEMI RBLOCK WHILE LPAREN expression RPAREN .
 
-    CLOSETAG        reduce using rule 74 (iteration_stmt -> DO LBLOCK statement SEMI RBLOCK WHILE LPAREN expression RPAREN .)
     IDVAR           reduce using rule 74 (iteration_stmt -> DO LBLOCK statement SEMI RBLOCK WHILE LPAREN expression RPAREN .)
     TIMESTIMES      reduce using rule 74 (iteration_stmt -> DO LBLOCK statement SEMI RBLOCK WHILE LPAREN expression RPAREN .)
     AMPERSANT       reduce using rule 74 (iteration_stmt -> DO LBLOCK statement SEMI RBLOCK WHILE LPAREN expression RPAREN .)
@@ -6738,6 +6702,7 @@ state 239
     DO              reduce using rule 74 (iteration_stmt -> DO LBLOCK statement SEMI RBLOCK WHILE LPAREN expression RPAREN .)
     ID              reduce using rule 74 (iteration_stmt -> DO LBLOCK statement SEMI RBLOCK WHILE LPAREN expression RPAREN .)
     ECHO            reduce using rule 74 (iteration_stmt -> DO LBLOCK statement SEMI RBLOCK WHILE LPAREN expression RPAREN .)
+    CLOSETAG        reduce using rule 74 (iteration_stmt -> DO LBLOCK statement SEMI RBLOCK WHILE LPAREN expression RPAREN .)
     BREAK           reduce using rule 74 (iteration_stmt -> DO LBLOCK statement SEMI RBLOCK WHILE LPAREN expression RPAREN .)
     SEMI            reduce using rule 74 (iteration_stmt -> DO LBLOCK statement SEMI RBLOCK WHILE LPAREN expression RPAREN .)
     ELSE            reduce using rule 74 (iteration_stmt -> DO LBLOCK statement SEMI RBLOCK WHILE LPAREN expression RPAREN .)
@@ -6771,25 +6736,24 @@ WARNING: shift/reduce conflict for FOR in state 2 resolved as shift
 WARNING: shift/reduce conflict for WHILE in state 2 resolved as shift
 WARNING: shift/reduce conflict for DO in state 2 resolved as shift
 WARNING: shift/reduce conflict for ID in state 2 resolved as shift
-WARNING: shift/reduce conflict for CLOSETAG in state 3 resolved as shift
-WARNING: shift/reduce conflict for IDVAR in state 3 resolved as shift
-WARNING: shift/reduce conflict for TIMESTIMES in state 3 resolved as shift
-WARNING: shift/reduce conflict for AMPERSANT in state 3 resolved as shift
-WARNING: shift/reduce conflict for FUNCTION in state 3 resolved as shift
-WARNING: shift/reduce conflict for PRIVATE in state 3 resolved as shift
-WARNING: shift/reduce conflict for PUBLIC in state 3 resolved as shift
-WARNING: shift/reduce conflict for PROTECTED in state 3 resolved as shift
-WARNING: shift/reduce conflict for REQUIRE in state 3 resolved as shift
-WARNING: shift/reduce conflict for INCLUDE in state 3 resolved as shift
-WARNING: shift/reduce conflict for CLASS in state 3 resolved as shift
-WARNING: shift/reduce conflict for IF in state 3 resolved as shift
-WARNING: shift/reduce conflict for SWITCH in state 3 resolved as shift
-WARNING: shift/reduce conflict for CASE in state 3 resolved as shift
-WARNING: shift/reduce conflict for DEFAULT in state 3 resolved as shift
-WARNING: shift/reduce conflict for FOR in state 3 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 3 resolved as shift
-WARNING: shift/reduce conflict for DO in state 3 resolved as shift
-WARNING: shift/reduce conflict for ID in state 3 resolved as shift
+WARNING: shift/reduce conflict for IDVAR in state 4 resolved as shift
+WARNING: shift/reduce conflict for TIMESTIMES in state 4 resolved as shift
+WARNING: shift/reduce conflict for AMPERSANT in state 4 resolved as shift
+WARNING: shift/reduce conflict for FUNCTION in state 4 resolved as shift
+WARNING: shift/reduce conflict for PRIVATE in state 4 resolved as shift
+WARNING: shift/reduce conflict for PUBLIC in state 4 resolved as shift
+WARNING: shift/reduce conflict for PROTECTED in state 4 resolved as shift
+WARNING: shift/reduce conflict for REQUIRE in state 4 resolved as shift
+WARNING: shift/reduce conflict for INCLUDE in state 4 resolved as shift
+WARNING: shift/reduce conflict for CLASS in state 4 resolved as shift
+WARNING: shift/reduce conflict for IF in state 4 resolved as shift
+WARNING: shift/reduce conflict for SWITCH in state 4 resolved as shift
+WARNING: shift/reduce conflict for CASE in state 4 resolved as shift
+WARNING: shift/reduce conflict for DEFAULT in state 4 resolved as shift
+WARNING: shift/reduce conflict for FOR in state 4 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 4 resolved as shift
+WARNING: shift/reduce conflict for DO in state 4 resolved as shift
+WARNING: shift/reduce conflict for ID in state 4 resolved as shift
 WARNING: shift/reduce conflict for ECHO in state 10 resolved as shift
 WARNING: shift/reduce conflict for SEMI in state 63 resolved as shift
 WARNING: shift/reduce conflict for SEMI in state 64 resolved as shift
@@ -6911,3 +6875,5 @@ WARNING: shift/reduce conflict for LPAREN in state 235 resolved as shift
 WARNING: shift/reduce conflict for NUM in state 235 resolved as shift
 WARNING: shift/reduce conflict for TRUE in state 235 resolved as shift
 WARNING: shift/reduce conflict for FALSE in state 235 resolved as shift
+WARNING: reduce/reduce conflict in state 4 resolved using rule (declaration_list -> declaration)
+WARNING: rejected rule (empty -> <empty>) in state 4
