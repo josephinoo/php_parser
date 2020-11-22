@@ -353,7 +353,7 @@ parser = yacc.yacc()
 
 if __name__ == '__main__':
     if (len(sys.argv) > 0):
-        script = "test1.txt"
+        script = sys.argv[1]
 
         scriptfile = open(script, 'r')
         scriptdata = scriptfile.read()
