@@ -262,6 +262,8 @@ def t_ARROW(t):
     r'\->\b'
     return t
 
+def get_lexer():
+    return lex.lex()
 lexer = lex.lex()
 
 if __name__ == '__main__':

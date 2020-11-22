@@ -1,4 +1,3 @@
-
 <?php
 require('somefile.php');
 $variable;
@@ -9,7 +8,7 @@ $booleano = true;
 echo "esto es un print, se muestra en pantalla";
 echo $verb;
 
-if($a < 20){
+if($a = 20){
   $v1 = 1;
   echo $v1;
   $suma = $v2 + $v3;
