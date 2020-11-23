@@ -96,18 +96,32 @@ def p_var_declaration(p):
                    | IDVAR SEMI
                    | TIMESTIMES IDVAR SEMI
                    | TIMESTIMES IDVAR SEMI var_declaration
-                   | IDVAR EQUAL NUM SEMI var_declaration
-                   | IDVAR EQUAL NUM SEMI
-                   | IDVAR EQUAL boolean SEMI var_declaration
-                   | IDVAR EQUAL boolean SEMI
-                   | IDVAR EQUAL IDVAR SEMI var_declaration
-                   | IDVAR EQUAL IDVAR SEMI
+                   | IDVAR IGUAL NUM SEMI var_declaration
+                   | IDVAR IGUAL NUM SEMI
+                   | IDVAR IGUAL STRING SEMI var_declaration
+                   | IDVAR IGUAL STRING SEMI
+                   | IDVAR IGUAL boolean SEMI var_declaration
+                   | IDVAR IGUAL boolean SEMI
+                   | IDVAR IGUAL IDVAR SEMI var_declaration
+                   | IDVAR IGUAL IDVAR SEMI
                    | AMPERSANT IDVAR SEMI var_declaration
-                   | AMPERSANT IDVAR EQUAL IDVAR SEMI  selection_stmt
+                   | AMPERSANT IDVAR IGUAL IDVAR SEMI  selection_stmt
                    | AMPERSANT IDVAR SEMI
-                   | IDVAR EQUAL simple_expression SEMI
+                   | IDVAR IGUAL simple_expression SEMI
     '''
     pass
+def p_IGUAL(p):
+    ''' IGUAL : EQUAL
+                | MUL_EQUAL
+                | DIV_EQUAL
+                | CONCAT_EQUAL
+                | MOD_EQUAL
+                | PLUS_EQUAL
+                | MINUS_EQUAL
+    '''
+    pass
+
+
 
 
 def p_fun_declaration(p):
@@ -191,6 +205,7 @@ def p_selection(p):
 def p_selection_stmt_2(p):
     '''selection_stmt : SWITCH LPAREN var RPAREN statement
                                       | CASE NUM COLON statement BREAK SEMI
+                                       | CASE STRING COLON statement BREAK SEMI
                                       | DEFAULT COLON statement BREAK SEMI
     '''
     pass
@@ -228,6 +243,8 @@ def p_expression(p):
     pass
 
 
+
+
 def p_var(p):
     '''var : IDVAR
                | IDVAR LBRACKET expression RBRACKET
@@ -250,6 +267,15 @@ def p_relop(p):
                      | DEQUAL
                      | DISTINT
                      | ISEQUAL
+                     | IS_IDENTICAL
+                     | IS_NOT_IDENTICAL
+                     | SR_EQUAL
+                     | SL_EQUAL
+                     | AND_EQUAL
+                     | OR_EQUAL
+                     | XOR_EQUAL
+                     | CONCAT_EQUAL
+                     
     '''
     pass
 
@@ -288,6 +314,7 @@ def p_factor(p):
     '''factor : LPAREN expression RPAREN
                       | var
                       | NUM
+                      | STRING
                       | boolean
                       | IDVAR LPAREN args RPAREN
     '''

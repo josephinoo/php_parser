@@ -83,7 +83,7 @@ tokens = [
     'TIMESTIMES', 'DIVIDE', 'LESS', 'LESSEQUAL', 'GREATER', 'GREATEREQUAL', 'EQUAL',
     'DEQUAL', 'DISTINT', 'ISEQUAL', 'SEMI', 'COMMA', 'LPAREN', 'RPAREN', 'LBRACKET',
     'RBRACKET', 'LBLOCK', 'RBLOCK', 'COLON', 'AMPERSANT', 'HASHTAG', 'DOT', 'QUOTES',
-    'APOSTROPHE', 'DOT_DOT','CADENA'
+    'APOSTROPHE', 'DOT_DOT',
 
              'IS_IDENTICAL', 'IS_NOT_IDENTICAL',
    
@@ -98,7 +98,7 @@ tokens = [
     "AND","OR",
     
     # others
-    'COMMENTS', 'COMMENTS_C99', 'ID', 'IDVAR', 'NUM', 'STRING', 'VOID','ARROW', 'CADENA'
+    'COMMENTS', 'COMMENTS_C99', 'ID', 'IDVAR', 'NUM', 'STRING', 'VOID','ARROW'
 ]+ list(reserved.values())
 
 
@@ -139,7 +139,7 @@ def t_CLOSETAG(t):
     return t
 
 
-t_CADENA = r'\'[a-zA-Z0-9\s]*\''
+
 t_PLUS = r'\+'
 t_MINUS = r'-'
 t_TIMES = r'\*'
@@ -175,33 +175,16 @@ t_AND_EQUAL  = r'&='
 t_OR_EQUAL = r'\|='
 t_XOR_EQUAL = r'\^='
 t_CONCAT_EQUAL = r'\.='
-
-
+t_LESSEQUAL = r'<='
+t_IS_NOT_IDENTICAL = r'!=='
+t_IS_IDENTICAL = r"==="
 t_ISEQUAL = r'=='
-
-def t_LESSEQUAL(t):
-    r'<='
-    return t
-
-
-def t_GREATEREQUAL(t):
-    r'>='
-    return t
-
-
-def t_DEQUAL(t):
-    r'(!=(?!=))|(<>)'
-    return t
+t_GREATEREQUAL = r'>='
+t_DEQUAL =  r'(!=(?!=))|(<>)'
 
 
 
-def t_IS_IDENTICAL(t):
-    r'==='
-    return t
 
-def t_IS_NOT_IDENTICAL(t):
-    r'!=='
-    return t
 
 
 def t_MINUSMINUS(t):
