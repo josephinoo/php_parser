@@ -161,7 +161,9 @@ def p_var_declaration(p):
     '''
     pass
 
-
+#Angel Jumbo variable de asignacion
+#$a
+#$a->b
 def p_assing_var(p):
     '''assing_var : var
                     | var ARROW ID
@@ -182,14 +184,14 @@ def p_IGUAL(p):
     '''
     pass
 
-
+# Angel Jumbo declaracion de funciones
 def p_fun_declaration(p):
     '''fun_declaration : FUNCTION ID LPAREN params RPAREN
                                        | FUNCTION ID LPAREN params RPAREN compount_stmt
     '''
     pass
 
-
+# Angel Jumbo llamado de funciones
 def p_fun_call(p):
     '''fun_call : ID LPAREN params RPAREN
                     | assing_var LPAREN params RPAREN'''
@@ -252,7 +254,7 @@ def p_expression_stmt(p):
     'expression_stmt : expression SEMI'
     pass
 
-
+#Angel Jumbo estructuras de control
 def p_selection_stmt_1(p):
     '''selection_stmt : IF LPAREN expression RPAREN statement
                                       | IF LPAREN expression RPAREN statement selection
@@ -414,7 +416,7 @@ def p_boolean(p):
     '''
     pass
 
-
+# Angel Jumbo creacion de clases
 def p_tclass(p):
     '''typeclass : ID IDVAR EQUAL NEW constructor SEMI
                 | IDVAR EQUAL NEW constructor SEMI '''
@@ -463,7 +465,7 @@ if __name__ == '__main__':
         print(chr(27)+"[0;36m"+"INICIA ANALISIS SINTACTICO"+chr(27)+"[0m")
         result = parser.parse(scriptdata)
         print(result)
-        # print("Hola bebe, no tienes errores sintacticos")
+        print("Hola bebe, no tienes errores sintacticos")
         print(chr(27)+"[0;36m"+"TERMINA ANALISIS SINTACTICO"+chr(27)+"[0m")
 
     else:
