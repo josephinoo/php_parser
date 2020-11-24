@@ -3,7 +3,7 @@ import ply.yacc as yacc
 import php_lexico
 
 VERBOSE = 1
-
+# Joseph Avila precedencias https://www.dabeaz.com/ply/ply.html 6.6
 precedence = (
     ('left', 'INCLUDE', 'REQUIRE'),
     ('left', 'COMMA'),
@@ -22,10 +22,14 @@ precedence = (
     ('right', 'PRIVATE', 'PROTECTED', 'PUBLIC'),
 )
 
+# Joseph Avila para el open tad y close tag de php
+
 
 def p_program(p):
     'program : OPENTAG declaration_list CLOSETAG'
     pass
+
+# Joseph Avila, toda lista de declaraciones que puede tener
 
 
 def p_declaration_list(p):
@@ -33,6 +37,8 @@ def p_declaration_list(p):
                             | declaration declaration_list
     '''
     pass
+
+# Joseph Avila para la declaracion de variables
 
 
 def p_declaration(p):
@@ -43,25 +49,46 @@ def p_declaration(p):
                                | class_declaration
                                | echo_stmt
                                | selection_stmt
-                           | iteration_stmt
+                                | iteration_stmt
                                | typeclass
     '''
     pass
+
 
 def p_expression(p):
 
     pass
 
+# Joseph avila para echo , puede estar vacio o no
+
 
 def p_echo_stmt(p):
-    '''echo_stmt : echo_stmt ECHO STRING SEMI
-                             | echo_stmt ECHO IDVAR SEMI
+    '''echo_stmt : echo_stmt ECHO echo_params SEMI
                              | empty
-                             | echo_stmt ECHO NUM SEMI
-                             | echo_stmt ECHO boolean SEMI
-                             | echo_stmt ECHO fun_declaration SEMI
     '''
     pass
+
+# Joseph Avila , parametros que puede tener la opcion de print en php
+
+
+def p_echo_params(p):
+    '''echo_params : echo_param
+                    | echo_param DOT echo_params'''
+
+# Joseph Avila que parametros soporta echo
+
+
+def p_echo_param(p):
+    '''echo_param : STRING
+                    | IDVAR
+                    | NUM
+                    | boolean
+                    | fun_declaration
+                    | fun_call
+                    '''
+    pass
+
+# Joseph Avila declarcion delos headers
 
 
 def p_header_declaration(p):
@@ -70,6 +97,8 @@ def p_header_declaration(p):
 '''
     pass
 
+# Joseph Avila para declarar clases en php
+
 
 def p_class_declaration(p):
     '''class_declaration : area CLASS ID LBLOCK attributes RBLOCK
@@ -77,11 +106,17 @@ def p_class_declaration(p):
     '''
     pass
 
+# Joseph Avila atributos
+
+
 def p_attributes(p):
     '''attributes : attribute
                     | attribute attributes
     '''
     pass
+
+# Joseph Avila lista de atributos
+
 
 def p_attribute1(p):
     '''attribute : attribute area var_declaration
@@ -92,6 +127,8 @@ def p_attribute1(p):
     '''
     pass
 
+# Joseph Avila el are en php, puede ser INCLUDE PRIVATE OR PROTECTE, puede ser para clases o funciones
+
 
 def p_area(p):
     '''area : PRIVATE
@@ -99,6 +136,8 @@ def p_area(p):
                     | PROTECTED
     '''
     pass
+
+# Joseph Avila para la declaracion de variables
 
 
 def p_var_declaration(p):
@@ -118,14 +157,19 @@ def p_var_declaration(p):
                    | AMPERSANT IDVAR IGUAL IDVAR SEMI  selection_stmt
                    | AMPERSANT IDVAR SEMI
                    | assing_var IGUAL simple_expression SEMI
+                   | fun_call SEMI
     '''
     pass
+
 
 def p_assing_var(p):
     '''assing_var : var
                     | var ARROW ID
     '''
     pass
+
+# Joseph Avila PARA IGUAL
+
 
 def p_IGUAL(p):
     ''' IGUAL : EQUAL
@@ -139,13 +183,16 @@ def p_IGUAL(p):
     pass
 
 
-
-
 def p_fun_declaration(p):
     '''fun_declaration : FUNCTION ID LPAREN params RPAREN
                                        | FUNCTION ID LPAREN params RPAREN compount_stmt
     '''
     pass
+
+
+def p_fun_call(p):
+    '''fun_call : ID LPAREN params RPAREN
+                    | assing_var LPAREN params RPAREN'''
 
 
 def p_params(p):
@@ -156,8 +203,8 @@ def p_params(p):
 
 
 def p_param_list(p):
-    '''param_list : param_list COMMA param_list
-                              | param
+    '''param_list : param
+                    | param COMMA param_list
     '''
     pass
 
@@ -165,6 +212,7 @@ def p_param_list(p):
 def p_param(p):
     '''param : IDVAR
          | IDVAR LBRACKET RBRACKET
+         | term
 '''
     pass
 
@@ -229,7 +277,7 @@ def p_selection_stmt_2(p):
 
 
 def p_iteration_stmt_1(p):
-    'iteration_stmt : FOR LPAREN var_declaration SEMI expression SEMI additive_expression RPAREN statement '
+    'iteration_stmt : FOR LPAREN var_declaration expression SEMI additive_expression RPAREN statement '
     pass
 
 
@@ -257,8 +305,10 @@ def p_expression(p):
                           | expression AND expression
                               | expression OR expression
                               | assing_var
+                              | fun_call
     '''
     pass
+
 
 def p_var(p):
     '''var : IDVAR
@@ -290,7 +340,7 @@ def p_relop(p):
                      | OR_EQUAL
                      | XOR_EQUAL
                      | CONCAT_EQUAL
-                     
+
     '''
     pass
 
@@ -300,6 +350,7 @@ def p_additive_expression(p):
                                        | term
                                        | term MINUSMINUS
                                    | term PLUSPLUS
+                                   | fun_call
     '''
     pass
 
@@ -324,6 +375,8 @@ def p_mulop(p):
     '''
     pass
 
+# Joseph Avila , para factores , cuando se enceuntre en tres (factor)
+
 
 def p_factor(p):
     '''factor : LPAREN expression RPAREN
@@ -334,6 +387,8 @@ def p_factor(p):
                       | IDVAR LPAREN args RPAREN
     '''
     pass
+
+# Joseph Avila para los arguementos
 
 
 def p_args(p):
@@ -359,7 +414,8 @@ def p_boolean(p):
 
 
 def p_tclass(p):
-    'typeclass : ID IDVAR EQUAL NEW constructor SEMI'
+    '''typeclass : ID IDVAR EQUAL NEW constructor SEMI
+                | IDVAR EQUAL NEW constructor SEMI '''
     pass
 
 
@@ -388,11 +444,12 @@ def p_error(p):
     else:
         raise Exception('syntax', 'error')
 
-tokens=php_lexico.tokens
+
+tokens = php_lexico.tokens
 
 lexer = php_lexico.get_lexer()
 parser = yacc.yacc()
-
+# Joseph el parser, con argumentos
 if __name__ == '__main__':
     if (len(sys.argv) > 0):
         script = sys.argv[1]
@@ -401,9 +458,9 @@ if __name__ == '__main__':
         scriptdata = scriptfile.read()
 
         print(chr(27)+"[0;36m"+"INICIA ANALISIS SINTACTICO"+chr(27)+"[0m")
-        result  = parser.parse(scriptdata)
+        result = parser.parse(scriptdata)
         print(result)
-        print("Hola bebe, no tienes errores sintacticos")
+        # print("Hola bebe, no tienes errores sintacticos")
         print(chr(27)+"[0;36m"+"TERMINA ANALISIS SINTACTICO"+chr(27)+"[0m")
 
     else:
