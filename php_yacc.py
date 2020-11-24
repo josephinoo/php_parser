@@ -291,6 +291,7 @@ def p_iteration_stmt_3(p):
     pass
 
 
+# DANIEL SANCHEZ PARA COMPARACION RETUN
 def p_return_stmt(p):
     '''return_stmt : RETURN SEMI
                                | RETURN expression SEMI
@@ -323,6 +324,7 @@ def p_simple_expression(p):
     '''
     pass
 
+# DANIEL SANCHEZ PARA COMPARACION
 
 def p_relop(p):
     '''relop : LESS
@@ -344,7 +346,7 @@ def p_relop(p):
     '''
     pass
 
-
+# DANIEL SANCHEZ PARA EXPRESIONES ADITIVAS
 def p_additive_expression(p):
     '''additive_expression : additive_expression addop term
                                        | term
@@ -405,7 +407,7 @@ def p_args_list(p):
     '''
     pass
 
-
+# DANIEL SANCHEZ PARA BOOLEAN
 def p_boolean(p):
     '''boolean : TRUE
                        | FALSE
@@ -419,6 +421,7 @@ def p_tclass(p):
     pass
 
 
+# DANIEL SANCHEZ PARA  DISENO DE CONSTRUCTORES
 def p_costructor(p):
     '''constructor : ID LPAREN RPAREN
                                | ID LPAREN args RPAREN

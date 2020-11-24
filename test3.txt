@@ -1,20 +1,19 @@
 <?php
-//esto es un mul equal
-$a *= 3;
-$b === 5
-$b !== 5
-$b == 4
-$b != 4
-function{
-$a /= 3
-$a %= 4
-$a += 10
-$a -= 3
-$a <<= 3
-$a >>= 3
-$a &= 3
-$a |= 3
-$a |= 3
-$a ^= 3
-$a .= 3
+function operaciones($n1, $n2, $operacion) {
+
+$resultado = 0;
+
+if($operacion == "Sumar") {
+
+$resultado = $n1 + $n2;
+
+}else if($operacion == "Restar") {
+
+$resultado = $n1 - $n2;
+}else if($operacion == "Multiplicar") {
+$resultado = $n1 * $n2;
 }
+return $resultado; // Devolver el resultado
+}
+// Llamar a la función operaciones
+?>
