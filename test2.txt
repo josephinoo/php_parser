@@ -1,29 +1,33 @@
 <?php
 
+class Auto {
+  public $modelo;
+  public $color;
+
+  function set_modelo($modelo) {
+    $this->modelo = $modelo;
+  }
+  function get_modelo() {
+    return $this->modelo;
+  }
+}
+
+$Auto1 =new Auto();
+$Auto1->set_modelo("Tesla");
+
+echo $Auto1->get_modelo();
 
 
-prueba $a =new Auto();
 
-// show object properties
-echo $Auto1->modelo;
-
-
-
-if (Auto1->modelo=="Tesla") {
-    echo "es un tesla";
+if ($Auto1->get_modelo()=="Tesla") {
+    echo "\n es un tesla \n";
 }else{
-    echo "no es un tesla";
+    echo "\n no es un tesla \n";
 }
 
 for($i = 0; $i < 20; $i ++)
 {
-    echo "Hola ".$index.".\n";
+    echo "Hola ".$i.".\n";
 }
 
-Array
-(
-    [0] => 1
-    [1] => 2
-    [2] => 3
-)
 ?>
