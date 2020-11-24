@@ -43,7 +43,7 @@ def p_declaration(p):
                                | class_declaration
                                | echo_stmt
                                | selection_stmt
-                           | iteration_stmt
+                                | iteration_stmt
                                | typeclass
     '''
     pass
@@ -54,13 +54,23 @@ def p_expression(p):
 
 
 def p_echo_stmt(p):
-    '''echo_stmt : echo_stmt ECHO STRING SEMI
-                             | echo_stmt ECHO IDVAR SEMI
+    '''echo_stmt : echo_stmt ECHO echo_params SEMI
                              | empty
-                             | echo_stmt ECHO NUM SEMI
-                             | echo_stmt ECHO boolean SEMI
-                             | echo_stmt ECHO fun_declaration SEMI
     '''
+    pass
+
+def p_echo_params(p):
+    '''echo_params : echo_param
+                    | echo_param DOT echo_params'''
+
+def p_echo_param(p):
+    '''echo_param : STRING
+                    | IDVAR
+                    | NUM
+                    | boolean
+                    | fun_declaration
+                    | fun_call
+                    '''
     pass
 
 
@@ -118,6 +128,7 @@ def p_var_declaration(p):
                    | AMPERSANT IDVAR IGUAL IDVAR SEMI  selection_stmt
                    | AMPERSANT IDVAR SEMI
                    | assing_var IGUAL simple_expression SEMI
+                   | fun_call SEMI
     '''
     pass
 
@@ -147,6 +158,10 @@ def p_fun_declaration(p):
     '''
     pass
 
+def p_fun_call(p):
+    '''fun_call : ID LPAREN params RPAREN
+                    | assing_var LPAREN params RPAREN'''
+
 
 def p_params(p):
     '''params : param_list
@@ -156,8 +171,8 @@ def p_params(p):
 
 
 def p_param_list(p):
-    '''param_list : param_list COMMA param_list
-                              | param
+    '''param_list : param
+                    | param COMMA param_list
     '''
     pass
 
@@ -165,6 +180,7 @@ def p_param_list(p):
 def p_param(p):
     '''param : IDVAR
          | IDVAR LBRACKET RBRACKET
+         | term
 '''
     pass
 
@@ -229,7 +245,7 @@ def p_selection_stmt_2(p):
 
 
 def p_iteration_stmt_1(p):
-    'iteration_stmt : FOR LPAREN var_declaration SEMI expression SEMI additive_expression RPAREN statement '
+    'iteration_stmt : FOR LPAREN var_declaration expression SEMI additive_expression RPAREN statement '
     pass
 
 
@@ -257,6 +273,7 @@ def p_expression(p):
                           | expression AND expression
                               | expression OR expression
                               | assing_var
+                              | fun_call
     '''
     pass
 
@@ -300,6 +317,7 @@ def p_additive_expression(p):
                                        | term
                                        | term MINUSMINUS
                                    | term PLUSPLUS
+                                   | fun_call
     '''
     pass
 
@@ -359,7 +377,8 @@ def p_boolean(p):
 
 
 def p_tclass(p):
-    'typeclass : ID IDVAR EQUAL NEW constructor SEMI'
+    '''typeclass : ID IDVAR EQUAL NEW constructor SEMI
+                | IDVAR EQUAL NEW constructor SEMI '''
     pass
 
 
@@ -403,7 +422,7 @@ if __name__ == '__main__':
         print(chr(27)+"[0;36m"+"INICIA ANALISIS SINTACTICO"+chr(27)+"[0m")
         result  = parser.parse(scriptdata)
         print(result)
-        print("Hola bebe, no tienes errores sintacticos")
+        # print("Hola bebe, no tienes errores sintacticos")
         print(chr(27)+"[0;36m"+"TERMINA ANALISIS SINTACTICO"+chr(27)+"[0m")
 
     else:
