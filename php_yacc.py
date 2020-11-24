@@ -48,6 +48,10 @@ def p_declaration(p):
     '''
     pass
 
+def p_expression(p):
+
+    pass
+
 
 def p_echo_stmt(p):
     '''echo_stmt : echo_stmt ECHO STRING SEMI
@@ -68,17 +72,23 @@ def p_header_declaration(p):
 
 
 def p_class_declaration(p):
-    '''class_declaration : area CLASS ID LBLOCK attribute RBLOCK
-                                             | CLASS ID LBLOCK attribute RBLOCK
+    '''class_declaration : area CLASS ID LBLOCK attributes RBLOCK
+                                             | CLASS ID LBLOCK attributes RBLOCK
     '''
     pass
 
+def p_attributes(p):
+    '''attributes : attribute
+                    | attribute attributes
+    '''
+    pass
 
 def p_attribute1(p):
     '''attribute : attribute area var_declaration
                              | area var_declaration
                              | attribute area fun_declaration
                              | area fun_declaration
+                             | fun_declaration
     '''
     pass
 
@@ -96,20 +106,27 @@ def p_var_declaration(p):
                    | IDVAR SEMI
                    | TIMESTIMES IDVAR SEMI
                    | TIMESTIMES IDVAR SEMI var_declaration
-                   | IDVAR IGUAL NUM SEMI var_declaration
-                   | IDVAR IGUAL NUM SEMI
-                   | IDVAR IGUAL STRING SEMI var_declaration
-                   | IDVAR IGUAL STRING SEMI
-                   | IDVAR IGUAL boolean SEMI var_declaration
-                   | IDVAR IGUAL boolean SEMI
-                   | IDVAR IGUAL IDVAR SEMI var_declaration
-                   | IDVAR IGUAL IDVAR SEMI
+                   | assing_var IGUAL NUM SEMI var_declaration
+                   | assing_var IGUAL NUM SEMI
+                   | assing_var IGUAL STRING SEMI var_declaration
+                   | assing_var IGUAL STRING SEMI
+                   | assing_var IGUAL boolean SEMI var_declaration
+                   | assing_var IGUAL boolean SEMI
+                   | assing_var IGUAL IDVAR SEMI var_declaration
+                   | assing_var IGUAL IDVAR SEMI
                    | AMPERSANT IDVAR SEMI var_declaration
                    | AMPERSANT IDVAR IGUAL IDVAR SEMI  selection_stmt
                    | AMPERSANT IDVAR SEMI
-                   | IDVAR IGUAL simple_expression SEMI
+                   | assing_var IGUAL simple_expression SEMI
     '''
     pass
+
+def p_assing_var(p):
+    '''assing_var : var
+                    | var ARROW ID
+    '''
+    pass
+
 def p_IGUAL(p):
     ''' IGUAL : EQUAL
                 | MUL_EQUAL
@@ -234,16 +251,14 @@ def p_return_stmt(p):
 
 
 def p_expression(p):
-    '''expression : var EQUAL expression
+    '''expression : assing_var EQUAL expression
                               | simple_expression
-                              | var EQUAL AMPERSANT IDVAR
+                              | assing_var EQUAL AMPERSANT IDVAR
                           | expression AND expression
                               | expression OR expression
+                              | assing_var
     '''
     pass
-
-
-
 
 def p_var(p):
     '''var : IDVAR

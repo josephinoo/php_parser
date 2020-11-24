@@ -181,7 +181,7 @@ t_IS_IDENTICAL = r"==="
 t_ISEQUAL = r'=='
 t_GREATEREQUAL = r'>='
 t_DEQUAL =  r'(!=(?!=))|(<>)'
-
+t_ARROW = r'\->'
 
 
 
@@ -241,9 +241,6 @@ def t_STRING(t):
     r'(("[^"]*")|(\'[^\']*\'))'
     return t
 
-def t_ARROW(t):
-    r'\->\b'
-    return t
 
 def get_lexer():
     return lex.lex()
