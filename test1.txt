@@ -26,9 +26,9 @@ class ClaseSencilla{
   }
 }
 
-public function recursividad($a){
-  **$d;
-  &$d=$a;
+function recursividad($a){
+  $d;
+  $d=$a;
   if($a < 20){
     $v1 = 1;
     echo $v1;
@@ -36,6 +36,7 @@ public function recursividad($a){
     if($a>0 and $b<1 || $s<$d OR $a==2){
     }
   }
+}
 
   public class prueba{
     protected function abs(){
@@ -65,15 +66,11 @@ public function recursividad($a){
     echo "*&nbsp&nbsp";
   }
 
-}
+
 
 prueba $a=new prueba(VOID);
 
- //esto es un comentario corto
 
- /*
-  * esto es un comentario largo deberia
-  * reconocerlo todo por saltos de linea
-  * que haga
- */
+
+ 
 ?>
