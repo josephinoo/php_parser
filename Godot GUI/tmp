@@ -1,0 +1,33 @@
+<?php
+
+class Auto {
+  public $modelo;
+  public $color;
+
+  function set_modelo($modelo) {
+    $this->modelo = $modelo;
+  }
+  function get_modelo() 
+    return $this->modelo;
+  }
+}
+
+$Auto1 =new Auto();
+$Auto1->set_modelo("Tesla");
+
+echo $Auto1->get_modelo();
+
+
+
+if ($Auto1->get_modelo()=="Tesla") {
+    echo "\n es un tesla \n";
+}else{
+    echo "\n no es un tesla \n";
+}
+
+for($i = 0; $i < 20; $i ++)
+{
+    echo "Hola ".$i.".\n";
+}
+
+?>
