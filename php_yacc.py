@@ -164,6 +164,7 @@ def p_var_declaration(p):
                    | AMPERSANT IDVAR IGUAL IDVAR SEMI  selection_stmt
                    | AMPERSANT IDVAR SEMI
                    | assing_var IGUAL simple_expression SEMI
+                   | IDVAR IGUAL simple_expression SEMI
                    | fun_call SEMI
     '''
     pass
