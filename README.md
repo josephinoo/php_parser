@@ -13,10 +13,11 @@ Es un lenguaje para programar scripts del lado del servidor, que se incrustan de
   <img src="https://github.com/eljosephavila123/php_parser/blob/master/img/sreenshot.png?raw=true" />
 </div>
 
-## GUI
+
+## GUI DESKTOP
 
 <div style="text-align:center">
-  <img src="https://github.com/eljosephavila123/php_parser/blob/master/img/gui.png?raw=true" />
+  <img src="https://github.com/eljosephavila123/php_parser/blob/master/img/desktop.png?raw=true" />
 </div>
 
 ## Tests 🛠
