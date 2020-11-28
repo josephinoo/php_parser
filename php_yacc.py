@@ -19,14 +19,13 @@ precedence = (
     ('nonassoc', 'NEW', 'CLONE'),
     ('left', 'ELSEIF'),
     ('left', 'ELSE'),
-    ('right', 'PRIVATE', 'PROTECTED', 'PUBLIC'),
+    ('right', 'PRIVATE', 'PROTECTED', 'PUBLIC')
 )
-
 # Joseph Avila para el open tad y close tag de php
 
 
 def p_program(p):
-    'program : OPENTAG declaration_list CLOSETAG'
+    '''program : OPENTAG declaration_list CLOSETAG'''
     pass
 
 # Joseph Avila, toda lista de declaraciones que puede tener
@@ -153,6 +152,14 @@ def p_var_declaration(p):
                    | assing_var IGUAL boolean SEMI
                    | assing_var IGUAL IDVAR SEMI var_declaration
                    | assing_var IGUAL IDVAR SEMI
+                   | IDVAR IGUAL NUM SEMI var_declaration
+                   | IDVAR IGUAL NUM SEMI
+                   | IDVAR IGUAL STRING SEMI var_declaration
+                   | IDVAR IGUAL STRING SEMI
+                   | IDVAR IGUAL boolean SEMI var_declaration
+                   | IDVAR IGUAL boolean SEMI
+                   | IDVAR IGUAL IDVAR SEMI var_declaration
+                   | IDVAR IGUAL IDVAR SEMI
                    | AMPERSANT IDVAR SEMI var_declaration
                    | AMPERSANT IDVAR IGUAL IDVAR SEMI  selection_stmt
                    | AMPERSANT IDVAR SEMI
@@ -161,12 +168,13 @@ def p_var_declaration(p):
     '''
     pass
 
-#Angel Jumbo variable de asignacion
-#$a
-#$a->b
+
+
+
 def p_assing_var(p):
     '''assing_var : var
                     | var ARROW ID
+
     '''
     pass
 
@@ -185,6 +193,8 @@ def p_IGUAL(p):
     pass
 
 # Angel Jumbo declaracion de funciones
+
+
 def p_fun_declaration(p):
     '''fun_declaration : FUNCTION ID LPAREN params RPAREN
                                        | FUNCTION ID LPAREN params RPAREN compount_stmt
@@ -192,6 +202,8 @@ def p_fun_declaration(p):
     pass
 
 # Angel Jumbo llamado de funciones
+
+
 def p_fun_call(p):
     '''fun_call : ID LPAREN params RPAREN
                     | assing_var LPAREN params RPAREN'''
@@ -220,7 +232,7 @@ def p_param(p):
 
 
 def p_compount_stmt(p):
-    'compount_stmt : LBLOCK echo_stmt local_declarations echo_stmt statement_list echo_stmt RBLOCK'
+    '''compount_stmt : LBLOCK echo_stmt local_declarations echo_stmt statement_list echo_stmt RBLOCK'''
     pass
 
 
@@ -251,10 +263,12 @@ def p_statement(p):
 
 
 def p_expression_stmt(p):
-    'expression_stmt : expression SEMI'
+    '''expression_stmt : expression SEMI'''
     pass
 
-#Angel Jumbo estructuras de control
+# Angel Jumbo estructuras de control
+
+
 def p_selection_stmt_1(p):
     '''selection_stmt : IF LPAREN expression RPAREN statement
                                       | IF LPAREN expression RPAREN statement selection
@@ -279,17 +293,17 @@ def p_selection_stmt_2(p):
 
 
 def p_iteration_stmt_1(p):
-    'iteration_stmt : FOR LPAREN var_declaration expression SEMI additive_expression RPAREN statement '
+    '''iteration_stmt : FOR LPAREN var_declaration expression SEMI additive_expression RPAREN statement '''
     pass
 
 
 def p_iteration_stmt_2(p):
-    'iteration_stmt : WHILE LPAREN expression RPAREN statement'
+    '''iteration_stmt : WHILE LPAREN expression RPAREN statement'''
     pass
 
 
 def p_iteration_stmt_3(p):
-    'iteration_stmt : DO LBLOCK statement SEMI RBLOCK WHILE LPAREN expression RPAREN'
+    '''iteration_stmt : DO LBLOCK statement SEMI RBLOCK WHILE LPAREN expression RPAREN'''
     pass
 
 
@@ -328,6 +342,7 @@ def p_simple_expression(p):
 
 # DANIEL SANCHEZ PARA COMPARACION
 
+
 def p_relop(p):
     '''relop : LESS
                      | LESSEQUAL
@@ -349,6 +364,8 @@ def p_relop(p):
     pass
 
 # DANIEL SANCHEZ PARA EXPRESIONES ADITIVAS
+
+
 def p_additive_expression(p):
     '''additive_expression : additive_expression addop term
                                        | term
@@ -410,6 +427,8 @@ def p_args_list(p):
     pass
 
 # DANIEL SANCHEZ PARA BOOLEAN
+
+
 def p_boolean(p):
     '''boolean : TRUE
                        | FALSE
@@ -417,6 +436,8 @@ def p_boolean(p):
     pass
 
 # Angel Jumbo creacion de clases
+
+
 def p_tclass(p):
     '''typeclass : ID IDVAR EQUAL NEW constructor SEMI
                 | IDVAR EQUAL NEW constructor SEMI '''
@@ -432,15 +453,16 @@ def p_costructor(p):
 
 
 def p_empty(p):
-    'empty :'
+    '''empty :'''
     pass
 
 
 def p_error(p):
     if VERBOSE:
         if p is not None:
+            print(p)
             print(
-                chr(27)+"[1;31m"+"\t ERROR: Syntax error - Unexpected token" + chr(27)+"[0m")
+                chr(27)+"[1;31m"+"\t ERROR: Syntax error - Inesperado token" + chr(27)+"[0m")
             print("\t\tLine: "+str(p.lexer.lineno)+"\t=> "+str(p.value))
         else:
             print(chr(27)+"[1;31m"+"\t ERROR: Syntax error"+chr(27)+"[0m")
@@ -448,6 +470,7 @@ def p_error(p):
 
     else:
         raise Exception('syntax', 'error')
+
 
 
 tokens = php_lexico.tokens

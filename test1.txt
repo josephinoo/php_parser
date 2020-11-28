@@ -3,7 +3,7 @@ require('somefile.php');
 $variable;
 
 $suma;
-$booleano = true;
+$booleano = true ;
 
 echo "esto es un print, se muestra en pantalla";
 echo $verb;
@@ -72,5 +72,5 @@ prueba $a=new prueba(VOID);
 
 
 
- 
+
 ?>

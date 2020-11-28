@@ -84,11 +84,12 @@ margin_left = 283.0
 margin_top = 200.0
 margin_right = 791.0
 margin_bottom = 522.0
+rect_min_size = Vector2( 400, 140 )
 window_title = "Open a File"
 mode = 0
 access = 2
-current_dir = "/Users/Angel Arturo/Documents/Leguajes GUI"
-current_path = "/Users/Angel Arturo/Documents/Leguajes GUI/"
+current_dir = "/Users/soyjosephavila/Documents/Github/php_parser/Godot GUI"
+current_path = "/Users/soyjosephavila/Documents/Github/php_parser/Godot GUI/"
 __meta__ = {
 "_edit_use_anchors_": false
 }
