@@ -1,9 +1,11 @@
 <?php
 require('somefile.php');
 $variable;
+$sumaD="Data";
 
-$suma;
-$booleano = true ;
+
+
+$booleano = true
 
 echo "esto es un print, se muestra en pantalla";
 echo $verb;
