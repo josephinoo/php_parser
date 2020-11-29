@@ -152,14 +152,6 @@ def p_var_declaration(p):
                    | assing_var IGUAL boolean SEMI
                    | assing_var IGUAL IDVAR SEMI var_declaration
                    | assing_var IGUAL IDVAR SEMI
-                   | IDVAR IGUAL NUM SEMI var_declaration
-                   | IDVAR IGUAL NUM SEMI
-                   | IDVAR IGUAL STRING SEMI var_declaration
-                   | IDVAR IGUAL STRING SEMI
-                   | IDVAR IGUAL boolean SEMI var_declaration
-                   | IDVAR IGUAL boolean SEMI
-                   | IDVAR IGUAL IDVAR SEMI var_declaration
-                   | IDVAR IGUAL IDVAR SEMI
                    | AMPERSANT IDVAR SEMI var_declaration
                    | AMPERSANT IDVAR IGUAL IDVAR SEMI  selection_stmt
                    | AMPERSANT IDVAR SEMI
