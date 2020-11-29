@@ -1,0 +1,98 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Gui.gd" type="Script" id=1]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.172549, 0.164706, 0.196078, 1 )
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextEdit" type="TextEdit" parent="."]
+margin_left = 20.0
+margin_top = 45.0
+margin_right = 890.0
+margin_bottom = 366.0
+show_line_numbers = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_top = 20.0
+margin_right = -960.0
+margin_bottom = -566.0
+text = "Input:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ToolButton" type="ToolButton" parent="."]
+margin_left = 899.448
+margin_top = 95.1752
+margin_right = 970.448
+margin_bottom = 117.175
+rect_scale = Vector2( 1.5, 1.5 )
+text = "Open file"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ToolButton2" type="ToolButton" parent="."]
+margin_left = 901.554
+margin_top = 170.699
+margin_right = 972.554
+margin_bottom = 192.699
+rect_scale = Vector2( 1.5, 1.5 )
+text = "Analyze"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="."]
+margin_left = 20.0
+margin_top = 385.203
+margin_right = 69.0
+margin_bottom = 399.203
+text = "Output:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+margin_left = 20.0
+margin_top = 411.0
+margin_right = 987.0
+margin_bottom = 571.0
+focus_mode = 2
+custom_styles/normal = SubResource( 1 )
+selection_enabled = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FileDialog" type="FileDialog" parent="."]
+margin_left = 283.0
+margin_top = 200.0
+margin_right = 791.0
+margin_bottom = 522.0
+rect_min_size = Vector2( 400, 140 )
+window_title = "Open a File"
+mode = 0
+access = 2
+current_dir = "/Users/soyjosephavila/Documents/Github/php_parser/Godot GUI"
+current_path = "/Users/soyjosephavila/Documents/Github/php_parser/Godot GUI/"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="ToolButton" to="." method="_on_ToolButton_pressed"]
+[connection signal="pressed" from="ToolButton2" to="." method="_on_ToolButton2_pressed"]
+[connection signal="file_selected" from="FileDialog" to="." method="_on_FileDialog_file_selected"]
