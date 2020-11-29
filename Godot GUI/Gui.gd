@@ -24,8 +24,7 @@ func _on_ToolButton2_pressed() -> void:
 	tmp.store_string(input)
 	tmp.close()
 	#python php_yacc.py test2.txt
-	var output = []
-	OS.execute("cat test1.txt" , [], true, output)
+	OS.execute("python3", ["php_yacc.py", "tmp"], true, output)
 	print(output)
 	$"RichTextLabel".text=output[0]
 	pass # Replace with function body.

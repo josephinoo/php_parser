@@ -472,8 +472,7 @@ def p_error(p):
     else:
         raise Exception('syntax', 'error')
 
-def get_yacc():
-    return yacc.yacc()
+
 
 tokens = php_lexico.tokens
 
@@ -490,7 +489,7 @@ if __name__ == '__main__':
         print(chr(27)+"[0;36m"+"INICIA ANALISIS SINTACTICO"+chr(27)+"[0m")
         result = parser.parse(scriptdata)
         print(result)
-        #print("Hola bebe, no tienes errores sintacticos")
+        print("Hola bebe, no tienes errores sintacticos")
         print(chr(27)+"[0;36m"+"TERMINA ANALISIS SINTACTICO"+chr(27)+"[0m")
 
     else:
