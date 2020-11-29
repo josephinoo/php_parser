@@ -5,43 +5,36 @@ import ply.yacc as yacc
 # Get the token map from the lexer.  This is required.
 from pip._vendor.distlib.compat import raw_input
 
-from php_lexico import tokens
-def p_algoritmo(p):
-    '''algoritmo : imprimir
-                | asignacion
-                | expresion
-                | comparacion
-                | sentenciaIf'''
+from examen import tokens
+def p_query(p):
+    '''query : as
+                | tomar
+                | tomaror
+              '''
 
-def p_sentenciaIf(p):
-    'sentenciaIf : LPAREN comparacion RPAREN COLON algoritmo '
-def p_expresion(p):
-    '''expresion : valor
+def p_tomar(p):
+    'tomar : selector FROM VAR WHERE VAR operadorComp valor '
 
-    '''
-def p_asignacion(p):
-    'asignacion : VAR EQUAL expresion'
-def p_expresion_aritmetica(p):
-    'expresion : valor operadorMat expresion'
+def p_as(p):
+    'as : selector VAR AS VAR FROM VAR '
 
-def p_comparacion(p):
-    'comparacion : expresion operadorComp expresion'
+def p_tomaror(p):
+    'tomaror : selector FROM VAR WHERE VAR operadorComp valor orfunc '
 
-def p_operadorMat(p):
-    '''operadorMat : PLUS
-                    | MINUS
-                    | TIMES
-                    | DIVIDE
+def p_orfunc(p):
+    'orfunc : OR VAR operadorComp valor  '
+def p_selector(p):
+    '''selector : SELECT
+                    | DELETE
+
 
     '''
 
 def p_operadorComp(p):
-    '''operadorComp : DEQUAL
-                    | LESSEQUAL
-                    | GREATEREQUAL
-                    | ISEQUAL
-                    | GREATER
-                    | LESS
+    '''operadorComp : EQUAL
+                    | minusEQUAL
+                    | plusEREQUAL
+
 
     '''
 
@@ -51,9 +44,7 @@ def p_valor(p):
 
     '''
 
-def p_imprimir(p):
-    'imprimir : PRINT LPAREN expresion RPAREN'
-# Error rule for syntax errors
+
 def p_error(p):
     print("Syntax error in input!")
 
