@@ -50,6 +50,7 @@ def p_declaration(p):
                                | selection_stmt
                                 | iteration_stmt
                                | typeclass
+                               | fun_call SEMI
     '''
     pass
 
@@ -150,16 +151,21 @@ def p_var_declaration(p):
                    | assing_var IGUAL boolean SEMI
                    | assing_var IGUAL IDVAR SEMI var_declaration
                    | assing_var IGUAL IDVAR SEMI
+                   | assing_var IGUAL read_data SEMI
                    | IDVAR IGUAL array_declare SEMI
                    | AMPERSANT IDVAR SEMI var_declaration
                    | AMPERSANT IDVAR IGUAL IDVAR SEMI  selection_stmt
                    | AMPERSANT IDVAR SEMI
                    | assing_var IGUAL simple_expression SEMI
                    | IDVAR IGUAL simple_expression SEMI
-                   | fun_call SEMI
+
     '''
     pass
 
+def p_read_data(p):
+    '''read_data : POST LBRACKET STRING RBRACKET
+                    | GET LBRACKET STRING RBRACKET
+    '''
 
 def p_array_declare(p):
     '''array_declare : ARRAY LPAREN array_values RPAREN
@@ -212,7 +218,10 @@ def p_fun_declaration(p):
 
 def p_fun_call(p):
     '''fun_call : ID LPAREN params RPAREN
-                    | assing_var LPAREN params RPAREN'''
+                    | assing_var LPAREN params RPAREN
+                    | PRINT LPAREN echo_params RPAREN
+                    | PRINTR LPAREN IDVAR RPAREN
+                    | VARDUMP LPAREN IDVAR RPAREN'''
 
 
 def p_params(p):
