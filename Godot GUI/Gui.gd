@@ -19,14 +19,26 @@ func _ready() -> void:
 func _on_ToolButton2_pressed() -> void:
 	
 	var input=$TextEdit.text
-	var tmp = File.new()
-	tmp.open("tmp", File.WRITE)
-	tmp.store_string(input)
-	tmp.close()
+	var tmp2 = File.new()
+	tmp2.open("tmp2", File.WRITE)
+	tmp2.store_string(input)
+	tmp2.close()
 	#python php_yacc.py test2.txt
-	OS.execute("python3", ["php_yacc.py", "tmp"], true, output)
-	print(output)
-	$"RichTextLabel".text=output[0]
+	OS.execute("python", ["php_yacc.py", "tmp2"], true, output)
+	#print(output[0])
+	var tmp=File.new()
+	tmp.open("tmp", File.READ)
+	var out =tmp.get_as_text()
+	if(out==""):
+		$"RichTextLabel".text="No hay errores"
+	else:
+		$"RichTextLabel".text=out
+	
+	tmp.close()
+	tmp.open("tmp", File.WRITE_READ)
+	tmp.close()
+	
+	output[0]
 	pass # Replace with function body.
 
 

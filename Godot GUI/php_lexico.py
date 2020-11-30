@@ -13,65 +13,65 @@ reserved = {
     "catch":"CATCH",
     "class":"CLASS",
     "clone":"CLONE",
-    "const":"CONST", 
-    "continue":"CONTINUE", 
-    "declare":"DECLARE", 
-    "default":"DEFAULT", 
-    "die":"DIE", 
+    "const":"CONST",
+    "continue":"CONTINUE",
+    "declare":"DECLARE",
+    "default":"DEFAULT",
+    "die":"DIE",
     "do":"DO",
-    "echo":"ECHO", 
-    "else":"ELSE", 
-    "elseif":"ELSEIF", 
-    "empty":"EMPTY", 
-    "enddeclare":"ENDDECLARE", 
-    "endfor":"ENDFOR", 
-    "endforeach":"ENDFOREACH", 
+    "echo":"ECHO",
+    "else":"ELSE",
+    "elseif":"ELSEIF",
+    "empty":"EMPTY",
+    "enddeclare":"ENDDECLARE",
+    "endfor":"ENDFOR",
+    "endforeach":"ENDFOREACH",
     "endif":"ENDIF",
-    "endswitch":"ENDSWITCH", 
-    "endwhile":"ENDWHILE", 
-    "eval":"EVAL", 
-    "exit":"EXIT", 
-    "extend":"EXTENDS", 
-    "closetagal":"CLOSETAGAL", 
-    "for":"FOR", 
+    "endswitch":"ENDSWITCH",
+    "endwhile":"ENDWHILE",
+    "eval":"EVAL",
+    "exit":"EXIT",
+    "extend":"EXTENDS",
+    "closetagal":"CLOSETAGAL",
+    "for":"FOR",
     "foreach":"FOREACH",
-    "function":"FUNCTION", 
-    "global":"GLOBAL", 
-    "goto":"GOTO", 
-    "if":"IF", 
-    "implements":"IMPLEMENTS", 
-    "include":"INCLUDE", 
+    "function":"FUNCTION",
+    "global":"GLOBAL",
+    "goto":"GOTO",
+    "if":"IF",
+    "implements":"IMPLEMENTS",
+    "include":"INCLUDE",
     "include_once":"INCLUDE_ONCE",
-    "instanceof":"INSTANCEOF", 
-    "insteadof":"INSTEADOF", 
-    "interface":"INTERFACE", 
-    "isset":"ISSET", 
-    "list":"LIST", 
-    "namespace":"NAMESPACE", 
-    "new":"NEW",     
-    "print":"PRINT", 
-    "private":"PRIVATE", 
-    "protected":"PROTECTED", 
-    "public":"PUBLIC", 
-    "require":"REQUIRE", 
-    "require_once":"REQUIRE_ONCE", 
+    "instanceof":"INSTANCEOF",
+    "insteadof":"INSTEADOF",
+    "interface":"INTERFACE",
+    "isset":"ISSET",
+    "list":"LIST",
+    "namespace":"NAMESPACE",
+    "new":"NEW",
+    "print":"PRINT",
+    "private":"PRIVATE",
+    "protected":"PROTECTED",
+    "public":"PUBLIC",
+    "require":"REQUIRE",
+    "require_once":"REQUIRE_ONCE",
     "return":"RETURN",
-    "static":"STATIC", 
-    "switch":"SWITCH", 
-    "throw":"THROW", 
-    "trait":"TRAIT", 
-    "try":"TRY", 
-    "unset":"UNSET", 
-    "use":"USE", 
-    "var":"VAR", 
-    "while":"WHILE", 
+    "static":"STATIC",
+    "switch":"SWITCH",
+    "throw":"THROW",
+    "trait":"TRAIT",
+    "try":"TRY",
+    "unset":"UNSET",
+    "use":"USE",
+    "var":"VAR",
+    "while":"WHILE",
     "xor":"XOR",
     "true":"TRUE",
     "false":"FALSE",
     "finally":"FINALLY",
 
-    
-    
+
+
 }
 
 
@@ -86,17 +86,17 @@ tokens = [
     'APOSTROPHE', 'DOT_DOT',
 
              'IS_IDENTICAL', 'IS_NOT_IDENTICAL',
-   
-    #operartors 
+
+    #operartors
      'MUL_EQUAL', 'DIV_EQUAL', 'MOD_EQUAL', 'PLUS_EQUAL',
     'MINUS_EQUAL', 'SL_EQUAL', 'SR_EQUAL', 'AND_EQUAL', 'OR_EQUAL',
     'XOR_EQUAL', 'CONCAT_EQUAL',
-    
-            
+
+
     #reservadas con definiciones multiples
-    
+
     "AND","OR",
-    
+
     # others
     'COMMENTS', 'COMMENTS_C99', 'ID', 'IDVAR', 'NUM', 'STRING', 'VOID','ARROW'
 ]+ list(reserved.values())
@@ -107,7 +107,7 @@ t_ignore = " \t"
 def t_AND(t):
     r'and|AND|\&\&'
     return t
- 
+
 def t_OR(t):
     r'or|OR|\|\|'
     return t
@@ -234,6 +234,7 @@ def t_NUM(t):
 def t_ID(t):
     r"[a-zA-Z0-9_][a-zA-Z0-9_]*"
     t.type = reserved.get(t.value, 'ID')
+
     return t
 
 
@@ -241,6 +242,13 @@ def t_STRING(t):
     r'(("[^"]*")|(\'[^\']*\'))'
     return t
 
+def t_TRUE(t):
+    r'true'
+    return t
+
+def t_FALSE(t):
+    r'false'
+    return t
 
 def get_lexer():
     return lex.lex()

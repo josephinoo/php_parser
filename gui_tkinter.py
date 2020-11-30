@@ -12,18 +12,21 @@ root = tk.Tk()
 root.geometry("1000x640")
 textOut=tk.Text(root, height=10)
 def getTextInput():
-    """
+    
     result=textExample.get(1.0, tk.END+"-1c")
-    f = open("tmp", "w+")
+    f = open("tmp2", "w+")
+    f.truncate(0)
     f.write(result)
-    f.close()"""
-
+    f.close()
+    
     textOut.delete(1.0, "end")
 
-    out= phpy.executeFunction(openfile())
-    print(out)
-    if(out==None):
-        out="NO HAY ERRORES BEBE"
+    out=phpy.executeFunction("tmp2")
+    f2 = open("tmp", "r+")
+    f2.truncate(0)
+    f2.close()
+    if(out==""):
+        out="NO HAY ERRORES"
     textOut.insert(1.0, out)
 
 

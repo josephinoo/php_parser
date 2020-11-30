@@ -4,7 +4,7 @@ class Auto {
   public $modelo;
   public $color;
 
-  function set_modelo($modelo) {
+  function set_modelo($modelo) 
     $this->modelo = $modelo;
   }
   function get_modelo() {

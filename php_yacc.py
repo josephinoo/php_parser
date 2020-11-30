@@ -478,7 +478,7 @@ lexer = php_lexico.get_lexer()
 parser = yacc.yacc()
 # Joseph el parser, con argumentos
 def executeArg():
-    if (len(sys.argv) > 0):
+    if (len(sys.argv) > 1):
         script = sys.argv[1]
 
         scriptfile = open(script, 'r')
@@ -486,11 +486,11 @@ def executeArg():
 
         print(chr(27)+"[0;36m"+"INICIA ANALISIS SINTACTICO"+chr(27)+"[0m")
         result = parser.parse(scriptdata)
+        errors=open("tmp","r")
        # print(result)
         print(result)
         print("Hola bebe, no tienes errores sintacticos")
         print(chr(27)+"[0;36m"+"TERMINA ANALISIS SINTACTICO"+chr(27)+"[0m")
-
     else:
         print(chr(27)+"[0;31m"+"Pase el archivo de script PHP como parametro:")
         print(chr(27)+"[0;36m"+"\t$ python php_parser.py" +

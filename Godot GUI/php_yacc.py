@@ -19,14 +19,13 @@ precedence = (
     ('nonassoc', 'NEW', 'CLONE'),
     ('left', 'ELSEIF'),
     ('left', 'ELSE'),
-    ('right', 'PRIVATE', 'PROTECTED', 'PUBLIC'),
+    ('right', 'PRIVATE', 'PROTECTED', 'PUBLIC')
 )
-
 # Joseph Avila para el open tad y close tag de php
 
 
 def p_program(p):
-    'program : OPENTAG declaration_list CLOSETAG'
+    '''program : OPENTAG declaration_list CLOSETAG'''
     pass
 
 # Joseph Avila, toda lista de declaraciones que puede tener
@@ -157,16 +156,18 @@ def p_var_declaration(p):
                    | AMPERSANT IDVAR IGUAL IDVAR SEMI  selection_stmt
                    | AMPERSANT IDVAR SEMI
                    | assing_var IGUAL simple_expression SEMI
+                   | IDVAR IGUAL simple_expression SEMI
                    | fun_call SEMI
     '''
     pass
 
-#Angel Jumbo variable de asignacion
-#$a
-#$a->b
+
+
+
 def p_assing_var(p):
     '''assing_var : var
                     | var ARROW ID
+
     '''
     pass
 
@@ -185,6 +186,8 @@ def p_IGUAL(p):
     pass
 
 # Angel Jumbo declaracion de funciones
+
+
 def p_fun_declaration(p):
     '''fun_declaration : FUNCTION ID LPAREN params RPAREN
                                        | FUNCTION ID LPAREN params RPAREN compount_stmt
@@ -192,6 +195,8 @@ def p_fun_declaration(p):
     pass
 
 # Angel Jumbo llamado de funciones
+
+
 def p_fun_call(p):
     '''fun_call : ID LPAREN params RPAREN
                     | assing_var LPAREN params RPAREN'''
@@ -220,7 +225,7 @@ def p_param(p):
 
 
 def p_compount_stmt(p):
-    'compount_stmt : LBLOCK echo_stmt local_declarations echo_stmt statement_list echo_stmt RBLOCK'
+    '''compount_stmt : LBLOCK echo_stmt local_declarations echo_stmt statement_list echo_stmt RBLOCK'''
     pass
 
 
@@ -251,10 +256,12 @@ def p_statement(p):
 
 
 def p_expression_stmt(p):
-    'expression_stmt : expression SEMI'
+    '''expression_stmt : expression SEMI'''
     pass
 
-#Angel Jumbo estructuras de control
+# Angel Jumbo estructuras de control
+
+
 def p_selection_stmt_1(p):
     '''selection_stmt : IF LPAREN expression RPAREN statement
                                       | IF LPAREN expression RPAREN statement selection
@@ -279,17 +286,17 @@ def p_selection_stmt_2(p):
 
 
 def p_iteration_stmt_1(p):
-    'iteration_stmt : FOR LPAREN var_declaration expression SEMI additive_expression RPAREN statement '
+    '''iteration_stmt : FOR LPAREN var_declaration expression SEMI additive_expression RPAREN statement '''
     pass
 
 
 def p_iteration_stmt_2(p):
-    'iteration_stmt : WHILE LPAREN expression RPAREN statement'
+    '''iteration_stmt : WHILE LPAREN expression RPAREN statement'''
     pass
 
 
 def p_iteration_stmt_3(p):
-    'iteration_stmt : DO LBLOCK statement SEMI RBLOCK WHILE LPAREN expression RPAREN'
+    '''iteration_stmt : DO LBLOCK statement SEMI RBLOCK WHILE LPAREN expression RPAREN'''
     pass
 
 
@@ -328,6 +335,7 @@ def p_simple_expression(p):
 
 # DANIEL SANCHEZ PARA COMPARACION
 
+
 def p_relop(p):
     '''relop : LESS
                      | LESSEQUAL
@@ -349,6 +357,8 @@ def p_relop(p):
     pass
 
 # DANIEL SANCHEZ PARA EXPRESIONES ADITIVAS
+
+
 def p_additive_expression(p):
     '''additive_expression : additive_expression addop term
                                        | term
@@ -410,6 +420,8 @@ def p_args_list(p):
     pass
 
 # DANIEL SANCHEZ PARA BOOLEAN
+
+
 def p_boolean(p):
     '''boolean : TRUE
                        | FALSE
@@ -417,6 +429,8 @@ def p_boolean(p):
     pass
 
 # Angel Jumbo creacion de clases
+
+
 def p_tclass(p):
     '''typeclass : ID IDVAR EQUAL NEW constructor SEMI
                 | IDVAR EQUAL NEW constructor SEMI '''
@@ -432,31 +446,39 @@ def p_costructor(p):
 
 
 def p_empty(p):
-    'empty :'
+    '''empty :'''
     pass
 
 
 def p_error(p):
     if VERBOSE:
         if p is not None:
+            print(p)
             print(
-                chr(27)+"[1;31m"+"\t ERROR: Syntax error - Unexpected token" + chr(27)+"[0m")
+                chr(27)+"[1;31m"+"\t ERROR: Syntax error - Inesperado token" + chr(27)+"[0m")
             print("\t\tLine: "+str(p.lexer.lineno)+"\t=> "+str(p.value))
+            file=open("tmp",'w')
+            file.write(chr(27)+"[1;31m"+"\t ERROR: Syntax error - Inesperado token" + chr(27)+"[0m")
+            file.write("\t\tLine: "+str(p.lexer.lineno)+"\t=> "+str(p.value))
+            file.close
         else:
-            print(chr(27)+"[1;31m"+"\t ERROR: Syntax error"+chr(27)+"[0m")
+
             print("\t\tLine:  "+str(php_lexico.lexer.lineno))
 
     else:
         raise Exception('syntax', 'error')
+    return "data"
 
+def get_yacc():
+    return yacc.yacc()
 
 tokens = php_lexico.tokens
 
 lexer = php_lexico.get_lexer()
 parser = yacc.yacc()
 # Joseph el parser, con argumentos
-if __name__ == '__main__':
-    if (len(sys.argv) > 0):
+def executeArg():
+    if (len(sys.argv) > 1):
         script = sys.argv[1]
 
         scriptfile = open(script, 'r')
@@ -464,6 +486,8 @@ if __name__ == '__main__':
 
         print(chr(27)+"[0;36m"+"INICIA ANALISIS SINTACTICO"+chr(27)+"[0m")
         result = parser.parse(scriptdata)
+        errors=open("tmp","r")
+       # print(result)
         print(result)
         print("Hola bebe, no tienes errores sintacticos")
         print(chr(27)+"[0;36m"+"TERMINA ANALISIS SINTACTICO"+chr(27)+"[0m")
@@ -472,3 +496,21 @@ if __name__ == '__main__':
         print(chr(27)+"[0;31m"+"Pase el archivo de script PHP como parametro:")
         print(chr(27)+"[0;36m"+"\t$ python php_parser.py" +
               chr(27)+"[1;31m"+" <filename>.php"+chr(27)+"[0m")
+def executeFunction(datafile):
+        scriptfile = open(datafile, 'r')
+        scriptdata = scriptfile.read()
+
+        print(chr(27)+"[0;36m"+"INICIA ANALISIS SINTACTICO"+chr(27)+"[0m")
+        result = parser.parse(scriptdata)
+        errors=open("tmp","r")
+
+
+        print(result)
+        print("Hola bebe, no tienes errores sintacticos")
+        print(chr(27)+"[0;36m"+"TERMINA ANALISIS SINTACTICO"+chr(27)+"[0m")
+        return errors.read()
+
+
+if __name__ == '__main__':
+    executeArg()
+
