@@ -7,7 +7,7 @@ class Auto {
   function set_modelo($modelo) {
     $this->modelo = $modelo;
   }
-  function get_modelo() {
+  function get_modelo() 
     return $this->modelo;
   }
 }

@@ -10,15 +10,16 @@ import subprocess
 
 root = tk.Tk()
 root.geometry("1000x640")
-textOut=tk.Text(root, height=10)
+textOut=tk.Text(root, height=10, state='disabled')
 def getTextInput():
     
-    result=textExample.get(1.0, tk.END+"-1c")
+    result=textInput.get(1.0, tk.END+"-1c")
     f = open("tmp2", "w+")
     f.truncate(0)
     f.write(result)
     f.close()
-    
+
+    textOut.configure(state='normal')
     textOut.delete(1.0, "end")
 
     out=phpy.executeFunction("tmp2")
@@ -28,31 +29,30 @@ def getTextInput():
     if(out==""):
         out="NO HAY ERRORES"
     textOut.insert(1.0, out)
+    textOut.configure(state='disabled')
 
 
 
-textExample=tk.Text(root, height=25)
-textExample.pack()
-btnRead=tk.Button(root, height=1, width=10, text="Read",
+textInput=tk.Text(root, height=25)
+textInput.pack()
+btnRead=tk.Button(root, height=1, width=10, text="Analizar",
                     command=getTextInput)
 
 def openfile():
-    textOut.delete(1.0, "end")
 
-    out = phpy.executeFunction(filedialog.askopenfilename())
-    print(out)
-    if (out == ""):
-        out = "NO HAY ERRORES"
-    textOut.insert(1.0, out)
-    file=open("tmp","r+")
-    file.truncate(0)
-    file.close()
+    textInput.delete(1.0, "end")
+    f= open(filedialog.askopenfilename(),"r+")
+    input = f.read()
+
+    textInput.insert(1.0, input)
 
 
-buttonFile = tk.Button(root, text="Open", command=openfile)
+buttonFile = tk.Button(root, text="Abrir archivo", command=openfile)
 
-buttonFile.pack()
+
 btnRead.pack()
+buttonFile.pack()
+
 
 textOut.pack()
 root.mainloop()

@@ -1,33 +1,19 @@
 <?php
+function operaciones($n1, $n2, $operacion) {
 
-class Auto {
-  public $modelo;
-  public $color;
+$resultado = 0;
 
-  function set_modelo($modelo) 
-    $this->modelo = $modelo;
-  }
-  function get_modelo() {
-    return $this->modelo;
-  }
+if($operacion == "Sumar") {
+
+$resultado = $n1 + $n2;
+
+}else if($operacion == "Restar") {
+
+$resultado = $n1 - $n2;
+}else if($operacion == "Multiplicar") {
+$resultado = $n1 * $n2;
 }
-
-$Auto1 =new Auto();
-$Auto1->set_modelo("Tesla");
-
-echo $Auto1->get_modelo();
-
-
-
-if ($Auto1->get_modelo()=="Tesla") {
-    echo "\n es un tesla \n";
-}else{
-    echo "\n no es un tesla \n";
+return $resultado; // Devolver el resultado
 }
-
-for($i = 0; $i < 20; $i ++)
-{
-    echo "Hola ".$i.".\n";
-}
-
+// Llamar a la función operaciones
 ?>
