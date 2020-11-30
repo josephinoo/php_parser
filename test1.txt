@@ -5,10 +5,8 @@ $sumaD="Data";
 
 
 
-$booleano = true
+$booleano = true;
 
-echo "esto es un print, se muestra en pantalla";
-echo $verb;
 
 if($a ===20){
   $v1 = 1;

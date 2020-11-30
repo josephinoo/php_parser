@@ -1,7 +1,7 @@
 <?php
 
 class Auto {
-  public $modelo;
+  public $modelo
   public $color;
 
   function set_modelo($modelo) {

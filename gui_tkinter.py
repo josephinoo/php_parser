@@ -20,7 +20,7 @@ def getTextInput():
 
     textOut.delete(1.0, "end")
 
-    out= phpy.executeFunction("test1.txt")
+    out= phpy.executeFunction(openfile())
     print(out)
     if(out==None):
         out="NO HAY ERRORES BEBE"
@@ -34,7 +34,17 @@ btnRead=tk.Button(root, height=1, width=10, text="Read",
                     command=getTextInput)
 
 def openfile():
-    return filedialog.askopenfilename()
+    textOut.delete(1.0, "end")
+
+    out = phpy.executeFunction(filedialog.askopenfilename())
+    print(out)
+    if (out == ""):
+        out = "NO HAY ERRORES"
+    textOut.insert(1.0, out)
+    file=open("tmp","r+")
+    file.truncate(0)
+    file.close()
+
 
 buttonFile = tk.Button(root, text="Open", command=openfile)
 
