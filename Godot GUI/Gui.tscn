@@ -36,23 +36,34 @@ __meta__ = {
 }
 
 [node name="ToolButton" type="ToolButton" parent="."]
-margin_left = 899.448
+margin_left = 890.104
 margin_top = 95.1752
-margin_right = 970.448
+margin_right = 983.104
 margin_bottom = 117.175
 rect_scale = Vector2( 1.5, 1.5 )
-text = "Open file"
+text = "Abrir archivo"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ToolButton2" type="ToolButton" parent="."]
-margin_left = 901.554
-margin_top = 170.699
-margin_right = 972.554
-margin_bottom = 192.699
+margin_left = 902.0
+margin_top = 171.0
+margin_right = 976.0
+margin_bottom = 193.0
 rect_scale = Vector2( 1.5, 1.5 )
-text = "Analyze"
+text = "Sintáctico"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ToolButton3" type="ToolButton" parent="."]
+margin_left = 903.335
+margin_top = 241.746
+margin_right = 977.335
+margin_bottom = 263.746
+rect_scale = Vector2( 1.5, 1.5 )
+text = "Léxico"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -94,4 +105,5 @@ __meta__ = {
 }
 [connection signal="pressed" from="ToolButton" to="." method="_on_ToolButton_pressed"]
 [connection signal="pressed" from="ToolButton2" to="." method="_on_ToolButton2_pressed"]
+[connection signal="pressed" from="ToolButton3" to="." method="_on_ToolButton3_pressed"]
 [connection signal="file_selected" from="FileDialog" to="." method="_on_FileDialog_file_selected"]

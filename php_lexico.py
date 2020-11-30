@@ -262,6 +262,7 @@ if __name__ == '__main__':
         scriptfile = open(script, 'r')
         scriptdata = scriptfile.read()
         lexer.input(scriptdata)
+        out = open("tmp", "w+")
 
         print(chr(27)+"[0;36m"+"INICIA ANALISIS LEXICO"+chr(27)+"[0m")
         i = 1
@@ -271,6 +272,8 @@ if __name__ == '__main__':
                 break
             print("\t"+str(i)+" - "+"Line: "+str(tok.lineno) +
                   "\t"+str(tok.type)+"\t->  "+str(tok.value))
+            out.write("\t" + str(i) + " - " + "Line: " + str(tok.lineno) +
+                      "\t" + str(tok.type) + "\t->  " + str(tok.value)+"\n")
             i += 1
 
         print(chr(27)+"[0;36m"+"TERMINA ANALISIS LEXICO"+chr(27)+"[0m")
@@ -293,5 +296,6 @@ def executeFunction(datafile):
                 break
             out.write("\t" + str(i) + " - " + "Line: " + str(tok.lineno) +
                   "\t" + str(tok.type) + "\t->  " + str(tok.value))
+            i+=1
 
         return

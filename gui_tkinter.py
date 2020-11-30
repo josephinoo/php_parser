@@ -55,10 +55,10 @@ def getLexico():
 
 textInput=tk.Text(root, height=25)
 textInput.pack()
-btnRead=tk.Button(root, height=1, width=12, text="Analisis Sintactico",
+btnRead=tk.Button(root, height=1, width=12, text="Análisis Sintáctico",
                     command=getTextInput)
 
-btnLexico=tk.Button(root, height=1, width=12, text="Analisis Lexico",
+btnLexico=tk.Button(root, height=1, width=12, text="Análisis Léxico",
                     command=getLexico)
 btnLexico.pack()
 def openfile():

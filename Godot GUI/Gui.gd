@@ -52,3 +52,29 @@ func _on_FileDialog_file_selected(path: String) -> void:
 	openFile.open(path, File.READ)
 	$TextEdit.text=openFile.get_as_text()
 	openFile.close()
+
+
+func _on_ToolButton3_pressed() -> void:
+	
+	var input=$TextEdit.text
+	var tmp2 = File.new()
+	tmp2.open("tmp2", File.WRITE)
+	tmp2.store_string(input)
+	tmp2.close()
+	#python php_yacc.py test2.txt
+	OS.execute("python", ["php_lexico.py", "tmp2"], true, output)
+	#print(output[0])
+	var tmp=File.new()
+	tmp.open("tmp", File.READ)
+	var out =tmp.get_as_text()
+	if(out==""):
+		$"RichTextLabel".text="No hay errores"
+	else:
+		$"RichTextLabel".text=out
+	
+	tmp.close()
+	tmp.open("tmp", File.WRITE_READ)
+	tmp.close()
+	
+	output[0]
+	pass # Replace with function body.
