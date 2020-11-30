@@ -38,7 +38,7 @@ func _on_ToolButton2_pressed() -> void:
 	tmp.open("tmp", File.WRITE_READ)
 	tmp.close()
 	
-	output[0]
+	print(output[0])
 	pass # Replace with function body.
 
 
@@ -76,5 +76,5 @@ func _on_ToolButton3_pressed() -> void:
 	tmp.open("tmp", File.WRITE_READ)
 	tmp.close()
 	
-	output[0]
+	print(output[0])
 	pass # Replace with function body.

@@ -296,7 +296,7 @@ def executeFunction(datafile):
             if not tok:
                 break
             out.write("\t" + str(i) + " - " + "Line: " + str(tok.lineno) +
-                  "\t" + str(tok.type) + "\t->  " + str(tok.value))
+                  "\t" + str(tok.type) + "\t->  " + str(tok.value)+"\n")
             i+=1
 
         return

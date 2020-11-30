@@ -150,41 +150,37 @@ def p_var_declaration(p):
                    | assing_var IGUAL boolean SEMI
                    | assing_var IGUAL IDVAR SEMI var_declaration
                    | assing_var IGUAL IDVAR SEMI
+                   | IDVAR IGUAL array_declare SEMI
                    | AMPERSANT IDVAR SEMI var_declaration
                    | AMPERSANT IDVAR IGUAL IDVAR SEMI  selection_stmt
                    | AMPERSANT IDVAR SEMI
                    | assing_var IGUAL simple_expression SEMI
                    | IDVAR IGUAL simple_expression SEMI
                    | fun_call SEMI
-                   | IDVAR EQUAL array SEMI
     '''
     pass
 
 
-def p_array(p):
-    'array : ID LBLOCK arrayValue RBLOCK '
-    pass
-
-
-def p_tarray(p):
-    '''arrayValue : echo_param DARROW echo_param
-
+def p_array_declare(p):
+    '''array_declare : ARRAY LPAREN array_values RPAREN
     '''
     pass
 
-
-def p_arrayValue(p):
-    '''arrayValue : echo_param DARROW echo_param COMMA arrayValue
-
+def p_array_values(p):
+    '''array_values : array_value
+                    | array_value COMMA array_values
     '''
     pass
 
-
+def p_array_value(p):
+    '''array_value : factor DARROW factor
+    '''
+    pass
 
 def p_assing_var(p):
     '''assing_var : var
                     | var ARROW ID
-
+                    | var DARROW ID
     '''
     pass
 
