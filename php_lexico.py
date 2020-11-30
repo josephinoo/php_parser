@@ -279,3 +279,19 @@ if __name__ == '__main__':
         print(chr(27)+"[0;31m"+"Pase el archivo de script PHP como parametro:")
         print(chr(27)+"[0;36m"+"\t$ python php_lexer.py" +
               chr(27)+"[1;31m"+" <filename>.txt"+chr(27)+"[0m")
+
+
+def executeFunction(datafile):
+        scriptfile = open(datafile, 'r')
+        scriptdata = scriptfile.read()
+        lexer.input(scriptdata)
+        out=open("tmp", "w+")
+        i = 1
+        while True:
+            tok = lexer.token()
+            if not tok:
+                break
+            out.write("\t" + str(i) + " - " + "Line: " + str(tok.lineno) +
+                  "\t" + str(tok.type) + "\t->  " + str(tok.value))
+
+        return
