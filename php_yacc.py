@@ -457,12 +457,17 @@ def p_error(p):
             print(
                 chr(27)+"[1;31m"+"\t ERROR: Syntax error - Inesperado token" + chr(27)+"[0m")
             print("\t\tLine: "+str(p.lexer.lineno)+"\t=> "+str(p.value))
+            file=open("tmp",'w')
+            file.write(chr(27)+"[1;31m"+"\t ERROR: Syntax error - Inesperado token" + chr(27)+"[0m")
+            file.write("\t\tLine: "+str(p.lexer.lineno)+"\t=> "+str(p.value))
+            file.close
         else:
-            print(chr(27)+"[1;31m"+"\t ERROR: Syntax error"+chr(27)+"[0m")
+
             print("\t\tLine:  "+str(php_lexico.lexer.lineno))
 
     else:
         raise Exception('syntax', 'error')
+    return "data"
 
 def get_yacc():
     return yacc.yacc()
@@ -472,7 +477,7 @@ tokens = php_lexico.tokens
 lexer = php_lexico.get_lexer()
 parser = yacc.yacc()
 # Joseph el parser, con argumentos
-if __name__ == '__main__':
+def executeArg():
     if (len(sys.argv) > 0):
         script = sys.argv[1]
 
@@ -481,11 +486,30 @@ if __name__ == '__main__':
 
         print(chr(27)+"[0;36m"+"INICIA ANALISIS SINTACTICO"+chr(27)+"[0m")
         result = parser.parse(scriptdata)
+       # print(result)
         print(result)
-        #print("Hola bebe, no tienes errores sintacticos")
+        print("Hola bebe, no tienes errores sintacticos")
         print(chr(27)+"[0;36m"+"TERMINA ANALISIS SINTACTICO"+chr(27)+"[0m")
 
     else:
         print(chr(27)+"[0;31m"+"Pase el archivo de script PHP como parametro:")
         print(chr(27)+"[0;36m"+"\t$ python php_parser.py" +
               chr(27)+"[1;31m"+" <filename>.php"+chr(27)+"[0m")
+def executeFunction(datafile):
+        scriptfile = open(datafile, 'r')
+        scriptdata = scriptfile.read()
+
+        print(chr(27)+"[0;36m"+"INICIA ANALISIS SINTACTICO"+chr(27)+"[0m")
+        result = parser.parse(scriptdata)
+        errors=open("tmp","r")
+
+
+        print(result)
+        print("Hola bebe, no tienes errores sintacticos")
+        print(chr(27)+"[0;36m"+"TERMINA ANALISIS SINTACTICO"+chr(27)+"[0m")
+        return errors.read()
+
+
+if __name__ == '__main__':
+    executeArg()
+
