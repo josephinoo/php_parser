@@ -54,9 +54,7 @@ def p_declaration(p):
     pass
 
 
-def p_expression(p):
 
-    pass
 
 # Joseph avila para echo , puede estar vacio o no
 
@@ -158,9 +156,28 @@ def p_var_declaration(p):
                    | assing_var IGUAL simple_expression SEMI
                    | IDVAR IGUAL simple_expression SEMI
                    | fun_call SEMI
+                   | IDVAR EQUAL array SEMI
     '''
     pass
 
+
+def p_array(p):
+    'array : ID LBLOCK arrayValue RBLOCK '
+    pass
+
+
+def p_tarray(p):
+    '''arrayValue : echo_param DARROW echo_param
+
+    '''
+    pass
+
+
+def p_arrayValue(p):
+    '''arrayValue : echo_param DARROW echo_param COMMA arrayValue
+
+    '''
+    pass
 
 
 

@@ -1,5 +1,12 @@
 <?php
 
+$array = array(
+    1    => "a",
+    "1"  => "b",
+    1.5  => "c",
+    true => "d",
+);
+
 class Auto {
   public $modelo;
   public $color;

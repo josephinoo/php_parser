@@ -1,5 +1,12 @@
 <?php
 
+$array = array(
+    1    => "a",
+    "1"  => "b",
+    1.5  => "c",
+    true => "d",
+);
+
 class Auto {
   public $modelo;
   public $color;
@@ -7,7 +14,7 @@ class Auto {
   function set_modelo($modelo) {
     $this->modelo = $modelo;
   }
-  function get_modelo() {
+  function get_modelo() 
     return $this->modelo;
   }
 }

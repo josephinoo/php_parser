@@ -98,7 +98,7 @@ tokens = [
     "AND","OR",
 
     # others
-    'COMMENTS', 'COMMENTS_C99', 'ID', 'IDVAR', 'NUM', 'STRING', 'VOID','ARROW'
+    'COMMENTS', 'COMMENTS_C99', 'ID', 'IDVAR', 'NUM', 'STRING', 'VOID','ARROW','DARROW'
 ]+ list(reserved.values())
 
 
@@ -182,6 +182,7 @@ t_ISEQUAL = r'=='
 t_GREATEREQUAL = r'>='
 t_DEQUAL =  r'(!=(?!=))|(<>)'
 t_ARROW = r'\->'
+t_DARROW = r'=>'
 
 
 
