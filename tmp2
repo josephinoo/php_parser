@@ -1,4 +1,0 @@
-<?php
-$CampoTexto = $_GET['Campo1'];
-
-?>
