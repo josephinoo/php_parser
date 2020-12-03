@@ -29,11 +29,15 @@ class ClaseSencilla{
 function recursividad($a){
   $d;
   $d=$a;
-  if($a < 20){
+  if($a == 20){
     $v1 = 1;
     echo $v1;
     $suma = $v2 + $v3;
     if($a>0 and $b<1 || $s<$d OR $a==2){
+      echo $v1;
+      if($a>0 and $b<1 || $s<$d OR $a==2){
+      echo $v1;
+    }
     }
   }
 }
@@ -70,6 +74,11 @@ function recursividad($a){
 
 prueba $a=new prueba(VOID);
 
+$array = array(
+    1    => "a",
+    "1"  => "b",
+    1.5  => "c",
+    true => "d");
 
 
 

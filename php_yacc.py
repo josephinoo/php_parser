@@ -48,7 +48,7 @@ def p_declaration(p):
                                | class_declaration
                                | echo_stmt
                                | selection_stmt
-                                | iteration_stmt
+                               | iteration_stmt
                                | typeclass
                                | fun_call SEMI
     '''
@@ -69,7 +69,7 @@ def p_echo_stmt(p):
 
 def p_echo_params(p):
     '''echo_params : echo_param
-                    | echo_param  echo_params'''
+                    | echo_param DOT echo_params'''
 
 # Joseph Avila que parametros soporta echo
 
@@ -204,6 +204,10 @@ def p_IGUAL(p):
                 | MOD_EQUAL
                 | PLUS_EQUAL
                 | MINUS_EQUAL
+                | AND_EQUAL
+                     | OR_EQUAL
+                     | XOR_EQUAL
+
     '''
     pass
 
@@ -274,7 +278,6 @@ def p_statement(p):
                              | selection_stmt
                              | iteration_stmt
                          | return_stmt
-                         | class_declaration
                              | echo_stmt
     '''
     pass
@@ -373,10 +376,7 @@ def p_relop(p):
                      | IS_NOT_IDENTICAL
                      | SR_EQUAL
                      | SL_EQUAL
-                     | AND_EQUAL
-                     | OR_EQUAL
-                     | XOR_EQUAL
-                     | CONCAT_EQUAL
+
 
     '''
     pass
@@ -516,7 +516,7 @@ def executeArg():
 
         print(chr(27)+"[0;36m"+"INICIA ANALISIS SINTACTICO"+chr(27)+"[0m")
         result = parser.parse(scriptdata)
-        errors = open("tmp", "r")
+        #errors = open("tmp", "r")
        # print(result)
         print(result)
         print("Hola bebe, no tienes errores sintacticos")

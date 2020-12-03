@@ -33,7 +33,7 @@ public function recursividad($a){
     if($a>0 and $b<1 || $s<$d OR $a==2){
     }
   }
-
+}
   public class prueba{
     protected function abs(){
       return 0;
@@ -62,7 +62,7 @@ public function recursividad($a){
     echo "*&nbsp&nbsp";
   }
 
-}
+
 
 prueba $a=new prueba(VOID);
 
