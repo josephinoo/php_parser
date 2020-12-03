@@ -16,7 +16,7 @@ precedence = (
     ('nonassoc', 'LESS', 'LESSEQUAL', 'GREATER', 'GREATEREQUAL'),
     ('left', 'PLUS', 'MINUS'),
     ('right', 'LBRACKET'),
-    ('nonassoc', 'NEW', 'CLONE'),
+    ('nonassoc', 'NEW'),
     ('left', 'ELSEIF'),
     ('left', 'ELSE'),
     ('right', 'PRIVATE', 'PROTECTED', 'PUBLIC')
@@ -55,8 +55,6 @@ def p_declaration(p):
     pass
 
 
-
-
 # Joseph avila para echo , puede estar vacio o no
 
 
@@ -71,7 +69,7 @@ def p_echo_stmt(p):
 
 def p_echo_params(p):
     '''echo_params : echo_param
-                    | echo_param DOT echo_params'''
+                    | echo_param  echo_params'''
 
 # Joseph Avila que parametros soporta echo
 
@@ -162,15 +160,18 @@ def p_var_declaration(p):
     '''
     pass
 
+
 def p_read_data(p):
     '''read_data : POST LBRACKET STRING RBRACKET
                     | GET LBRACKET STRING RBRACKET
     '''
 
+
 def p_array_declare(p):
     '''array_declare : ARRAY LPAREN array_values RPAREN
     '''
     pass
+
 
 def p_array_values(p):
     '''array_values : array_value
@@ -178,10 +179,12 @@ def p_array_values(p):
     '''
     pass
 
+
 def p_array_value(p):
     '''array_value : factor DARROW factor
     '''
     pass
+
 
 def p_assing_var(p):
     '''assing_var : var
@@ -479,8 +482,9 @@ def p_error(p):
             print(
                 chr(27)+"[1;31m"+"\t ERROR: Syntax error - Inesperado token" + chr(27)+"[0m")
             print("\t\tLine: "+str(p.lexer.lineno)+"\t=> "+str(p.value))
-            file=open("tmp",'w')
-            file.write(chr(27)+"[1;31m"+"\t ERROR: Syntax error - Inesperado token" + chr(27)+"[0m")
+            file = open("tmp", 'w')
+            file.write(
+                chr(27)+"[1;31m"+"\t ERROR: Syntax error - Inesperado token" + chr(27)+"[0m")
             file.write("\t\tLine: "+str(p.lexer.lineno)+"\t=> "+str(p.value))
             file.close
         else:
@@ -491,14 +495,18 @@ def p_error(p):
         raise Exception('syntax', 'error')
     return "data"
 
+
 def get_yacc():
     return yacc.yacc()
+
 
 tokens = php_lexico.tokens
 
 lexer = php_lexico.get_lexer()
 parser = yacc.yacc()
 # Joseph el parser, con argumentos
+
+
 def executeArg():
     if (len(sys.argv) > 1):
         script = sys.argv[1]
@@ -508,7 +516,7 @@ def executeArg():
 
         print(chr(27)+"[0;36m"+"INICIA ANALISIS SINTACTICO"+chr(27)+"[0m")
         result = parser.parse(scriptdata)
-        errors=open("tmp","r")
+        errors = open("tmp", "r")
        # print(result)
         print(result)
         print("Hola bebe, no tienes errores sintacticos")
@@ -517,21 +525,21 @@ def executeArg():
         print(chr(27)+"[0;31m"+"Pase el archivo de script PHP como parametro:")
         print(chr(27)+"[0;36m"+"\t$ python php_parser.py" +
               chr(27)+"[1;31m"+" <filename>.php"+chr(27)+"[0m")
+
+
 def executeFunction(datafile):
-        scriptfile = open(datafile, 'r')
-        scriptdata = scriptfile.read()
+    scriptfile = open(datafile, 'r')
+    scriptdata = scriptfile.read()
 
-        print(chr(27)+"[0;36m"+"INICIA ANALISIS SINTACTICO"+chr(27)+"[0m")
-        result = parser.parse(scriptdata)
-        errors=open("tmp","r")
+    print(chr(27)+"[0;36m"+"INICIA ANALISIS SINTACTICO"+chr(27)+"[0m")
+    result = parser.parse(scriptdata)
+    errors = open("tmp", "r")
 
-
-        print(result)
-        print("Hola bebe, no tienes errores sintacticos")
-        print(chr(27)+"[0;36m"+"TERMINA ANALISIS SINTACTICO"+chr(27)+"[0m")
-        return errors.read()
+    print(result)
+    print("Hola bebe, no tienes errores sintacticos")
+    print(chr(27)+"[0;36m"+"TERMINA ANALISIS SINTACTICO"+chr(27)+"[0m")
+    return errors.read()
 
 
 if __name__ == '__main__':
     executeArg()
-

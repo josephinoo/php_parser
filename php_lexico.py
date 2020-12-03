@@ -3,76 +3,43 @@ import ply.lex as lex
 import ply.yacc as yacc
 
 reserved = {
-    "__halt_compiler":"__HALT_COMPILER",
-    "abstract":"ABSTRACT",
-    "array":"ARRAY",
-    "as":"AS",
-    "break":"BREAK",
-    "callable":"CALLABLE",
-    "case":"CASE",
-    "catch":"CATCH",
-    "class":"CLASS",
-    "clone":"CLONE",
-    "const":"CONST",
-    "continue":"CONTINUE",
-    "declare":"DECLARE",
-    "default":"DEFAULT",
-    "die":"DIE",
-    "do":"DO",
-    "echo":"ECHO",
-    "else":"ELSE",
-    "elseif":"ELSEIF",
-    "empty":"EMPTY",
-    "enddeclare":"ENDDECLARE",
-    "endfor":"ENDFOR",
-    "endforeach":"ENDFOREACH",
-    "endif":"ENDIF",
-    "endswitch":"ENDSWITCH",
-    "endwhile":"ENDWHILE",
-    "eval":"EVAL",
-    "exit":"EXIT",
-    "extend":"EXTENDS",
-    "closetagal":"CLOSETAGAL",
-    "for":"FOR",
-    "foreach":"FOREACH",
-    "function":"FUNCTION",
+
+    "array": "ARRAY",
+    "as": "AS",
+    "break": "BREAK",
+    "case": "CASE",
+    "class": "CLASS",
+    "default": "DEFAULT",
+    "die": "DIE",
+    "do": "DO",
+    "echo": "ECHO",
+    "else": "ELSE",
+    "elseif": "ELSEIF",
+    "empty": "EMPTY",
+    "for": "FOR",
+    "function": "FUNCTION",
     "$_POST": "POST",
-    "$_GET" : "GET",
-    "global":"GLOBAL",
-    "goto":"GOTO",
-    "if":"IF",
-    "implements":"IMPLEMENTS",
-    "include":"INCLUDE",
-    "include_once":"INCLUDE_ONCE",
-    "instanceof":"INSTANCEOF",
-    "insteadof":"INSTEADOF",
-    "interface":"INTERFACE",
-    "isset":"ISSET",
-    "list":"LIST",
-    "namespace":"NAMESPACE",
-    "new":"NEW",
-    "print":"PRINT",
-    "print_r":"PRINTR",
-    "var_dump":"VARDUMP",
-    "private":"PRIVATE",
-    "protected":"PROTECTED",
-    "public":"PUBLIC",
-    "require":"REQUIRE",
-    "require_once":"REQUIRE_ONCE",
-    "return":"RETURN",
-    "static":"STATIC",
-    "switch":"SWITCH",
-    "throw":"THROW",
-    "trait":"TRAIT",
-    "try":"TRY",
-    "unset":"UNSET",
-    "use":"USE",
-    "var":"VAR",
-    "while":"WHILE",
-    "xor":"XOR",
-    "true":"TRUE",
-    "false":"FALSE",
-    "finally":"FINALLY",
+    "$_GET": "GET",
+    "if": "IF",
+    "include": "INCLUDE",
+    "list": "LIST",
+    "new": "NEW",
+    "print": "PRINT",
+    "print_r": "PRINTR",
+    "var_dump": "VARDUMP",
+    "private": "PRIVATE",
+    "protected": "PROTECTED",
+    "public": "PUBLIC",
+    "require": "REQUIRE",
+    "return": "RETURN",
+    "static": "STATIC",
+    "switch": "SWITCH",
+    "try": "TRY",
+    "while": "WHILE",
+    "xor": "XOR",
+    "true": "TRUE",
+    "false": "FALSE",
+
 
 
 
@@ -89,34 +56,39 @@ tokens = [
     'RBRACKET', 'LBLOCK', 'RBLOCK', 'COLON', 'AMPERSANT', 'HASHTAG', 'DOT', 'QUOTES',
     'APOSTROPHE', 'DOT_DOT',
 
-             'IS_IDENTICAL', 'IS_NOT_IDENTICAL',
+    'IS_IDENTICAL', 'IS_NOT_IDENTICAL',
 
-    #operartors
-     'MUL_EQUAL', 'DIV_EQUAL', 'MOD_EQUAL', 'PLUS_EQUAL',
+    # operartors
+    'MUL_EQUAL', 'DIV_EQUAL', 'MOD_EQUAL', 'PLUS_EQUAL',
     'MINUS_EQUAL', 'SL_EQUAL', 'SR_EQUAL', 'AND_EQUAL', 'OR_EQUAL',
     'XOR_EQUAL', 'CONCAT_EQUAL',
 
 
-    #reservadas con definiciones multiples
+    # reservadas con definiciones multiples
 
-    "AND","OR",
+    "AND", "OR",
 
     # others
-    'COMMENTS', 'COMMENTS_C99', 'ID', 'IDVAR', 'NUM', 'STRING', 'VOID','ARROW','DARROW'
-]+ list(reserved.values())
+    'ID', 'IDVAR', 'NUM', 'STRING', 'VOID', 'ARROW', 'DARROW'
+] + list(reserved.values())
 
 
 t_ignore = " \t"
-#reservadas con definiciones multiples
+# reservadas con definiciones multiples
+
+
 def t_AND(t):
     r'and|AND|\&\&'
     return t
+
 
 def t_OR(t):
     r'or|OR|\|\|'
     return t
 
    # others
+
+
 def t_VOID(t):
     r'VOID|void'
     return t
@@ -141,7 +113,6 @@ def t_OPENTAG(t):
 def t_CLOSETAG(t):
     r'\?>'
     return t
-
 
 
 t_PLUS = r'\+'
@@ -175,7 +146,7 @@ t_PLUS_EQUAL = r'\+='
 t_MINUS_EQUAL = r'-='
 t_SL_EQUAL = r'<<='
 t_SR_EQUAL = r'>>='
-t_AND_EQUAL  = r'&='
+t_AND_EQUAL = r'&='
 t_OR_EQUAL = r'\|='
 t_XOR_EQUAL = r'\^='
 t_CONCAT_EQUAL = r'\.='
@@ -184,12 +155,9 @@ t_IS_NOT_IDENTICAL = r'!=='
 t_IS_IDENTICAL = r"==="
 t_ISEQUAL = r'=='
 t_GREATEREQUAL = r'>='
-t_DEQUAL =  r'(!=(?!=))|(<>)'
+t_DEQUAL = r'(!=(?!=))|(<>)'
 t_ARROW = r'\->'
 t_DARROW = r'=>'
-
-
-
 
 
 def t_MINUSMINUS(t):
@@ -247,16 +215,21 @@ def t_STRING(t):
     r'(("[^"]*")|(\'[^\']*\'))'
     return t
 
+
 def t_TRUE(t):
     r'true'
     return t
+
 
 def t_FALSE(t):
     r'false'
     return t
 
+
 def get_lexer():
     return lex.lex()
+
+
 lexer = lex.lex()
 
 if __name__ == '__main__':
@@ -290,17 +263,17 @@ if __name__ == '__main__':
 
 
 def executeFunction(datafile):
-        scriptfile = open(datafile, 'r')
-        scriptdata = scriptfile.read()
-        lexer.input(scriptdata)
-        out=open("tmp", "w+")
-        i = 1
-        while True:
-            tok = lexer.token()
-            if not tok:
-                break
-            out.write("\t" + str(i) + " - " + "Line: " + str(tok.lineno) +
+    scriptfile = open(datafile, 'r')
+    scriptdata = scriptfile.read()
+    lexer.input(scriptdata)
+    out = open("tmp", "w+")
+    i = 1
+    while True:
+        tok = lexer.token()
+        if not tok:
+            break
+        out.write("\t" + str(i) + " - " + "Line: " + str(tok.lineno) +
                   "\t" + str(tok.type) + "\t->  " + str(tok.value)+"\n")
-            i+=1
+        i += 1
 
-        return
+    return
